@@ -84,7 +84,7 @@
 | Fee On Transfer | |
 | First Depositor Issue | |
 | Flashbot | |
-| Flash Loan | |
+| Flash Loan | A flash loan is a type of uncollateralized loan that lets a user borrow assets with no upfront collateral as long as the borrowed assets are paid back within the same blockchain transaction. |
 | from=to | |
 | Frontrun | |
 | Fund Lock | |
