@@ -37,6 +37,7 @@
 | CEI | Checks effects interactions patterns is an effective way to prevent reentrancy attacks in a smart contract code. The first step in using this pattern is to perform some checks and verifications in the contract flow. |
 | Chain ID | |
 | Chainlink | |
+| Chain Reorganization Attack | |
 | Change Validation | |
 | CheckPoint | |
 | Check Return Value | |
