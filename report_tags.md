@@ -190,7 +190,7 @@
 | totalSupply() = 0 | |
 | Tranfer Result Check | |
 | transferFrom vs safeTransferFrom | |
-| transferfrom vs transfer | |
+| transferFrom vs transfer | |
 | Truncation | |
 | TWAP | |
 | Two-address token | |
