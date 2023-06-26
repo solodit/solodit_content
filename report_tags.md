@@ -7,12 +7,13 @@
 | 51% Attack | An attack on a cryptocurrency blockchain by a group of miners who control more than 50% of the network's mining hash rate. Owning 51% of the nodes on the network gives the controlling parties the power to alter the blockchain. |
 | Aave | Aave is a decentralized cryptocurrency platform that allows users to borrow and lend crypto. Aave uses smart contracts to automate the process, with preset rules on how funds are distributed, how collateral is handled, and how fees are assessed. |
 | ABI Encoding | |
-| Access Control | |
+| Access Control | Access control vulnerabilities are cases where a smart contract does not properly restrict the use of certain operations to authorized users. These vulnerabilities can arise from excessively permissive or overly restrictive access controls. They are critical because they may allow unauthorized users to manipulate contract data or operations. |
 | Account Abstraction | |
 | Add/Subtract Match | |
 | Admin | |
 | Airdrop | |
 | Allowance | |
+| API Inconsistency | API inconsistency vulnerabilities are present when the functions within a smart contract have inconsistent calling patterns or semantics. Although the individual functions may be implemented correctly, the inconsistency in how they are used or interact with each other could confuse users or developers, potentially leading to mistakes or misuse of the contract. |
 | Approve | |
 | Approve Max | |
 | Arbitrum | |
@@ -21,6 +22,8 @@
 | Array Reorder | |
 | Assembly | |
 | Auction | |
+| Auditing and Logging | Auditing and logging vulnerabilities are characterized by insufficient or incorrect logging mechanisms within a smart contract. These vulnerabilities make it difficult to monitor and audit contract activities. |
+| Authentication | Authentication vulnerabilities are cases where the mechanism used to verify identity or authorization is flawed. This is different from access control issues; here, the logic regarding who can do what is correct, but the system fails in accurately determining the identity of participants. |
 | AutoRoll | |
 | Blacklisted | |
 | block.number vs block.timestamp | |
@@ -29,7 +32,7 @@
 | Brick | |
 | Bridge | |
 | Broken Loop | |
-| Business Logic | |
+| Business Logic | Logic vulnerabilities involve flaws in the business logic or protocols of a smart contract, where the implementation matches the developer's intention, but the underlying logic is inherently flawed.|
 | Bypass limit | |
 | Calldata | |
 | call vs transfer | |
@@ -41,20 +44,27 @@
 | Change Validation | |
 | CheckPoint | |
 | Check Return Value | |
+| Code Quality | Code quality issues pertain to the readability and maintainability of the smart contract code. These are not directly related to the functionality of the contract but can have long-term impacts on the ability to understand, maintain, and securely update the code. Code quality is considered to be a non-functional requirement but is essential for the sustainability and reliability of a smart contract.|
+| Coding-Bug | Coding-bug is a broad category that covers simple mistakes in the code, akin to typos, which can lead to unintended behavior. These are usually unintended errors rather than deliberate logic errors.|
 | Collateral Factor | |
+| Configuration | Configuration vulnerabilities arise from improper configuration of a smart contract which, despite having correct code, leads to unintended behavior. This is common in cases where financial parameters or market settings are misconfigured.|
 | Constructor | |
-| cooldown | |
+| Cooldown | |
 | CREATE2 | |
 | Cross Chain | |
 | Cross Chain Message | |
+| Cryptography | Cryptography vulnerabilities occur when a smart contract employs flawed or insufficient cryptographic practices. In the context of blockchain and smart contracts, this often involves the use of weak or inappropriate algorithms for tasks such as generating random numbers. The use of improper cryptography can compromise the security and integrity of a smart contract.|
 | CryptoPunks | |
+| Data Exposure | Data exposure vulnerabilities occur when sensitive data that should remain private is inadvertently made public by the smart contract, often through transactions or blockchain state.|
+| Data Validation | Data validation vulnerabilities arise when a smart contract does not adequately verify or sanitize inputs, especially those from untrusted sources. This lack of validation can lead to unintended and potentially harmful consequences within the contract’s operations.|
 | DAO | A decentralized autonomous organization (DAO) is an emerging form of legal structure that has no central governing body and whose members share a common goal to act in the best interest of the entity. Popularized through cryptocurrency enthusiasts and blockchain technology, DAOs are used to make decisions in a bottom-up management approach. |
 | Deadline | |
 | Decimals | |
 | Delegate | |
-| Denial-Of-Service | |
+| Denial-Of-Service | Denial of Service (DoS) vulnerabilities occur when an attacker can exploit a contract in a way that makes it unresponsive or significantly less efficient. This category includes cases that are not well described by another class and where the primary consequence is contract shut-down or operational inefficiency.|
 | Deposit/Reward tokens | |
 | Diamond | |
+| Documentation | Documentation vulnerabilities aren't issues in the smart contract code itself, but rather in the accompanying documentation. This category includes cases where the documentation is incorrect, unclear, or incomplete. While documentation issues generally don’t affect the execution of the contract, they can lead to misuse or misunderstanding of how the contract should be used, which can indirectly contribute to security issues.|
 | Domain Separator | |
 | Don't update state | |
 | DOS | |
@@ -79,6 +89,7 @@
 | ERC721 | |
 | ERC721Checkpointable | |
 | ERC777 | |
+| Error Reporting | Error reporting vulnerabilities are cases where a contract fails to properly report or handle error conditions. This category involves contracts not providing sufficient information or feedback about internal errors or issues.|
 | Event | |
 | External Call | |
 | External Contract | |
@@ -87,7 +98,7 @@
 | Flashbot | |
 | Flash Loan | A flash loan is a type of uncollateralized loan that lets a user borrow assets with no upfront collateral as long as the borrowed assets are paid back within the same blockchain transaction. |
 | from=to | |
-| Frontrun | |
+| Front-Running | Front-running vulnerabilities occur when a smart contract exposes information about future state changes, and an adversary can place transactions that exploit this knowledge for their gain.|
 | Fund Lock | |
 | Gas Limit | |
 | Gas Price | |
@@ -114,10 +125,12 @@
 | Min/Max Cap Validation | |
 | MinOut/MaxIn Validation | |
 | mint vs safeMint | |
+| Missing-Logic | Missing-logic vulnerabilities refer to cases where a smart contract does not have the necessary code in place to handle certain inputs or conditions properly. Essentially, it's like a gap in the program’s logic where a specific branch of code should have been implemented to address a particular scenario. While missing logic might not always be critical, it can sometimes lead to unintended consequences.|
 | msgSender | |
 | Needless receive() | |
 | NFT | NFT stands for ‘non-fungible token’. Non-fungible means that something is unique and can’t be replaced. |
 | Nonce | |
+| Numerics | Numerics vulnerabilities involve issues related to arithmetic operations in smart contracts, such as overflows, underflows, or precision losses. This category also includes issues where the use of “safe math” libraries prevents an arithmetic error but results in unexpected reverts.|
 | onlyInitializing modifier | |
 | Optimism | |
 | Optimizer Memory Side Effect | |
@@ -127,6 +140,7 @@
 | Ownership | |
 | OZ Version | |
 | Parameter Setter | |
+| Patching | Patching vulnerabilities pertain to issues in the mechanisms used to upgrade or modify smart contract behavior. Since smart contracts are immutable once deployed, they often use complex methods to allow updates. Vulnerabilities in this area can be due to flaws in these update mechanisms.|
 | Pause | |
 | Payable | |
 | Pegged | |
@@ -134,9 +148,10 @@
 | Pre/Post Balance | |
 | Protocol Reserve | |
 | Quorum | |
+| Race Condition | Race condition vulnerabilities occur when the behavior of a smart contract is inadvertently dependent on the order of transactions. These vulnerabilities can result in unexpected and often harmful outcomes, especially when the contract does not properly manage the sequence of operations or events.|
 | Read-only Reentrancy | |
 | Rebasing Tokens | |
-| Reentrancy | An type of smart contract vulnerability where an exploiter contract leverages the loophole of the victim contract to continuously withdraw from it until the victim contract goes bankrupt. |
+| Reentrancy | Reentrancy vulnerabilities happen when external contract calls are made before internal state updates, allowing an adversary to recursively call back into the contract, exploiting the inconsistent state.|
 | Refund Ether | |
 | Replay Attack | A replay attack is an exploit that can occur when two forked crypto-currencies allow transactions to be valid across both chains. |
 | Revert By Sending Dust | |
@@ -169,18 +184,20 @@
 | Teller | |
 | TimelockController Issue | |
 | Time Rounding | |
+| Timing | Timing vulnerabilities arise when the behavior of a smart contract is dependent on certain time frames or intervals, which if manipulated, can have adverse effects.|
 | Token Existence | |
 | Token Order | |
 | totalSupply() = 0 | |
 | Tranfer Result Check | |
 | transferFrom vs safeTransferFrom | |
-| transferfrom vs transfer | |
+| transferFrom vs transfer | |
 | Truncation | |
 | TWAP | |
 | Two-address token | |
 | Two-Step Pattern | |
 | Type casting | |
 | Typo / CopyPaste | |
+| Undefined Behavior | Undefined behavior vulnerabilities occur when a smart contract relies on aspects of the Solidity language or the EVM that are not clearly defined or specified. This can cause the behavior of the contract to be unpredictable or unstable.|
 | Uniswap | Uniswap is an automated liquidity protocol powered by a constant product formula and implemented in a system of non-upgradeable smart contracts on the Ethereum blockchain. It obviates the need for trusted intermediaries, prioritizing decentralization, censorship resistance, and security. |
 | Update State After Admin Action | |
 | Upgradable | |
