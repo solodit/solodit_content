@@ -143,46 +143,46 @@ Please provide the legacy protocol for the `forked_from` field using only the op
 | Astaria contest | |
 | Unlimited Network - Unlimited Leverage | |
 | Caviar Private Pools | |
-| EtherCamp’s Hacker Gold (HKG) public code audit | |
-| Arcade City (ARC) token audit | |
-| Golem Network Token (GNT) Audit | |
-| EtherCamp’s ProjectKudos public code audit | |
-| EtherCamp’s decentralized startup team public code audit | |
-| SuperDAO Promissory Token audit | |
-| WeTrust ROSCA contract code audit | |
-| Matchpool GUP Token Audit | |
-| iEx.ec RLC Token Audit | |
+| EtherCamp’s Hacker Gold (HKG) public code audit | |
+| Arcade City (ARC) token audit | |
+| Golem Network Token (GNT) Audit | |
+| EtherCamp’s ProjectKudos public code audit | |
+| EtherCamp’s decentralized startup team public code audit | |
+| SuperDAO Promissory Token audit | |
+| WeTrust ROSCA contract code audit | |
+| Matchpool GUP Token Audit | |
+| iEx.ec RLC Token Audit | |
 | COSMOS Fundraiser Audit | |
-| Blockchain Capital Token Audit | |
-| WingsDAO Token Audit | |
-| Moeda Token Audit | |
-| Basic Attention Token (BAT) Audit | |
-| Storj Token Audit | |
-| Metal Token Audit | |
-| Decentraland MANA Token Audit | |
-| Tierion Presale Audit | |
-| Hubii Token Audit | |
-| Kin Token Audit | |
-| Render Token Audit | |
-| Fuel Token Audit | |
-| Enigma Token Audit | |
-| Global Messaging Token Audit | |
-| Ripio Token Audit | |
-| Everus Token Audit | |
-| Fiinu Token Audit | |
-| BitClave Token Audit | |
-| UnikoinGold Token Audit | |
-| Simple Token Sale Audit | |
-| Qiibee Token Audit | |
-| WAX Token Audit | |
-| Tether Token Audit | |
-| Coinfix Token Audit | |
-| Bax Token Audit | |
+| Blockchain Capital Token Audit | |
+| WingsDAO Token Audit | |
+| Moeda Token Audit | |
+| Basic Attention Token (BAT) Audit | |
+| Storj Token Audit | |
+| Metal Token Audit | |
+| Decentraland MANA Token Audit | |
+| Tierion Presale Audit | |
+| Hubii Token Audit | |
+| Kin Token Audit | |
+| Render Token Audit | |
+| Fuel Token Audit | |
+| Enigma Token Audit | |
+| Global Messaging Token Audit | |
+| Ripio Token Audit | |
+| Everus Token Audit | |
+| Fiinu Token Audit | |
+| BitClave Token Audit | |
+| UnikoinGold Token Audit | |
+| Simple Token Sale Audit | |
+| Qiibee Token Audit | |
+| WAX Token Audit | |
+| Tether Token Audit | |
+| Coinfix Token Audit | |
+| Bax Token Audit | |
 | Polymath Audit | |
-| ERC20 Element Token Audit | |
-| US Dollar Audit | |
+| ERC20 Element Token Audit | |
+| US Dollar Audit | |
 | Dharma Audit | |
-| OpenBazaar’s Escrow Audit | |
+| OpenBazaar’s Escrow Audit | |
 | Solidity Compiler Audit | |
 | RNDR Token Transfer Audit | |
 | ENS Permanent Registrar | |
@@ -221,7 +221,7 @@ Please provide the legacy protocol for the `forked_from` field using only the op
 | Compound Open Oracle Audit | |
 | Compound Alpha Governance System Audit | |
 | Augur Core v2 Audit: Components | |
-| Augur Core v2 Audit | |
+| Augur Core v2 Audit | |
 | iExec PoCo | |
 | Compound Gas Optimizations Audit | |
 | rICO | |
@@ -316,7 +316,7 @@ Please provide the legacy protocol for the `forked_from` field using only the op
 | Alpha Finance Homora V2 Audit | |
 | Visor contest | |
 | Yieldly.Finance Bridge Algorand s | |
-| Yieldly.Finance Bridge Ethereum Audit | |
+| Yieldly.Finance Bridge Ethereum  Audit | |
 | Celo Contracts Audit – Release 4 | |
 | Yield contest | |
 | EGL - Genesis | |
@@ -399,7 +399,7 @@ Please provide the legacy protocol for the `forked_from` field using only the op
 | Overlay Protocol contest | |
 | Unlock Protocol contest | |
 | Seascape - MSCP Token & Vesting | |
-| Biconomy Vesting Audit | |
+| Biconomy Vesting  Audit | |
 | Optimism Smart Contracts Audit | |
 | Malt Finance contest | |
 | Astroport.fi AMM Protocol CosmWasm | |
@@ -445,7 +445,7 @@ Please provide the legacy protocol for the `forked_from` field using only the op
 | Mars Protocol Fields of Mars CosmWasm | |
 | Sudoswap | |
 | Gamma | |
-| Moonwell Finance Audit Report | |
+| Moonwell Finance  Audit Report | |
 | Concur Finance contest | |
 | MatrixSwap - Staking | |
 | Stader Labs LunaX Contracts CosmWasm | |
@@ -561,7 +561,7 @@ Please provide the legacy protocol for the `forked_from` field using only the op
 | Compound III Audit | |
 | Across Token and Token Distributor Audit | |
 | UMA Optimistic Governor Audit | |
-| Sacred Finance and CircomCircuit | |
+| Sacred Finance  and CircomCircuit | |
 | Golom contest | |
 | Axelar Network v2 contest | |
 | 1inch Exchange AggregationRouter V5 | |
