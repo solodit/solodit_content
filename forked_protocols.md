@@ -184,11 +184,11 @@ Please provide the legacy protocol for the `forked_from` field using only the op
 | Dharma Audit | |
 | OpenBazaar’s Escrow Audit | |
 | Solidity Compiler Audit | |
-| RNDR Token Transfer Audit | |
+| RNDR Token Transfer Audit | |
 | ENS Permanent Registrar | |
 | Centre Token Minting Contracts Audit | |
 | Marmo Contracts Audit | |
-| Solo Margin Protocol Audit | |
+| Solo Margin Protocol Audit | |
 | Pegasys Permissioning | |
 | Compound Audit | |
 | Slock.it Incubed3 | |
@@ -196,7 +196,7 @@ Please provide the legacy protocol for the `forked_from` field using only the op
 | Atomic Loans | |
 | PROPS Rewards Engine Contracts Audit | |
 | PROPS Token Contracts Audit | |
-| Recoverable Wallet Audit | |
+| Recoverable Wallet Audit | |
 | InstaDApp Audit | |
 | 0x v3 Staking | |
 | Compound Finance – Timelock Audit | |
