@@ -310,7 +310,7 @@ If we want to minimize gas costs and consider this check unnecessary, document t
 
 Protocol chose not to add this check to avoid the gas overhead on other users. They added the following note to the comments to warn users: `Note: The gas used will not be refunded for authority chains resulting in 0 votes cast.`
 
-## Gas Optimization
+## Gas Optimizations
 
 ## [G-01] Cache array lengths before loops
 
