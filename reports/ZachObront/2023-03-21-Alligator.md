@@ -4,9 +4,9 @@
 
 # Findings
 
-## Critical Risk
+## High Risk
 
-### [C-01] Malicious user can have Proxy sign arbitrary data
+### [H-01] Malicious user can have Proxy sign arbitrary data
 
 ProxyV2.sol implements EIP1271, where `isValidSignature()` can be called with a hash and a signature, and returns 0x1626ba7e if the contract considers the signature valid.
 
@@ -84,9 +84,7 @@ if (proxy != proxyAddress(authority[0], proxyRules)) revert InvalidAuthorityChai
 
 Fixed as suggested in both `AlligatorV2.sol` and `Alligator.sol` in PR #14.
 
-## High Risk
-
-### [H-01] Alligator gives gas refunds but does not receive gas refunds
+### [H-02] Alligator gives gas refunds but does not receive gas refunds
 
 The `AlligatorV2.sol` contract has a function `castRefundableVotesWithReasonBatched()` which tracks the gas used and provides a refund to the user. This mirrors the functionality used by `NounsLogicV2` to provide voting refunds.
 
@@ -148,7 +146,7 @@ Nouns gas refunds are sent to `tx.origin` and not `msg.sender`, which allows All
 
 An additional safety measure was added to the proxy to account for other protocols that send gas refunds to `msg.sender`. To account for this case, a `receive()` function was added to the proxy so that, if funds are received from the `governor`, they are forwarded along to the caller.
 
-### [H-02] Gas refunds can be abused by batching transactions
+### [H-03] Gas refunds can be abused by batching transactions
 
 The refund mechanism assumes a `REFUND_BASE_GAS` value of 36k to account for the overhead gas that occurs outside of the tracked gas. Specifically, this accounts for the 20k gas to kick off the transaction, 7k for the ETH transfer, and other gas spent before `startGas` or within the `_refundGas()` function.
 
@@ -267,7 +265,7 @@ function subDelegateAllBatched(address[] calldata targets, Rules[] calldata subD
 }
 ```
 
-### Review
+**Review**
 
 Fixed as suggested in both `AlligatorV2.sol` and `Alligator.sol` in PR #14.
 
@@ -308,7 +306,7 @@ if (nouns.getPriorVotes(proxy, nouns.proposalCreationBlock(proposalId)) == 0) re
 
 If we want to minimize gas costs and consider this check unnecessary, document the behavior clearly so that users know to confirm they still have votes before calling `castRefundableVotesWithReasonBatched()`, knowing that they will be charged the usual gas fee if this is not the case.
 
-### Review
+**Review**
 
 Protocol chose not to add this check to avoid the gas overhead on other users. They added the following note to the comments to warn users: `Note: The gas used will not be refunded for authority chains resulting in 0 votes cast.`
 
