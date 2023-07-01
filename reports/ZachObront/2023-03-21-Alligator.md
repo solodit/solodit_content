@@ -269,7 +269,7 @@ function subDelegateAllBatched(address[] calldata targets, Rules[] calldata subD
 
 Fixed as suggested in both `AlligatorV2.sol` and `Alligator.sol` in PR #14.
 
-## [L-02] User may unexpectedly perform refund transaction without getting refund
+### [L-02] User may unexpectedly perform refund transaction without getting refund
 
 _[Note: This is an issue with the fix to [H-01], not with the original code in the provided commit.]_
 
@@ -312,7 +312,7 @@ Protocol chose not to add this check to avoid the gas overhead on other users. T
 
 ## Gas Optimizations
 
-## [G-01] Cache array lengths before loops
+### [G-01] Cache array lengths before loops
 
 To save gas, it is recommended to cache the length value before beginning a for loop (rather than recalculating it on each iteration).
 

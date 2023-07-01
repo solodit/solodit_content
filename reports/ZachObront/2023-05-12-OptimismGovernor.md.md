@@ -402,7 +402,7 @@ function initialize(IVotesUpgradeable _votingToken, address _manager) public ini
 
 Fixed by removing the `initialize()` function (since the proxy has already been initialized and is just being upgraded) in [6aa306ea5df526bd49e88073daa0da27c5b56e5e](https://github.com/voteagora/optimism-gov/commit/6aa306ea5df526bd49e88073daa0da27c5b56e5e)
 
-## Gas Optimization
+## Gas Optimizations
 
 ### [G-01] Loops in ApprovalVotingModule#propose() can be consolidated
 
