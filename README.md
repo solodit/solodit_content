@@ -17,28 +17,33 @@ Most of the initial tags have been manually appended by [Hans](https://github.co
 - Create a new subfolder under the "reports" folder, and name it after the audit firm or solo auditor.
 - Include two logo images specifically designed for Solodit.
     - logo_256_256.png
+        This logo will be used in the search list and the finding detail page.
         - type: png
         - size: 256px * 256px
         - background: transparent
+
     - logo_450_225.png
+        This logo will be displayed on the Solodit landing page.
         - type: png
         - size: 450px * 225px
-        - Put the name of your site at the right side of logo.
+        - Put the brand name at the right side of the logo.
         - background color: #292634
         - logo color: #a4a4a4
         - name text color: #ffffff
+
 ### To add a report from an existing audit firm, please follow these steps:
-- Ensure that the report is correctly formatted.
 - Properly name the report file (`{Date}-{Protocol}.md`) and place it in the appropriate folder.
 - Add the auditor information at the beginning.
 - `Finding` contents starts with `# Findings`.
-- 5 risks are supported.
+- Vulnerabilities are supposed to be classified in 5 categories as below:
     - High Risk
     - Medium Risk
     - Low Risk
     - Gas Optimizations
     - Informational
 
+Ensure that the report is correctly formatted.
+ 
 ```
 **Auditors**
 
@@ -75,7 +80,7 @@ Most of the initial tags have been manually appended by [Hans](https://github.co
 
 ```
 
-Please refer to the chart below for further guidance.
+Please refer to the chart below regarding the path structure.
 
     .
     ├── ...
