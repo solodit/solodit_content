@@ -16,29 +16,42 @@ Most of the initial tags have been manually appended by [Hans](https://github.co
 ### To add a new audit firm, follow these steps:
 - Create a new subfolder under the "reports" folder, and name it after the audit firm or solo auditor.
 - Include two logo images specifically designed for Solodit.
-    - logo_256_256.png -- *sample*: [Cyfrin square logo](./reports/Cyfrin/logo_256_256.png)
+    - logo_256_256.png
+        This logo will be used in the search list and the finding detail page.
         - type: png
         - size: 256px * 256px
         - background: transparent
-    - logo_450_225.png -- *sample*: [Cyfrin horizontal logo](./reports/Cyfrin/logo_450_225.png)
+
+        - sample: [Cyfrin square logo](./reports/Cyfrin/logo_256_256.png)
+          
+        ![Cyfrin_square](https://github.com/solodit/solodit_content/assets/129466917/8cfc4396-f309-44df-8a7b-a2bfe7a869b4)
+      
+    - logo_450_225.png
+        This logo will be displayed on the Solodit landing page.
         - type: png
         - size: 450px * 225px
-        - Put the name of your site at the right side of logo.
+        - Put the brand name at the right side of the logo.
         - background color: #292634
         - logo color: #BBBABD
         - name text color: #BBBABD
+
+        - sample: [Cyfrin horizontal logo](./reports/Cyfrin/logo_450_225.png)
+     
+        ![Cyfrin_horizontal (1)](https://github.com/solodit/solodit_content/assets/129466917/826f2646-2bb5-4bba-ad6f-70f448726663)
+      
 ### To add a report from an existing audit firm, please follow these steps:
-- Ensure that the report is correctly formatted. You can refer to the [Cyfrin reports](./reports/Cyfrin) as an example.
 - Properly name the report file (`{Date}-{Protocol}.md`) and place it in the appropriate folder.
 - Add the auditor information at the beginning.
 - `Finding` contents starts with `# Findings`.
-- 5 risks are supported.
+- Vulnerabilities are supposed to be classified in 5 categories as below:
     - High Risk
     - Medium Risk
     - Low Risk
     - Gas Optimizations
     - Informational
 
+Ensure that the report is correctly formatted. You can refer to the [Cyfrin reports](./reports/Cyfrin) as an example.
+ 
 ```
 **Auditors**
 
@@ -75,7 +88,7 @@ Most of the initial tags have been manually appended by [Hans](https://github.co
 
 ```
 
-Please refer to the chart below for further guidance.
+Please refer to the chart below regarding the path structure.
 
     .
     ├── ...
