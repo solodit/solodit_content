@@ -33,10 +33,11 @@ Suppose 𝛼 = 0.4523, and the layout of pool participants is as follows:
 
 The calculated rewards are:
 𝑟𝑒𝑤𝑎𝑟𝑑(1) = 1305 ∗ ( 511/1305 )^0.4523 ∗ ( 515/516 )^1−0.4523 ≅ 853
-�𝑒𝑤𝑎𝑟𝑑(2) = 1305 ∗ ( 794/1305 )^0.4523 ∗ ( 1/516 )^1−0.4523 ≅ 34
+
+r𝑒𝑤𝑎𝑟𝑑(2) = 1305 ∗ ( 794/1305 )^0.4523 ∗ ( 1/516 )^1−0.4523 ≅ 34
 
 Fees of the rebate pool not rewarded:
-�𝑒𝑚𝑎𝑖𝑛𝑖𝑛𝑔 = 1305 − 853 − 34 = 418
+r𝑒𝑚𝑎𝑖𝑛𝑖𝑛𝑔 = 1305 − 853 − 34 = 418
 At this point, participant 1 donates 720. The new layout is:
 
 |  Participant  | Fee   | Stake|
@@ -46,8 +47,9 @@ At this point, participant 1 donates 720. The new layout is:
 
 The calculated rewards are:
 
-�𝑒𝑤𝑎𝑟𝑑(1) = 2025 ∗ ( 1231/1305 )^0.4523 ∗ ( 515/516 )^1−0.4523 ≅ 1615
-�𝑒𝑤𝑎𝑟𝑑(2) = 2025 ∗ ( 794/1305 )^0.4523 ∗ ( 1/516 )^1−0.4523 ≅ 43
+r𝑒𝑤𝑎𝑟𝑑(1) = 2025 ∗ ( 1231/1305 )^0.4523 ∗ ( 515/516 )^1−0.4523 ≅ 1615
+
+r𝑒𝑤𝑎𝑟𝑑(2) = 2025 ∗ ( 794/1305 )^0.4523 ∗ ( 1/516 )^1−0.4523 ≅ 43
 
 Fees of the rebate pool not rewarded:
 𝑟𝑒𝑚𝑎𝑖𝑛𝑖𝑛𝑔 = 2025 − 1615 − 43 = 367
@@ -127,7 +129,7 @@ that case, all
 Note that the highlighted text is no longer relevant, now that the operator is decentralized. 
 It should be omitted.
 
-### Improve documentation
+### Redundant event emission
 
 In collect(), the event AllocationCollected is emitted outside the main if block. It is 
 recommended that it shall be placed inside the if block, as when queryFees is zero, the 
