@@ -59,6 +59,7 @@ Calculating pool loss (of profits) from donation:
 𝑙𝑜𝑠𝑠 = 418 − 367 = 51
 
 Profit was split between the participants:
+
 𝑝𝑟𝑜𝑓𝑖𝑡(1) = 1615 − 720 − 853 = 42
 
 𝑝𝑟𝑜𝑓𝑖𝑡(2) = 43 − 34 = 9
