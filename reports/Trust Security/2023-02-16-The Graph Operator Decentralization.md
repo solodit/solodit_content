@@ -47,6 +47,7 @@ At this point, participant 1 donates 720. The new layout is:
 
 The calculated rewards are:
 
+
 r𝑒𝑤𝑎𝑟𝑑(1) = 2025 ∗ ( 1231/1305 )^0.4523 ∗ ( 515/516 )^1−0.4523 ≅ 1615
 
 r𝑒𝑤𝑎𝑟𝑑(2) = 2025 ∗ ( 794/1305 )^0.4523 ∗ ( 1/516 )^1−0.4523 ≅ 43
@@ -59,6 +60,7 @@ Calculating pool loss (of profits) from donation:
 
 Profit was split between the participants:
 𝑝𝑟𝑜𝑓𝑖𝑡(1) = 1615 − 720 − 853 = 42
+
 𝑝𝑟𝑜𝑓𝑖𝑡(2) = 43 − 34 = 9
 
 Attackers can donate query fees at any point before the allocation is finalized, which is when 
