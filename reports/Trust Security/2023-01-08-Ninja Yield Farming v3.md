@@ -305,8 +305,6 @@ Allow admin to set slippage after some timelock period.
 Accepted. We converted MAX_SLIPPAGE to maxSlippage, a uint256 that the ADMIN Multisig 
 role can update. We decided against a timelock, as we may need to change it once, unlock 
 an individual harvest issue and put it back before the next harvest.
- removed.
-
 
 
 ### TRST-M-4 truncation in reward calculation could cause leakage of rewards
@@ -364,7 +362,7 @@ Steal 32 bits from lastRewardTime and 32 bits from allocPoint to make the accumu
 Accepted. We updated PoolInfo.accRewardPerShare to uint256.
 
 ## Low Risk
-### TRST-L-1 when using fee-on-transfer tokens in VaultV3, capacity is limited below
+### TRST-L-1 when using fee-on-transfer tokens in VaultV3, capacity is limited below underlyingCap
 
 **Description:**
 Vault V3 documentation states it accounts properly for fee-on-transfer tokens. It calculates 
@@ -485,7 +483,7 @@ _grantRole(ADMIN, _multisigRoles[1]);
 _grantRole(GUARDIAN, _multisigRoles[2]);
 ```
 As the previous @audit note says, it is really important to not permit msg.sender to be 
-DEFAULT_ADMIN_ROLE. In fact, this role gives arbitrary power to the EOA, to remove the 
+**DEFAULT_ADMIN_ROLE**. In fact, this role gives arbitrary power to the EOA, to remove the 
 multisig, to assign itself any of the roles, and so on. In a way, it makes the multisig be just for 
 show. Since Strategy is effectively responsible to hold the vault's funds, and can be 
 upgraded, this represents a worrying rug pull potential.
@@ -499,7 +497,7 @@ access.
 
  ### TRST-L-6 Strategy upgrade cooldown is set too low
  **Description:** 
-UPGRADE_TIMELOCK defines how long admin must wait before upgrading the contract. 
+**UPGRADE_TIMELOCK** defines how long admin must wait before upgrading the contract. 
 ```solidity
 function _authorizeUpgrade(address) internal override {
  _atLeastRole(DEFAULT_ADMIN_ROLE);
@@ -518,8 +516,8 @@ Accepted, changed to 36 hours.
 ## Informational
 ### Make greater use of immutable variables
 Immutable variables are guaranteed to be read only during a contract's lifetime. In V3 vault, 
-several variables are not immutable but should never change: profitToken, 
-constructionTime, underlying. 
+several variables are not immutable but should never change: **profitToken**, 
+**constructionTime**, **underlying**. 
 
 **Team response**
 Accepted & done.
