@@ -495,7 +495,7 @@ revokeDeployer function which GUARDIANS and above can use to remove the deployer
 access.
 
 
- ### TRST-L-6 Strategy upgrade cooldown is set too low
+### TRST-L-6 Strategy upgrade cooldown is set too low
  **Description:** 
 **UPGRADE_TIMELOCK** defines how long admin must wait before upgrading the contract. 
 ```solidity
