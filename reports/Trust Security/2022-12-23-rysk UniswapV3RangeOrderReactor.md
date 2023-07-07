@@ -132,7 +132,6 @@ _getTicksAndMeanPriceFromWei(), which is called by hedgeDelta(). This line can o
 ```solidity
 uint256 intermediate = inWei.div(10**(token1.decimals() -
 token0.decimals()));
-
 ```
 Also, this line would revert even if the above calculation was done correctly:
 
