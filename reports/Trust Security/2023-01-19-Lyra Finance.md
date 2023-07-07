@@ -498,20 +498,20 @@ if (address(liquidityTracker) != address(0)) {
 If owner is compromised, the platform can be immediately shut down by passing an invalid 
 address as **liquidityTracker**.
 
- **Owner can manipulate board’s baseIv**
+ ### TRST-L-7 Owner can manipulate board’s baseIv
+ **Description:** 
 In OptionMarket, board characteristics can only be changed when they are frozen. However, 
 freezing and unfreezing are done instantly using setBoardFrozen(). Therefore, the owner can 
 abuse a temporary freeze-unfreeze and inject any sort of malicious behavior, such as setting 
 a low baseIv to make personal profit from the protocol. It is advised to put a time lock on 
 unfreeze for greater trustability.
 
-**Owner can drain liquidity pool instantly**
+### TRST-L-8 Owner can drain liquidity pool instantly
+**Description:** 
 In LiquidityPool, transferQuoteToHedge() allows the defined poolHedger to pull up to the 
 entire available liquidity. Since poolHedger can be set instantly using setPoolHedger(), it 
 represents significant damage potential. The recommendation is to impose a timelock, either 
 at the contract level or at the owner level (time-locked governance contract).
-
-
 
 
 ## Informational
