@@ -380,23 +380,23 @@ The second parameter is the generated salt, which is created from the initialize
 saltNonce. Finally createProxy() will use CREATE2 to create the contract:
 ```solidity
 function createProxy(address target, bytes32 salt)
- internal
- returns (address result)
+    internal
+    returns (address result)
 {
- if (address(target) == address(0)) revert ZeroAddress(target);
- if (address(target).code.length == 0) revert 
+     if (address(target) == address(0)) revert ZeroAddress(target);
+     if (address(target).code.length == 0) revert 
 TargetHasNoCode(target);
- bytes memory deployment = abi.encodePacked(
- hex"602d8060093d393df3363d3d373d3d3d363d73",
- target,
- hex"5af43d82803e903d91602b57fd5bf3"
- );
- // solhint-disable-next-line no-inline-assembly
- assembly {
- result := create2(0, add(deployment, 0x20), 
+     bytes memory deployment = abi.encodePacked(
+        hex"602d8060093d393df3363d3d373d3d3d363d73",
+        target,
+        hex"5af43d82803e903d91602b57fd5bf3"
+     );
+     // solhint-disable-next-line no-inline-assembly
+     assembly {
+         result := create2(0, add(deployment, 0x20), 
 mload(deployment), salt)
- }
- if (result == address(0)) revert TakenAddress(result);
+     }
+     if (result == address(0)) revert TakenAddress(result);
 }
 ```
 An issue could be that an attacker can frontrun the creation TX with their own creation 
@@ -421,23 +421,23 @@ executed (and authorized). It mainly checks that the linkage between the safe an
 has not been compromised.
 ```solidity
 function checkAfterExecution(bytes32, bool) external override {
- if (
+     if (
  
 abi.decode(StorageAccessible(address(safe)).getStorageAt(uint256(GUAR
 D_STORAGE_SLOT), 1), (address))
- != address(this)
- ) {
- revert CannotDisableThisGuard(address(this));
- }
- if (!IAvatar(address(safe)).isModuleEnabled(address(this))) {
- revert CannotDisableProtectedModules(address(this));
- }
- if (safe.getThreshold() != _correctThreshold()) {
- revert SignersCannotChangeThreshold();
- }
- // leave checked to catch underflows triggered by re-erntry
+             != address(this)
+    ) {
+          revert CannotDisableThisGuard(address(this));
+    }
+    if (!IAvatar(address(safe)).isModuleEnabled(address(this))) {
+          revert CannotDisableProtectedModules(address(this));
+    }
+    if (safe.getThreshold() != _correctThreshold()) {
+          revert SignersCannotChangeThreshold();
+    }
+    // leave checked to catch underflows triggered by re-erntry
 attempts
- --guardEntries;
+    --guardEntries;
 }
 ```
 However, it is missing a check that no new modules have been introduced to the safe. When 
@@ -541,37 +541,37 @@ it exists for that level.
 ```solidity
 function getImageURIForHat(uint256 _hatId) public view returns 
 (string memory) {
- // check _hatId first to potentially avoid the `getHatLevel` call
- Hat memory hat = _hats[_hatId];
- string memory imageURI = hat.imageURI; // save 1 SLOAD
- // if _hatId has an imageURI, we return it
- if (bytes(imageURI).length > 0) {
- return imageURI;
- }
- // otherwise, we check its branch of admins
- uint256 level = getHatLevel(_hatId);
- // but first we check if _hatId is a tophat, in which case we 
+    // check _hatId first to potentially avoid the `getHatLevel` call
+    Hat memory hat = _hats[_hatId];
+    string memory imageURI = hat.imageURI; // save 1 SLOAD
+    // if _hatId has an imageURI, we return it
+    if (bytes(imageURI).length > 0) {
+       return imageURI;
+    }
+    // otherwise, we check its branch of admins
+    uint256 level = getHatLevel(_hatId);
+    // but first we check if _hatId is a tophat, in which case we 
 fall back to the global image uri
- if (level == 0) return baseImageURI;
- // otherwise, we check each of its admins for a valid imageURI
- uint256 id;
- // already checked at `level` above, so we start the loop at 
+    if (level == 0) return baseImageURI;
+    // otherwise, we check each of its admins for a valid imageURI
+    uint256 id;
+    // already checked at `level` above, so we start the loop at 
 `level - 1`
- for (uint256 i = level - 1; i > 0;) {
- id = getAdminAtLevel(_hatId, uint8(i));
- hat = _hats[id];
- imageURI = hat.imageURI;
- if (bytes(imageURI).length > 0) {
- return imageURI;
- }
- // should not underflow given stopping condition is > 0
- unchecked {
- --i;
- }
- }
- // if none of _hatId's admins has an imageURI of its own, we 
+    for (uint256 i = level - 1; i > 0;) {
+       id = getAdminAtLevel(_hatId, uint8(i));
+       hat = _hats[id];
+       imageURI = hat.imageURI;
+       if (bytes(imageURI).length > 0) {
+          return imageURI;
+       }
+      // should not underflow given stopping condition is > 0
+      unchecked {
+           --i;
+       }
+   }
+    // if none of _hatId's admins has an imageURI of its own, we 
 again fall back to the global image uri
- return baseImageURI;
+      return baseImageURI;
 }
 ```
 It can be observed that the loop body will not run for level 0. When the loop is finished, the 
@@ -627,14 +627,14 @@ implementing this check is isAdminOfHat(). The function loops and checks if the 
 wearer of a lower-level hat.
 ```solidity
 while (adminHatLevel > 0) {
- if (isWearerOfHat(_user, getAdminAtLevel(_hatId, adminHatLevel))) 
+     if (isWearerOfHat(_user, getAdminAtLevel(_hatId, adminHatLevel))) 
 {
- return true;
- }
- // should not underflow given stopping condition > 0
- unchecked {
- --adminHatLevel;
- }
+           return true;
+    }
+   // should not underflow given stopping condition > 0
+    unchecked {
+         --adminHatLevel;
+    }
 }
 ```
 The issue is that calling getAdminAtLevel() for every level is very gas intensive. The vast 
@@ -656,12 +656,12 @@ isAdminOfHat() if the hat is linked to another tree.
 // if we get here, we're at the top of _hatId's local tree
 linkedTreeAdmin = linkedTreeAdmins[getTophatDomain(_hatId)];
 if (linkedTreeAdmin == 0) {
- // tree is not linked
- return isWearerOfHat(_user, getLocalAdminAtLevel(_hatId, 0));
+    // tree is not linked
+   return isWearerOfHat(_user, getLocalAdminAtLevel(_hatId, 0));
 } else {
- if (isWearerOfHat(_user, linkedTreeAdmin)) return true; // user 
+    if (isWearerOfHat(_user, linkedTreeAdmin)) return true; // user 
 wears the linkedTreeAdmin
- else return isAdminOfHat(_user, linkedTreeAdmin); // check if 
+    else return isAdminOfHat(_user, linkedTreeAdmin); // check if 
 user is admin of linkedTreeAdmin (recursion)
 }
 ```
@@ -737,7 +737,8 @@ Fixed
 ## Informational
 ### Documentation issues
 • Remove irrelevant comment in buildHatId():
-```solidity/// @dev Check hats[_admin].lastHatId for the previous hat 
+```solidity///
+@dev Check hats[_admin].lastHatId for the previous hat 
 created underneath _admin
 ```
 • Correct comment in checkHatStatus():
