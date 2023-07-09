@@ -17,9 +17,8 @@ before execution, and _nonReentrantAfter() post-execution. The latter will alway
 flag signaling entry.
 ```solidity
 function _nonReentrantAfter() internal virtual {
- // By storing the original value once again, a refund is 
-triggered (see
- // https://eips.ethereum.org/EIPS/eip-2200)
+ // By storing the original value once again, a refund is triggered 
+ (see // https://eips.ethereum.org/EIPS/eip-2200)
  _reentrancyStatus = false;
 }
 ```
