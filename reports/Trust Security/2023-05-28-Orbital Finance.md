@@ -55,7 +55,7 @@ feed, which makes trading possibly incur high slippage costs.
 (,int priceToInt,,,) = AITo.latestRoundData();
 ```
 Additionally, when the contracts are deployed on L2, there is a sequencer down-time issue, 
-as detailed here. The contract should check the sequencer is up when deployed on L2.
+as detailed here(https://docs.chain.link/data-feeds/l2-sequencer-feeds). The contract should check the sequencer is up when deployed on L2.
 
 **Team Response:**
 "Stale price feed check added ChainlinkInterface.sol, "getMinReceived" function, lines 90 - 94. 
@@ -354,7 +354,7 @@ for (uint i = 0; i < tokens.length; i++) {
 type(uint256).max); 
 }
 ```
-The issue is that there are several popular tokens (UNI, COMP and others) which do not 
+The issue is that there are several popular tokens(https://github.com/d-xo/weird-erc20#revert-on-large-approvals--transfers) (UNI, COMP and others) which do not 
 support allowances of above UINT_96. The contract will not be able to interoperate with 
 them.
 
