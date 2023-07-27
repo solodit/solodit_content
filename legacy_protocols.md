@@ -4,7 +4,7 @@
 |----------|
 | Uniswap V2 |
 | Compound |
-| Aave |
+| AAVE V2 |
 | Solidly |
 | Uniswap V3 |
 | Saddle Finance |
@@ -16,7 +16,7 @@
 | Curve |
 | Alpaca Finance |
 | Impermax Finance |
-| AAVE |
+| AAVE V3 |
 | Platypus Finance |
 | Chainlink |
 | Reflexer |
