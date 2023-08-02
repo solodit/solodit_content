@@ -14,33 +14,33 @@
 **_createUniswapRangeOrder()** can be called either from manager flow, with **createUniswapRangeOrder()**, or pool-induced from **hedgeDelta()**. The issue is that the 
 function assumes the sender is the parentLiquidityPool, for example:
 
-```solidity
-if (inversed && balance < amountDesired) {
- // collat = 0
- uint256 transferAmount = amountDesired - balance;
- uint256 parentPoolBalance = 
-ILiquidityPool(parentLiquidityPool).getBalance(address(token0));
- if (parentPoolBalance < transferAmount) { revert 
-CustomErrors.WithdrawExceedsLiquidity(); 
-}
- SafeTransferLib.safeTransferFrom(address(token0), msg.sender, 
-address(this), transferAmount);
-} 
-```
+        ```solidity
+        if (inversed && balance < amountDesired) {
+             // collat = 0
+        uint256 transferAmount = amountDesired - balance;
+         uint256 parentPoolBalance = 
+             ILiquidityPool(parentLiquidityPool).getBalance(address(token0));
+        if (parentPoolBalance < transferAmount) { revert 
+            CustomErrors.WithdrawExceedsLiquidity(); 
+        }
+        SafeTransferLib.safeTransferFrom(address(token0), msg.sender, 
+         address(this), transferAmount);
+            } 
+                ```
 Balance check is done on pool, but money is transferred from sender. It will cause the order 
 to use manager's funds. 
 
-```solidity
-function createUniswapRangeOrder(
- RangeOrderParams calldata params,
- uint256 amountDesired
-) external {
- require(!_inActivePosition(), "RangeOrder: active position");
- _onlyManager();
- bool inversed = collateralAsset == address(token0);
- _createUniswapRangeOrder(params, amountDesired, inversed);
-}
-```
+    ```solidity
+    function createUniswapRangeOrder(
+         RangeOrderParams calldata params,
+             uint256 amountDesired
+              ) external {
+           require(!_inActivePosition(), "RangeOrder: active position");
+         _onlyManager();
+    bool inversed = collateralAsset == address(token0);
+    _createUniswapRangeOrder(params, amountDesired, inversed);
+    }
+    ```
 **Recommended Mitigation:**
 Ensure safeTransfer from uses parentLiquidityPool as source.
 
@@ -56,25 +56,25 @@ always parentLiquidityPool.
 **Description:**
 When _delta parameter is negative for hedgeDelta(), priceToUse will be the minimum 
 between quotePrice and underlyingPrice. 
-```solidity
-// buy wETH
-// lowest price is best price when buying
-uint256 priceToUse = quotePrice < underlyingPrice ? quotePrice : 
-underlyingPrice;
-RangeOrderDirection direction = inversed ? RangeOrderDirection.ABOVE 
-: RangeOrderDirection.BELOW;
-RangeOrderParams memory rangeOrder = 
-_getTicksAndMeanPriceFromWei(priceToUse, direction);
-```
+    ```solidity
+    // buy wETH
+    // lowest price is best price when buying
+        uint256 priceToUse = quotePrice < underlyingPrice ? quotePrice : 
+            underlyingPrice;
+    RangeOrderDirection direction = inversed ? RangeOrderDirection.ABOVE 
+        : RangeOrderDirection.BELOW;
+    RangeOrderParams memory rangeOrder = 
+        _getTicksAndMeanPriceFromWei(priceToUse, direction);
+     ```
 This works fine when direction is BELOW, because the calculated lowerTick and upperTick 
 from _getTicksAndMeanPriceFromWei are guaranteed to be lower than current price.
 
-```solidity
-int24 lowerTick = direction == RangeOrderDirection.ABOVE ? 
-nearestTick + tickSpacing : nearestTick - (2 * tickSpacing);
-int24 tickUpper = direction ==RangeOrderDirection.ABOVE ? lowerTick + 
-tickSpacing : nearestTick - tickSpacing;
-```
+    ```solidity
+    int24 lowerTick = direction == RangeOrderDirection.ABOVE ? 
+         nearestTick + tickSpacing : nearestTick - (2 * tickSpacing);
+     int24 tickUpper = direction ==RangeOrderDirection.ABOVE ? lowerTick + 
+        tickSpacing : nearestTick - tickSpacing;
+    ```
 Therefore, the fulfill condition is not true and we mint from the correct base. However, 
 when direction is ABOVE, it is possible that the oracle supplied price (underlyingPrice) is low 
 enough in comparison to pool price, that the fulfill condition is already active. In that case, 
@@ -97,18 +97,18 @@ the else clause. Make sure to use the new **getPriceToUse()** utility in both ca
 ### TRST-M-1 multiplication overflow in getPoolPrice() likely
 **Description:**
 getPoolPrice() is used in hedgeDelta to get the price directly from Uniswap v3 pool:
-```solidity 
-function getPoolPrice() public view returns (uint256 price, uint256 
-inversed){
- (uint160 sqrtPriceX96, , , , , , ) = pool.slot0();
- uint256 p = uint256(sqrtPriceX96) * uint256(sqrtPriceX96) * (10 
-** token0.decimals());
- // token0/token1 in 1e18 format
- price = p / (2 ** 192);
- inversed = 1e36 / price;
-}
+    ```solidity 
+    function getPoolPrice() public view returns (uint256 price, uint256 
+         inversed){
+            (uint160 sqrtPriceX96, , , , , , ) = pool.slot0();
+        uint256 p = uint256(sqrtPriceX96) * uint256(sqrtPriceX96) * (10 
+        ** token0.decimals());
+     // token0/token1 in 1e18 format
+          price = p / (2 ** 192);
+              inversed = 1e36 / price;
+         }
 
-```
+            ```
 The issue is that calculation of p is likely to overflow. sqrtPriceX96 has 96 bits for decimals, 
 10** token0.decimals() will have 60 bits when decimals is 18, therefore there is only 
 (256 – 2 * 96 – 60) / 2 = 2 bits for non-decimal part of sqrtPriceX96. 
@@ -129,28 +129,25 @@ Calculations are now performed safely using the standard FullMath library
 tickToToken0PriceInverted() performs some arithmetic calculations. It's called by 
 _getTicksAndMeanPriceFromWei(), which is called by hedgeDelta(). This line can overflow:
 
-```solidity
-uint256 intermediate = inWei.div(10**(token1.decimals() -
-token0.decimals()));
-```
+    ```solidity
+    uint256 intermediate = inWei.div(10**(token1.decimals() -
+         token0.decimals()));
+    ```
 Also, this line would revert even if the above calculation was done correctly:
 
-```solidity
-meanPrice = OptionsCompute.convertFromDecimals(meanPrice, 
-token0.decimals(), token1.decimals());
-```
+    ```solidity
+    meanPrice = OptionsCompute.convertFromDecimals(meanPrice, 
+         token0.decimals(), token1.decimals());
+    ```
 
-```solidity
-function convertFromDecimals(uint256 value, uint8 decimalsA, uint8 
-decimalsB)
- internal 
- pure
- returns (uint256) {
- if (decimalsA > decimalsB) {
- revert();
- }
-…
-```
+    ```solidity
+    function convertFromDecimals(uint256 value, uint8 decimalsA, uint8 decimalsB) internal pure
+        returns (uint256) {
+    if (decimalsA > decimalsB) {
+          revert();
+        }
+        …
+         ```
 The impact is that when token1.decimals() < token0.decimals(), the contract's main function 
 is unusable.
 
@@ -173,17 +170,14 @@ takes up to 32 bits. This represents a price ratio of 18446744073709551616. With
 token digits it is not unlikely that this ratio will be crossed which will make hedgeDelta() 
 revert.
 
-```solidity
-function _sqrtPriceX96ToUint(uint160 sqrtPriceX96)
- private
- pure
- returns (uint256)
-{
- uint256 numerator1 = uint256(sqrtPriceX96) * 
-uint256(sqrtPriceX96);
- return FullMath.mulDiv(numerator1, 1, 1 << 192);
-}
-```
+    ```solidity
+    function _sqrtPriceX96ToUint(uint160 sqrtPriceX96) private pure returns (uint256)
+    {
+        uint256 numerator1 = uint256(sqrtPriceX96) * 
+         uint256(sqrtPriceX96);
+    return FullMath.mulDiv(numerator1, 1, 1 << 192);
+         }
+    ```
 
 **Recommended Mitigation:**
 Perform the multiplication after converting the numbers to 60x18 variables
@@ -195,17 +189,17 @@ Fixed
 New utility function sqrtPriceX96ToUint correctly uses SafeMath, and also multiplies in a 
 different order depending on price size to ensure no overflows occur:
 
-```solidity
-if (sqrtPrice > Q96) {
- uint256 sqrtP = FullMath.mulDiv(sqrtPrice, 10 ** token0Decimals, 
-Q96);
- return FullMath.mulDiv(sqrtP, sqrtP, 10 ** token0Decimals);
-} else {
- uint256 numerator1 = FullMath.mulDiv(sqrtPrice, sqrtPrice, 1);
- uint256 numerator2 = 10 ** token0Decimals;
- return FullMath.mulDiv(numerator1, numerator2, 1 << 192);
-}
-```
+        ```solidity
+        if (sqrtPrice > Q96) {
+             uint256 sqrtP = FullMath.mulDiv(sqrtPrice, 10 ** token0Decimals, 
+                Q96);
+        return FullMath.mulDiv(sqrtP, sqrtP, 10 ** token0Decimals);
+            } else {
+        uint256 numerator1 = FullMath.mulDiv(sqrtPrice, sqrtPrice, 1);
+        uint256 numerator2 = 10 ** token0Decimals;
+             return FullMath.mulDiv(numerator1, numerator2, 1 << 192);
+            }
+        ```
 
 ### TRST-M-4 hedgeDelta(0) doesn’t behave properly
 **Description:**
@@ -257,18 +251,18 @@ As long as described behavior is intended and documented, it is not an issue.
 ### TRST-L-2 Insufficient dust checks
 **Description:**
 In hedgeDelta(), there is a dust check in the case of sell wETH order:
-```solidity
-// sell wETH
-uint256 wethBalance = inversed ? amount1Current : amount0Current;
-if (wethBalance < minAmount) return 0;
-```
+        ```solidity
+        // sell wETH
+             uint256 wethBalance = inversed ? amount1Current : amount0Current;
+        if (wethBalance < minAmount) return 0;
+        ```
 However, the actual used amount is _delta
 
-```solidity
-uint256 deltaToUse = _delta > int256(wethBalance) ? wethBalance : 
-uint256(_delta);
-_createUniswapRangeOrder(rangeOrder, deltaToUse, inversed);
-```
+        ```solidity
+             uint256 deltaToUse = _delta > int256(wethBalance) ? wethBalance : 
+           uint256(_delta);
+        _createUniswapRangeOrder(rangeOrder, deltaToUse, inversed);
+        ```
 The check should be applied on deltaToUse rather than wethBalance because it will be the 
 minimum of wethBalance and _delta.
 Additionally, there is no corresponding check for minting with collateral in case **_delta** is 
@@ -302,21 +296,19 @@ Fixed
 The issue was fixed with additional logging. However, the fix introduced an issue. In the 
 event that logs withdraw, if withdrawal amount is greater than balance than the log will be 
 incorrect.
-```solidity
-if (_amount <= balance) {
- SafeTransferLib.safeTransfer(ERC20(collateralAsset), msg.sender, 
-_amount);
- emit Withdraw(_amount);
- // return in collateral format
- return _amount;
-} else {
- SafeTransferLib.safeTransfer(ERC20(collateralAsset), msg.sender, 
-balance);
- emit Withdraw(_amount);
- // return in collateral format
- return balance;
-}
-```
+        ```solidity
+        if (_amount <= balance) {
+             SafeTransferLib.safeTransfer(ERC20(collateralAsset), msg.sender, _amount);
+        emit Withdraw(_amount);
+        // return in collateral format
+             return _amount;
+                 } else {
+        SafeTransferLib.safeTransfer(ERC20(collateralAsset), msg.sender, balance);
+        emit Withdraw(_amount);
+        // return in collateral format
+                return balance;
+             }
+        ```
 Correct behavior would be to log balance
 
 
@@ -324,31 +316,26 @@ Correct behavior would be to log balance
 **Description:**
 If the RangeOrderReactor contract is not currently active, it should simply return the current 
 token balances. However, it does a lot of expensive logic to calculate position value.
-```solidity
-(
- uint128 liquidity,
- uint256 feeGrowthInside0Last,
- uint256 feeGrowthInside1Last,
- uint128 tokensOwed0,
- uint128 tokensOwed1
-) = pool.positions(_getPositionID());
-// compute current holdings from liquidity
-(amount0Current, amount1Current) = 
-LiquidityAmounts.getAmountsForLiquidity(
- sqrtRatioX96,
- currentPosition.activeLowerTick.getSqrtRatioAtTick(),
- currentPosition.activeUpperTick.getSqrtRatioAtTick(),
- liquidity
-);
-// compute current fees earned
-uint256 fee0 =
- _computeFeesEarned(true, feeGrowthInside0Last, tick, liquidity) +
- uint256(tokensOwed0);
-uint256 fee1 =
- _computeFeesEarned(false, feeGrowthInside1Last, tick, liquidity) 
-+
- uint256(tokensOwed1);
-```
+        ```solidity
+      (uint128 liquidity, uint256 feeGrowthInside0Last, uint256 feeGrowthInside1Last, uint128 tokensOwed0,
+        uint128 tokensOwed1) = pool.positions(_getPositionID());
+        // compute current holdings from liquidity
+             (amount0Current, amount1Current) = 
+        LiquidityAmounts.getAmountsForLiquidity(
+        sqrtRatioX96,
+        currentPosition.activeLowerTick.getSqrtRatioAtTick(),
+             currentPosition.activeUpperTick.getSqrtRatioAtTick(),
+        liquidity
+        );
+        // compute current fees earned
+                    uint256 fee0 =
+                _computeFeesEarned(true, feeGrowthInside0Last, tick, liquidity) +
+            uint256(tokensOwed0);
+        uint256 fee1 =
+        _computeFeesEarned(false, feeGrowthInside1Last, tick, liquidity) 
+        +
+        uint256(tokensOwed1);
+        ```
 
 **Recommended mitigation:**
 Perform early exit in case position is not active.
