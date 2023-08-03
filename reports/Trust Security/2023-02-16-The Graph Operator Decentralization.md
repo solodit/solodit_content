@@ -114,21 +114,19 @@ establishment of relations across the different Graph roles
 ## Informational
 ### Improve documentation
 Documentation of the collect() function states:
-```solidity
-/**
-* @dev Collect query fees from state channels and assign them to an 
-allocation.
-* Funds received are only accepted from a valid sender.
-* To avoid reverting on the withdrawal from channel flow this 
-function will:
-* 1) Accept calls with zero tokens.
-* 2) Accept calls after an allocation passed the dispute period, in 
-that case, all
-* the received tokens are burned.
-* @param _tokens Amount of tokens to collect
-* @param _allocationID Allocation where the tokens will be assigned
-*/
-```
+        ```solidity
+        /**
+            * @dev Collect query fees from state channels and assign them to an allocation.
+            * Funds received are only accepted from a valid sender.
+            * To avoid reverting on the withdrawal from channel flow this 
+         function will:
+             * 1) Accept calls with zero tokens.
+             * 2) Accept calls after an allocation passed the dispute period, in that case, all
+                * the received tokens are burned.
+                * @param _tokens Amount of tokens to collect
+                * @param _allocationID Allocation where the tokens will be assigned
+                */
+                  ```
 Note that the highlighted text is no longer relevant, now that the operator is decentralized. 
 It should be omitted.
 

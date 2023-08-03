@@ -56,17 +56,15 @@ one for position fees. Since the swap fee depends on up-to-date **collateralDelt
 to calculate it after the position fee, contrary to the current state. In practice, it may lead to 
 the leverage ratio being higher than intended as **collateralDelta** sent to GMX is lower than it 
 should be.
-```solidity
-if (isLong) {
-uint swapFeeBP = getSwapFeeBP(isLong, true, collateralDelta);
-collateralDelta = (collateralDelta * (BASIS_POINTS_DIVISOR + 
-swapFeeBP)) / BASIS_POINTS_DIVISOR;
-}
-// add margin fee
-// when we increase position, fee always got deducted from collateral
-collateralDelta += _getPositionFee(currentPos.size, sizeDelta, 
-currentPos.entryFundingRate);
-```
+      ```solidity
+      if (isLong) {
+          uint swapFeeBP = getSwapFeeBP(isLong, true, collateralDelta);
+           collateralDelta = (collateralDelta * (BASIS_POINTS_DIVISOR + swapFeeBP)) / BASIS_POINTS_DIVISOR;
+      }
+      // add margin fee
+      // when we increase position, fee always got deducted from collateral
+          collateralDelta += _getPositionFee(currentPos.size, sizeDelta, currentPos.entryFundingRate);
+        ``` 
 
 **Recommended Mitigation:**
 Flip the order of getSwapFeeBP() and _getPositionFee(). 
@@ -80,13 +78,12 @@ Fixed
 **Description:**
 In LiquidityPool’s initiateWithdraw(), it’s required that withdrawn value is above a minimum 
 parameter, or that withdrawn tokens is above the minimum parameter.
-```solidity 
-if (withdrawalValue < lpParams.minDepositWithdraw && 
-amountLiquidityToken < lpParams.minDepositWithdraw) {
-revert MinimumWithdrawNotMet(address(this), withdrawalValue, 
-lpParams.minDepositWithdraw);
-}
-```
+      ```solidity 
+      if (withdrawalValue < lpParams.minDepositWithdraw && 
+          amountLiquidityToken < lpParams.minDepositWithdraw) {
+      revert MinimumWithdrawNotMet(address(this), withdrawalValue, lpParams.minDepositWithdraw);
+      }
+      ```
 The issue is that **minDepositWithdraw** is measured in dollars while **amountLiquidityToken** is 
 LP tokens. The intention was that if LP tokens lost value and a previous deposit is now worth 
 less than **minDepositWithdraw**, it would still be withdrawable. However, the current 
@@ -133,15 +130,15 @@ Indeed, GMX supports “AMM pricing” mode where quotes are calculated from Uni
 reserves. A possible attack would be to drive up the base token (e.g. ETH) price, sell a large 
 ETH amount to the GMXAdapter, and repay the flashloan used for manipulation. 
 exchangeFromExactBase() is attacker-reachable from LiquidityPool’s exchangeBase().
-```solidity
-uint tokenInPrice = _getMinPrice(address(baseAsset));
-uint tokenOutPrice = _getMaxPrice(address(quoteAsset));
-...
-uint minOut = tokenInPrice
-.multiplyDecimal(marketPricingParams[_optionMarket].minReturnPercent)
-.multiplyDecimal(_amountBase)
-.divideDecimal(tokenOutPrice);
-```
+    ```solidity
+    uint tokenInPrice = _getMinPrice(address(baseAsset));
+        uint tokenOutPrice = _getMaxPrice(address(quoteAsset));
+    ...
+    uint minOut = tokenInPrice
+      .multiplyDecimal(marketPricingParams[_optionMarket].minReturnPercent)
+        .multiplyDecimal(_amountBase)
+          .divideDecimal(tokenOutPrice);
+    ```
 
 **Recommended Mitigation:**
 Verify getMinPrice(), getMinPrice() outputs are close to Chainlink-provided prices as done in 
@@ -156,14 +153,14 @@ Fixed for exchangeFromExactBase() here, by using Chainlink price instead of **gm
 **Description:**
 sendAllFundsToLP() is used to transfer quote and base tokens to the LP after interaction with 
 GMX. It uses an unsafe transfer call:
-```solidity
-if (baseBal > 0) {
-if (!baseAsset.transfer(address(liquidityPool), baseBal)) {
- revert AssetTransferFailed(address(this), baseAsset, baseBal, 
-address(liquidityPool));
-}
-emit BaseReturnedToLP(baseBal);
-```
+    ```solidity
+    if (baseBal > 0) {
+       if (!baseAsset.transfer(address(liquidityPool), baseBal)) {
+    revert AssetTransferFailed(address(this), baseAsset, baseBal, 
+         address(liquidityPool));
+     }
+    emit BaseReturnedToLP(baseBal);
+    ```
 There are a great many tokens such as BNB and USDT that for historical reasons, don’t return 
 a value in transfer(). Since Lyra aims to support blue-chip tokens, it should refactor and use 
 the safe transfer variant.
@@ -180,12 +177,12 @@ only those that do not return boolean values.
 recoverFunds() is used for recovery in case of mistakenly-sent tokens. However, it uses unsafe 
 transfer to send tokens back, which will not support 100s of non-compatible ERC20 tokens. 
 Therefore it is likely unsupported tokens will be unrecoverable.
-```solidity
-if (token == quoteAsset || token == baseAsset || token == weth) {
-revert CannotRecoverRestrictedToken(address(this));
-}
-token.transfer(recipient, token.balanceOf(address(this)));
-```
+  ```solidity
+  if (token == quoteAsset || token == baseAsset || token == weth) {
+      revert CannotRecoverRestrictedToken(address(this));
+    }
+        token.transfer(recipient, token.balanceOf(address(this)));
+      ```
 
 **Recommended Mitigation:**
 Use Open Zeppelin’s SafeERC20 encapsulation of ERC20 transfer functions.
@@ -241,11 +238,11 @@ The protectedQuote storage variable ensures that a portion of the liquidity pool
 even in the case of a “contract adjustment event” (i.e. when the pool has become insolvent). 
 However, the protectedQuote is updated on deposits and withdraws using the following 
 calculation:
-```solidity
-protectedQuote = (liquidity.NAV - withdrawalValue).multiplyDecimal(
- DecimalMath.UNIT - lpParams.adjustmentNetScalingFactor
-);
-```
+     ```solidity
+       protectedQuote = (liquidity.NAV - withdrawalValue).multiplyDecimal(
+       DecimalMath.UNIT - lpParams.adjustmentNetScalingFactor
+      );
+      ```
 The new value depends on the Net Asset Value (NAV) of the pool which, in turn, depends on 
 the current hedge and price of the base asset. If the base asset moves sharply the NAV can 
 drop, which can lead to a large drop in the **protectedQuote**. 
@@ -272,16 +269,14 @@ Lyra’s security model relies on being able to hedge and achieve delta-neutrali
 a user position. The check is done in canHedge() in GMXFuturesPoolHedger. After expected 
 hedge delta and current hedge delta are fetched, remainingDeltas is assigned the amount of 
 liquidity of the side that will be bought. Then this check is made:
-```solidity
-uint absHedgeDiff = (Math.abs(expectedHedge) -
-Math.abs(currentHedge));
-if (remainingDeltas < 
-absHedgeDiff.multiplyDecimal(futuresPoolHedgerParams.marketDepthBuffe
-r)) {
-  return false;
-}
+      ```solidity
+      uint absHedgeDiff = (Math.abs(expectedHedge) - Math.abs(currentHedge));
+      if (remainingDeltas < 
+           absHedgeDiff.multiplyDecimal(futuresPoolHedgerParams.marketDepthBuffer)) {
+        return false;
+      }
 
-```
+      ```
 The issue is that the checked requirement for GMX liquidity is not strict enough. If 
 **expectedHedge** and **currentHedge** have different signs, **remainingDeltas** needs to be above 
 **expectedHedge**. That’s because the current holdings can’t be deducted from the necessary 
@@ -303,13 +298,12 @@ will make these checks operate as expected. Will not be resolved at this stage.
 Lyra’s security model relies on being able to hedge and achieve delta-neutrality when opening 
 a user position. The check is done in canHedge() in GMXFuturesPoolHedger. The function will 
 return true when the delta of the trade has the same sign as the expectedHedge. For example:
-```solidity 
-// expected hedge is positive, and trade increases delta of the pool 
-- risk is reduced, so accept trade
-if (increasesPoolDelta && expectedHedge >= 0) {
- return true;
-}
-```
+    ```solidity 
+    // expected hedge is positive, and trade increases delta of the pool - risk is reduced, so accept trade
+    if (increasesPoolDelta && expectedHedge >= 0) {
+        return true;
+          }
+            ```
 However, this will not always reduce the pool delta. For example an **expectedHedge** of 5 
 would indicate the pool delta is -5. A trade which increases pool delta by 11 would mean the 
 subsequent **expectedHedge** would be -6. In general, if the **expectedHedge** is equal to n/-n 
@@ -330,18 +324,16 @@ GMXFuturesPoolHedger does that, it also decreases the collateral so that the lev
 would equal the set **targetLeverage**. In GMX, fees are deducted from collateral when losses 
 are realized. Therefore, the code takes into account that additional collateral needs to be sent, 
 to make up for the fees deducted. It’s done in this block:
-```solidity
-if (currentPos.unrealisedPnl < 0) {
- uint adjustedDelta = 
-Math.abs(currentPos.unrealisedPnl).multiplyDecimal(sizeDelta).divideD
-ecimal(currentPos.size);
- if (adjustedDelta > collateralDelta) {
- collateralDelta = 0;
- } else {
- collateralDelta -= adjustedDelta;
- }
-}
-```
+      ```solidity
+      if (currentPos.unrealisedPnl < 0) {
+          uint adjustedDelta = Math.abs(currentPos.unrealisedPnl).multiplyDecimal(sizeDelta)divideDecimal      (currentPos.size);
+      if (adjustedDelta > collateralDelta) {
+          collateralDelta = 0;
+      } else {
+            collateralDelta -= adjustedDelta;
+           }
+       }
+        ```
 Notably, when **adjustedDelta > collateralDelta** is true, **collateralDelta** is zero-ed out. Since 
 GMX decreasePositionRequest() receives a uint as the collateral delta and decreases by that 
 amount, the function is not able to add the delta difference. However, that collateral debt is 
@@ -367,11 +359,11 @@ temporary and there is no easy fix, this will not be resolved.
 **Description:**
 GMXAdapter inherits from BaseExchangeAdapter. It is an implementation contract for a 
 transparent proxy and has the following initializer:
-```solidity
-function initialize() external initializer {
-__Ownable_init();
-}
-```
+    ```solidity
+       function initialize() external initializer {
+         __Ownable_init();
+       }
+       ``` 
 Therefore, an attacker can call initialize() on the implementation contract and become the 
 owner. At this point they can do just about anything to this contract, but it has no impact on 
 the proxy as it is using separate storage. If there was a delegatecall coded in GMXAdapter, 
@@ -396,14 +388,13 @@ positionRouter is used to change GMX positions in GMXFuturesPoolHedger. It can b
 by a new router if GMX redeploys, for example if a bug is found or the previous one is hacked. 
 The new positionRouter receives approval from the contract. However, approval to the 
 previous positionRouter is not revoked.
-```solidity
-function setPositionRouter(IPositionRouter _positionRouter) external 
-onlyOwner {
-positionRouter = _positionRouter;
-router.approvePlugin(address(positionRouter));
-emit PositionRouterSet(_positionRouter);
-}
-```
+    ```solidity
+    function setPositionRouter(IPositionRouter _positionRouter) external onlyOwner {
+      positionRouter = _positionRouter;
+        router.approvePlugin(address(positionRouter));
+    emit PositionRouterSet(_positionRouter);
+       }
+       ```
 A number of unlikely, yet dire scenarios could occur.
 
 **Recommended Mitigation:**
@@ -426,9 +417,9 @@ A receive() function has been added to GMXFuturesPoolHedger, so that it is able 
 ETH from GMX as request refunds. However, it is not advisable to have an open receive() 
 function if it is not necessary. Users may wrongly send ETH directly to PoolHedger and lose it 
 forever.
-```solidity
-receive() external payable {}
-```
+    ```solidity
+           receive() external payable {}
+    ``` 
 **Recommended Mitigation:**
 Add a msg.sender check in the receive() function, and make sure sender is positionRouter.
 
@@ -440,13 +431,11 @@ Will not be resolved at this stage.
 **Description:**
 In GMXAdapter exchangeFromExactBase(), minReturnPercent is used to set the minimum 
 output tokens for the trade:
-```solidity
-uint minOut = 
-tokenInPrice.multiplyDecimal(marketPricingParams[_optionMarket].minRe
-turnPercent)
-.multiplyDecimal(_amountBase)
-.divideDecimal(tokenOutPrice);
-```
+    ```solidity
+    uint minOut = tokenInPrice.multiplyDecimal(marketPricingParams[_optionMarket].minReturnPercent)
+      .multiplyDecimal(_amountBase)
+       .divideDecimal(tokenOutPrice);
+       ```
 Since the rest of the calculation is done precisely the same as in positionRouter, except 
 imposed fees, if minReturnPercent is above 100% transactions will never succeed. However, 
 it’s allowed to be up to 120%. It appears the reason for that is to protect against any 
@@ -482,19 +471,18 @@ Acknowledged.
 **Description:** 
 Owner can freely set the **liquidityTracker** variable in LiquidityToken. It is used in 
 _afterTokenTransfer():
-```solidity
-function _afterTokenTransfer(address from, address to, uint amount) 
-internal override {
-if (address(liquidityTracker) != address(0)) {
- if (from != address(0)) {
- liquidityTracker.removeTokens(from, amount);
- }
- if (to != address(0)) {
- liquidityTracker.addTokens(to, amount);
- }
-}
-}
-```
+    ```solidity
+    function _afterTokenTransfer(address from, address to, uint amount) internal override {
+      if (address(liquidityTracker) != address(0)) {
+        if (from != address(0)) {
+    liquidityTracker.removeTokens(from, amount);
+    }
+    if (to != address(0)) {
+        liquidityTracker.addTokens(to, amount);
+           }
+         }
+       }
+          ```
 If owner is compromised, the platform can be immediately shut down by passing an invalid 
 address as **liquidityTracker**.
 
@@ -532,12 +520,12 @@ a bug.
 ### Misleading variable names
 There are some instances where possibly code has been duplicated without proper renaming. 
 For example, in GMXAdapter, _getMaxPrice() is implemented as:
-```solidity
-function _getMaxPrice(address asset) internal view returns (uint) {
-uint minPrice = vault.getMaxPrice(asset);
-return ConvertDecimals.normaliseTo18(minPrice, GMX_PRICE_PRECISION);
-}
-```
+    ```solidity
+    function _getMaxPrice(address asset) internal view returns (uint) {
+        uint minPrice = vault.getMaxPrice(asset);
+       return ConvertDecimals.normaliseTo18(minPrice, GMX_PRICE_PRECISION);
+         }
+          ```
 Another example is the function _getPendingIncreaseCollateralDelta() which actually returns 
 the **amountIn** variable.
 Such patterns are prone to the introduction of bugs. 
@@ -575,5 +563,5 @@ chance that one or more of them may cause insolvency under the right conditions.
 [1] https://en.wikipedia.org/wiki/Black%E2%80%93Scholes_model
 [2] “Why We Have Never Used the Black-Scholes-Merton Option Pricing Formula” Espen 
 Gaarder Haug and Nassim Nicholas Taleb
-[3] In section “Volatality Smiles” they say “One of the incorrect assumptions that the BlackScholes model makes is that the implied volatility is constant across all strikes within the same 
+[3] In section “Volatality Smiles” they say “One of the incorrect assumptions that the BlackScholes model makes is that the implied volatility is constant across all strikes within the same 
 expiry” https://docs.lyra.finance/overview/how-does-lyra-work/options-pricing-and-theamm

@@ -13,16 +13,16 @@
 **Description:**
 The vault operator can swap tokens using the trade() function. They pass the following 
 structure for each trade:
-```solidity
-struct tradeInput { 
-  address spendToken;
-  address receiveToken;
-  uint256 spendAmt;
-  uint256 receiveAmtMin;
-  address routerAddress;
-  uint256 pathIndex;
-}
-```
+         ```solidity
+         struct tradeInput { 
+             address spendToken;
+                address receiveToken;
+                   uint256 spendAmt;
+                    uint256 receiveAmtMin;
+                address routerAddress;
+         uint256 pathIndex;
+         }
+         ```
 Notably, **receiveAmtMin** is used to guarantee acceptable slippage. An operator can simply 
 pass 0 to make sure the trade is executed. This allows an operator to steal all the funds in the 
 vault by architecting a sandwich attack. 
@@ -50,10 +50,10 @@ Additionally, a slippage for a given pair is now get and set by the AuxInfo.sol 
 **Mitigation review:**
 The integration with Chainlink oracle introduces new issues. There is no check for a stale price 
 feed, which makes trading possibly incur high slippage costs. 
-```solidity
-(,int priceFromInt,,,) = AIFrom.latestRoundData();
-(,int priceToInt,,,) = AITo.latestRoundData();
-```
+         ```solidity
+               (,int priceFromInt,,,) = AIFrom.latestRoundData();
+         (,int priceToInt,,,) = AITo.latestRoundData();
+         ```
 Additionally, when the contracts are deployed on L2, there is a sequencer down-time issue, 
 as detailed here(https://docs.chain.link/data-feeds/l2-sequencer-feeds). The contract should check the sequencer is up when deployed on L2.
 
@@ -70,25 +70,25 @@ the vault holdings. The denominator is by design the sum of all numerators of us
 invariant kept at deposits and withdrawals. For maximum precision, the denominator should 
 be a very large value. Intuitively, numerators could be spread across different users without 
 losing precision. The critical calculations occur in these lines in deposit():
-```solidity
-if (D == 0) { //initial deposit
-   uint256 sumDenoms = 0; 
-   for (uint256 i = 0; i < tkns.length; i++) {
-     sumDenoms += 
-AI.getAllowedTokenInfo(tkns[i]).initialDenominator;
-   }
-   require(sumDenoms > 0 && sumDenoms <= maxInitialDenominator, 
-"invalid sumDenoms");
-   deltaN = sumDenoms; //initial numerator and denominator are the 
-same, and are greater than any possible balance in the vault.
- //this ensures precision in the vault's 
-balances. User Balance = (N*T)/D will have rounding errors always 1 
-wei or less. 
-} else { 
-   // deltaN = (amt * D)/T;
-   deltaN = Arithmetic.overflowResistantFraction(amt, D, T);
-}
-```
+         ```solidity
+         if (D == 0) { //initial deposit
+                   uint256 sumDenoms = 0; 
+                        for (uint256 i = 0; i < tkns.length; i++) {
+                              sumDenoms += 
+                        AI.getAllowedTokenInfo(tkns[i]).initialDenominator;
+                      }
+                   require(sumDenoms > 0 && sumDenoms <= maxInitialDenominator, 
+         "invalid sumDenoms");
+                   deltaN = sumDenoms; //initial numerator and denominator are the 
+                same, and are greater than any possible balance in the vault.
+             //this ensures precision in the vault's 
+         balances. User Balance = (N*T)/D will have rounding errors always 1 
+         wei or less. 
+         } else { 
+            // deltaN = (amt * D)/T;
+            deltaN = Arithmetic.overflowResistantFraction(amt, D, T);
+         }
+         ```
 In the initial deposit, Vault sums all token **initialDenominators** to get the final denominator. 
 It is assumed that the vault will never have this amount in total balances (each token 
 denominator is worth around $100m dollars). 
@@ -154,50 +154,49 @@ the Vault behavior."
 **Description:**
 The RouterInfo represents a single UniV3-compatible router which supports a list of token 
 paths. It uses the following data structures:
-```solidity
-mapping(address => mapping(address => listInfo)) private 
-allowedPairsMap;
-pair[] private allowedPairsList;
-```
+         ```solidity
+         mapping(address => mapping(address => listInfo)) private allowedPairsMap;
+                  pair[] private allowedPairsList;
+         ```
 
-```solidity
-struct listInfo {
-   bool allowed;
-   uint256 listPosition;
-}
-struct pair {
-   address token0;
-   address token1;
-   uint256 numPathsAllowed;
-}
-```
+         ```solidity
+          struct listInfo {
+               bool allowed;
+                uint256 listPosition;
+         }
+         struct pair {
+            address token0;
+               address token1;
+                  uint256 numPathsAllowed;
+          }
+          ```
 
 When an admin specifies a new path from **token0** to **token1**, _increasePairPaths() is called. 
-```solidity
-function _increasePairPaths(address token0, address token1) private {
-  listInfo storage LI = allowedPairsMap[token0][token1];
-  if (!LI.allowed){
-    LI.allowed = true;
-    LI.listPosition = allowedPairsList.length;
-    allowedPairsList.push(pair(token0, token1, 0));
- }
- allowedPairsList[LI.listPosition].numPathsAllowed++;
-}
-```
+               ```solidity
+               function _increasePairPaths(address token0, address token1) private {
+                     listInfo storage LI = allowedPairsMap[token0][token1];
+                  if (!LI.allowed){
+                  LI.allowed = true;
+                  LI.listPosition = allowedPairsList.length;
+                      allowedPairsList.push(pair(token0, token1, 0));
+                   }
+                      allowedPairsList[LI.listPosition].numPathsAllowed++;
+                   }
+               ```
 When a path is removed, the complementary function is called.
-```solidity
-function _decreasePairPaths(address token0, address token1) private {
-   listInfo storage LI = allowedPairsMap[token0][token1];
-   require(LI.allowed, "RouterInfo: pair not allowed");
-   allowedPairsList[LI.listPosition].numPathsAllowed--;
-   if (allowedPairsList[LI.listPosition].numPathsAllowed == 0){
-     allowedPairsList[LI.listPosition] = 
-allowedPairsList[allowedPairsList.length - 1];
-    allowedPairsList.pop();
-    LI.allowed = false;
- }
-}
-```
+      ```solidity
+      function _decreasePairPaths(address token0, address token1) private {
+             listInfo storage LI = allowedPairsMap[token0][token1];
+                require(LI.allowed, "RouterInfo: pair not allowed");
+                   allowedPairsList[LI.listPosition].numPathsAllowed--;
+            if (allowedPairsList[LI.listPosition].numPathsAllowed == 0){
+         allowedPairsList[LI.listPosition] = 
+      allowedPairsList[allowedPairsList.length - 1];
+         allowedPairsList.pop();
+         LI.allowed = false;
+      }
+      }
+      ```
 When the last path is removed, the contract reuses the index of the removed pair, to store 
 the last pair in the list. It then removes the last pair, having already copied it. The issue is that 
 the corresponding **listInfo** structure is not updated, to keep track of index in the pairs list. 
@@ -224,25 +223,23 @@ The fix is simple and correct.
 **Description:**
 When users deposit funds to the Vault, it verifies that the proportion between the tokens 
 inserted to the vault matches the current vault token balances.
-```solidity
-uint256[] memory balances = vlt.balances();
-//ensure deposits are in the same ratios as the vault's current 
-balances
-require(functions.ratiosMatch(balances, amts), "ratios don't match");
-```
+      ```solidity
+      uint256[] memory balances = vlt.balances();
+          //ensure deposits are in the same ratios as the vault's current balances
+          require(functions.ratiosMatch(balances, amts), "ratios don't match");
+      ```
 
 The essential part of the check is below:
-```solidity
-for (uint256 i = 0; i < sourceRatios.length; i++) {
-  // if (targetRatios[i] != (targetRatios[greatestIndex] * 
-sourceRatios[i]) / greatest) {
-  if (targetRatios[i] != 
-Arithmetic.overflowResistantFraction(targetRatios[greatestIndex], 
-sourceRatios[i], greatest)) {
-  return false;
-    }
-}
-```
+         ```solidity
+         for (uint256 i = 0; i < sourceRatios.length; i++) {
+         // if (targetRatios[i] != (targetRatios[greatestIndex] * 
+                  sourceRatios[i]) / greatest) {
+               if (targetRatios[i] != 
+         Arithmetic.overflowResistantFraction(targetRatios[greatestIndex], sourceRatios[i], greatest)) {
+         return false;
+            }
+         }
+         ```
 The exact logic here is not important, but note that a small change in the balance of one of 
 the vault tokens will affect the expected number of tokens that need to be inserted to 
 maintain correct ratio. The exact amounts to be deposited are passed as **targetRatios**, and 
@@ -276,18 +273,18 @@ ratio will make the deposit getting front-ran revert.
 Users can use the getAmtsNeededForDeposit() function to get the amount of tokens that 
 maintain the desired proportion for vault deposits. It will perform a calculation very similar to 
 the one in ratiosMatch(), which will verify the deposit.
-```solidity
-for (uint256 i = 0; i < balances.length; i++) {
-    if (i == indexOfReferenceToken) {
- amtsNeeded[i] = amtIn;
-  } else {
- // amtsNeeded[i] = (amtIn * balances[i]) / 
-    balances[indexOfReferenceToken];
-    amtsNeeded[i] = Arithmetic.overflowResistantFraction(amtIn, 
-balances[i], balances[indexOfReferenceToken]);
-     }
-}
-```
+         ```solidity
+         for (uint256 i = 0; i < balances.length; i++) {
+               if (i == indexOfReferenceToken) {
+                amtsNeeded[i] = amtIn;
+         } else {
+         // amtsNeeded[i] = (amtIn * balances[i]) / 
+                  balances[indexOfReferenceToken];
+                     amtsNeeded[i] = Arithmetic.overflowResistantFraction(amtIn, 
+                  balances[i], balances[indexOfReferenceToken]);
+               }
+            }
+         ```
 However, a difference between the verification function and the getter function is that the 
 getter receives any reference token, while the verification will use proportions based on the 
 deposit amount in the largest balance in the vault. Indeed, these fractions may differ by a 
@@ -311,23 +308,22 @@ Fix is sound.
 **Description:**
 When deposits are processed, the percentage of **Denominator** minted to the depositor is 
 linear to the contribution, compared to the current balance. 
-```solidity
-uint256 T = vlt.virtualTotalBalance(); //will be at least 1
-uint256 D = vlt.D();
-if (functions.willOverflowWhenMultiplied(amt, D)) {
-    require(T > amt || T > D, "overflow");
-}
-deltaN = Arithmetic.overflowResistantFraction(amt, D, T);
-vlt.setN(msg.sender, vlt.N(msg.sender) + deltaN);
-vlt.setD(D + deltaN); //D always kept = sum of all Ns, plus 
-vlt.initD()
-for (uint256 i = 0; i < tkns.length; i++) {
-    if (amts[i] > 0) {
- IERC20(tkns[i]).safeTransferFrom(msg.sender, vaultAddress, 
-amts[i]);
-    }
-}
-```
+         ```solidity
+         uint256 T = vlt.virtualTotalBalance(); //will be at least 1
+         uint256 D = vlt.D();
+         if (functions.willOverflowWhenMultiplied(amt, D)) {
+            require(T > amt || T > D, "overflow");
+         }
+         deltaN = Arithmetic.overflowResistantFraction(amt, D, T);
+             vlt.setN(msg.sender, vlt.N(msg.sender) + deltaN);
+                  vlt.setD(D + deltaN); //D always kept = sum of all Ns, plus 
+                    vlt.initD()
+         for (uint256 i = 0; i < tkns.length; i++) {
+            if (amts[i] > 0) {
+         IERC20(tkns[i]).safeTransferFrom(msg.sender, vaultAddress, amts[i]);
+            }
+         }
+         ```
 The calculation will lead to incorrect results when using fee-on-transfer (tax) tokens. The 
 "before-tax" amount of the depositor will be compared to the "after-tax" amount in the 
 contract balance. It is exploitable by immediately withdrawing the shares, receiving more 
@@ -347,13 +343,13 @@ D updated afterwards. "
 **Description:**
 There are several instances where the vault approves use of funds to the manager or a trade 
 router. It will set approval to MAX_UINT256. 
-```solidity
-for (uint i = 0; i < tokens.length; i++) {
-  //allow vault manager to withdraw tokens
-  IERC20(tokens[i]).safeIncreaseAllowance(ownerIn, 
-type(uint256).max); 
-}
-```
+         ```solidity
+         for (uint i = 0; i < tokens.length; i++) {
+         //allow vault manager to withdraw tokens
+                   IERC20(tokens[i]).safeIncreaseAllowance(ownerIn, 
+         type(uint256).max); 
+         }
+         ```
 The issue is that there are several popular tokens(https://github.com/d-xo/weird-erc20#revert-on-large-approvals--transfers) (UNI, COMP and others) which do not 
 support allowances of above UINT_96. The contract will not be able to interoperate with 
 them.
@@ -382,18 +378,18 @@ The H-1 fix solves the problem.
 ### TRST-L-3 Autotrader can steal gas
 **Description:**
 The autotrader receives gas compensation for the invocation of a trade action.
-```solidity
-if (useGasStation && (msg.sender == _autoTrader) && (_autoTrader != 
-vlt.operator())) { //operator pays gas to _autoTrader for auto trades
-   uint256 gasPrice = tx.gasprice;
-   if (gasPrice == 0){
-       gasPrice = 1;
-   }
-    uint256 fee = gasPrice * (gasStart - gasleft() + 
-gasStationParam);
- GS.removeGas(fee, payable(_autoTrader), vlt.operator());
-}
-```
+      ```solidity
+      if (useGasStation && (msg.sender == _autoTrader) && (_autoTrader != 
+          vlt.operator())) { //operator pays gas to _autoTrader for auto trades
+             uint256 gasPrice = tx.gasprice;
+               if (gasPrice == 0){
+            gasPrice = 1;
+         }
+         uint256 fee = gasPrice * (gasStart - gasleft() + 
+      gasStationParam);
+      GS.removeGas(fee, payable(_autoTrader), vlt.operator());
+      }
+      ```
 Note that **tx.gasprice** is controlled by the sender, by passing an arbitrary priority fee. This way, 
 the fee calculation may grant them a large profit. The key point is that **gasStationParam** is set 
 in a way that the gas spent to execute the transaction would be less than the gas 
@@ -409,45 +405,40 @@ The solution reduced the risk to an accepted level.
 ### TRST-L-4 Owner can steal all funds
 **Description:**
 The owner can set a new operator using the function below:
-```solidity
-function setOperator(address operatorIn) external nonReentrant {
- require(msg.sender == owner() || msg.sender == operator, "only 
-ownop");
- operator = operatorIn;
-}
-```
+      ```solidity
+      function setOperator(address operatorIn) external nonReentrant {
+         require(msg.sender == owner() || msg.sender == operator, "only ownop");
+      operator = operatorIn;
+      }
+      ```
 They can also allow an arbitrary, malicious router with the code below:
-```solidity
-function allowRouter(address routerAddress, string calldata nameIn, 
-uint256 routerType) external onlyOwner 
-   returns (address routerInfoContractAddress){
-   require(!allowedRoutersMap[routerAddress].allowed, "router 
-allowed");
-   require(routerType == 0 || routerType == 1, "must be 0 or 1");
-   allowedRoutersList.push(routerAddress);
-   RouterInfo ri = new RouterInfo(owner(), nameIn, routerAddress, 
-routerType);
-   allowedRoutersMap[routerAddress] = routerInfo(true, 
-   allowedRoutersList.length 
-- 1, 
-   address(ri));
- 
-   return address(ri);
- 
-}
-```
+         ```solidity
+         function allowRouter(address routerAddress, string calldata nameIn, uint256 routerType) external      onlyOwner 
+             returns (address routerInfoContractAddress){
+                require(!allowedRoutersMap[routerAddress].allowed, "router allowed");
+                   require(routerType == 0 || routerType == 1, "must be 0 or 1");
+                   allowedRoutersList.push(routerAddress);
+            RouterInfo ri = new RouterInfo(owner(), nameIn, routerAddress, 
+         routerType);
+            allowedRoutersMap[routerAddress] = routerInfo(true, 
+            allowedRoutersList.length 
+         - 1, 
+            address(ri));
+         
+            return address(ri);
+         
+         }
+         ```
 During trading, routers receive MAX approval.
-```solidity
-//make sure router can spend vault's spend token
-//alternate idea: transfer tokens to this contract, trade, transfer 
-back
-uint256 currentAllowance = 
-IERC20(params.spendToken).allowance(vaultAddress, 
-params.routerAddress);
-if (currentAllowance < params.spendAmt)
- vlt.increaseAllowance(params.spendToken, params.routerAddress, 
-type(uint256).max - currentAllowance);
-```
+         ```solidity
+         //make sure router can spend vault's spend token
+         //alternate idea: transfer tokens to this contract, trade, transfer back
+            uint256 currentAllowance =  IERC20(params.spendToken).allowance(vaultAddress, 
+                params.routerAddress);
+             if (currentAllowance < params.spendAmt)
+         vlt.increaseAllowance(params.spendToken, params.routerAddress, 
+            type(uint256).max - currentAllowance);
+         ```
 The combination of these permissions allows an owner to drain all deployed vaults, by adding 
 a malicious router, taking over as operator and calling the trade() function.
 
@@ -467,28 +458,24 @@ Users are urged to validate that all routers are legitimate after the router lis
 **Description:** 
 The code changes implemented to fix slippage changes introduced a significant centralization 
 risk. The owner can change price feeds at any time.
-```solidity
-function addPriceFeed(address token, address priceFeed) external 
-onlyOwner {
-  // require(aggregatorAddresses[token] == address(0), "price feed 
-exists");
-  aggregatorAddresses[token] = priceFeed;
-  emit PriceFeedAdded(token, priceFeed, true);
-}
-function removePriceFeed(address token) external onlyOwner {
-   aggregatorAddresses[token] = address(0);
-   emit PriceFeedAdded(token, address(0), false);
-}
-```
+         ```solidity
+         function addPriceFeed(address token, address priceFeed) external  onlyOwner {
+         // require(aggregatorAddresses[token] == address(0), "price feed exists");
+               aggregatorAddresses[token] = priceFeed;
+                  emit PriceFeedAdded(token, priceFeed, true);
+         }
+         function removePriceFeed(address token) external onlyOwner {
+             aggregatorAddresses[token] = address(0);
+                emit PriceFeedAdded(token, address(0), false);
+         }
+         ```
 This can be used to skew the minimum to receive value queried in trade():
-```solidity
-//check slippage with chainlink oracle
-uint256 maxSlippage = AI.getPairMaxSlippage(params.spendToken, 
-params.receiveToken);
-require(CLI.getMinReceived(params.spendToken, params.receiveToken, 
-params.spendAmt, maxSlippage) <= params.receiveAmtMin, "rec min too 
-low");
-```
+      ```solidity
+      //check slippage with chainlink oracle
+      uint256 maxSlippage = AI.getPairMaxSlippage(params.spendToken, params.receiveToken);
+         require(CLI.getMinReceived(params.spendToken, params.receiveToken, 
+            params.spendAmt, maxSlippage) <= params.receiveAmtMin, "rec min too low");
+      ```
 Therefore, owner can perform the sandwich attack detailed under "Autotrader can steal 
 funds". He would need to double as the operator or the autotrader.
 
@@ -497,13 +484,13 @@ funds". He would need to double as the operator or the autotrader.
 ### Redundant ownership transfers
 There are several instances in the contract when ownership is transferred to the msg.sender. 
 By inheriting from Ownable, this will happen automatically.
-```solidity
-contract GasStation is Ownable, ReentrancyGuarded {
- mapping (address => uint256) private gasBalances;
- constructor() {
- transferOwnership(msg.sender);
- }
- ```
+         ```solidity
+         contract GasStation is Ownable, ReentrancyGuarded {
+            mapping (address => uint256) private gasBalances;
+                constructor() {
+                   transferOwnership(msg.sender);
+          }
+         ```
 **Team response:**
 "Removed several ownership transfers."
 
@@ -562,33 +549,29 @@ Change applied correctly.
 ### Adding emission of events
 Many of the vault functions do not emit events. It is recommended to do so for transparency 
 and operation with indexers.
-```solidity
-function deactivate() external nonReentrant {
- require(msg.sender == owner() || msg.sender == operator, "only 
-own/op");
- isActive = false;
-}
-function setOperator(address operatorIn) external nonReentrant {
- require(msg.sender == owner() || msg.sender == operator, "only 
-ownop");
- operator = operatorIn;
-}
-function setAllowOtherUsers(bool allow) external nonReentrant{
- require(msg.sender == operator, "only op");
- allowOtherUsers = allow;
-}
-function setStrategy(string calldata stratString) external 
-nonReentrant {
- require((msg.sender == operator), "only op");
- strategy = stratString;
-}
-function setStrategyAndActivate(string calldata stratString, bool 
-activate) external nonReentrant {
- require((msg.sender == operator), "only op");
- strategy = stratString;
- autotradeActive = activate;
-}
-```
+         ```solidity
+         function deactivate() external nonReentrant {
+              require(msg.sender == owner() || msg.sender == operator, "only own/op");
+               isActive = false;
+         }
+         function setOperator(address operatorIn) external nonReentrant {
+               require(msg.sender == owner() || msg.sender == operator, "only ownop");
+         operator = operatorIn;
+         }
+         function setAllowOtherUsers(bool allow) external nonReentrant{
+               require(msg.sender == operator, "only op");
+                allowOtherUsers = allow;
+         }
+         function setStrategy(string calldata stratString) external nonReentrant {
+            require((msg.sender == operator), "only op");
+               strategy = stratString;
+         }
+         function setStrategyAndActivate(string calldata stratString, bool activate) external nonReentrant {
+               require((msg.sender == operator), "only op");
+                 strategy = stratString;
+                   autotradeActive = activate;
+                }
+         ```
 
 **Team response:**
 "Added events to several VaultV2 actions. I also added a new event to VaultInfo contract to 
@@ -617,9 +600,9 @@ the intermediate result could be above uint256.It is important to note that if t
 exceeds 256 bits, the function would return an incorrect number, due to overflow. In most 
 cases, that scenario is impossible as the divisor is larger than the second multiplied number. 
 However, in the call below in the deposit() code path, it is somewhat possible:
-```solidity
-deltaN = Arithmetic.overflowResistantFraction(amt, D, T);
-```
+      ```solidity
+          deltaN = Arithmetic.overflowResistantFraction(amt, D, T);
+      ```
 It is recommended to detect a possible overflow here. 
 
 **Team response:**
@@ -628,11 +611,11 @@ It is recommended to detect a possible overflow here.
 **Mitigation review:**
 Overflow check is safe. It could be argued that the T > D check is unnecessary, as that should 
 never occur.
-```solidity
-if (functions.willOverflowWhenMultiplied(amt, D)) {
- require(T > amt || T > D, "overflow");
-}
-```
+      ```solidity
+      if (functions.willOverflowWhenMultiplied(amt, D)) {
+             require(T > amt || T > D, "overflow");
+      }
+      ```
 
 
 
