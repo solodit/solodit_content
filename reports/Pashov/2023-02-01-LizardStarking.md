@@ -8,8 +8,6 @@
 
 ### [C-01] It's impossible for a user to claim his rewards, as `claimReward` will never send out `USDC`
 
-#### Severity
-
 **Impact:**
 High, because users will never receive rewards from the contract
 
@@ -38,8 +36,6 @@ Change the code in the following way:
 Make sure to always use the ERC20 API correctly and also to have complete code coverage with unit tests of the codebase prior to having an audit.
 
 ### [C-02] Calculation for `owedAmount` will round down to zero
-
-#### Severity
 
 **Impact:**
 High, as this will result in 0 claimable rewards for users when they should have been able to claim some
@@ -74,8 +70,6 @@ So this way you do multiplication before division which will not round down to z
 
 ### [H-01] Users will forever lose their accrued rewards if they call `withdrawStake` before calling `claimReward` first
 
-#### Severity
-
 **Impact:**
 High, as this will lead to a monetary loss for users
 
@@ -93,8 +87,6 @@ Since the docs give a misleading information about they way this mechanism works
 One possible solution is to enforce zero unclaimed rewards when a call to `withdrawStake` is made by reverting if there are any such unclaimed rewards. Another one is to just call `claimReward` in `withdrawStake`.
 
 ### [H-02] Wrong check in `claimCalculation` will result in less rewards received for users
-
-#### Severity
 
 **Impact:**
 High, as this will lead to a monetary loss for users
@@ -119,8 +111,6 @@ Change the code in the following way:
 
 ### [M-01] Looping over unbounded array can result in a state of DoS
 
-#### Severity
-
 **Impact:**
 High, as the contract will be in a state of DoS, without a way for anyone to withdraw NFTs or claim rewards
 
@@ -136,8 +126,6 @@ The `claimCalculation` and `getCurrentShareRaw` methods both loop over the `pool
 Limit the number of pools that can be created, for example a maximum of 25 pools created.
 
 ### [M-02] Missing constraint on the setter method of a percentage value
-
-#### Severity
 
 **Impact:**
 High, as it will result in wrong reward calculations
@@ -155,8 +143,6 @@ Add a check in `setResetShareValue` that the `_newShareResetValue` argument is n
 
 ### [M-03] Owner has the power to zero-out user's daily interest on rewards
 
-#### Severity
-
 **Impact:**
 High, as users can lose their right to claim accrued rewards
 
@@ -172,8 +158,6 @@ The `setDepositsActive` method resets `startTimestamp` and `lastGlobalUpdate`. T
 Make the `setDepositsActive` method callable only once after contract deployment.
 
 ### [M-04] Constraining approvals only partially limits the NFTs from being sold
-
-#### Severity
 
 **Impact:**
 High, as it can lead to scams and bugs when integrating with other games/protocols

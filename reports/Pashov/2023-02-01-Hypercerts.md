@@ -8,8 +8,6 @@
 
 ### [C-01] Users can split a token to more fractions than the `units` held at `tokenID`
 
-#### Severity
-
 **Impact**
 High, as it breaks an important protocol invariant
 
@@ -36,8 +34,6 @@ Follow the Checks-Effects-Interactions pattern
 ## High Risk
 
 ### [H-01] Calling `splitValue` when token index is not the latest will overwrite other claims' storage
-
-#### Severity
 
 **Impact:**
 High, as it can lead to loss of units for an account without any action on his side
@@ -90,8 +86,6 @@ Change the code the following way:
 
 ### [M-01] Unused function parameters can lead to false assumptions on user side
 
-#### Severity
-
 **Impact:**
 Low, because the caller still controls the minted token
 
@@ -107,8 +101,6 @@ The `units` parameter in `mintClaimWithFractions` is used only in the event emis
 Remove the `units` parameter from `mintClaimWithFractions` and also use `account` instead of `msg.sender` in the `_mintValue` call in `mintClaim` and `mintClaimWithFractions`.
 
 ### [M-02] Input & data validation is missing or incomplete
-
-#### Severity
 
 **Impact:**
 High, because in some cases this can lead to DoS and unexpected behaviour

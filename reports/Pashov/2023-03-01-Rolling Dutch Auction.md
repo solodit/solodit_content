@@ -8,8 +8,6 @@
 
 ### [C-01] Anyone can make new bids always revert after a window expires
 
-#### Severity
-
 **Impact:**
 High, as all new bidding will revert until auction ends
 
@@ -41,8 +39,6 @@ revert on every `commitBid` call from now on. This will result in inability for 
 Make `fulfillWindow` to be `internal` and then add a new public method that calls it internally but also has the `inactiveAuction` modifier as well - this way anyone will be able to complete a window when an auction is finished even though no one can call `commitBid`.
 
 ### [C-02] Successful bidders can lose significant value due to division rounding
-
-#### Severity
 
 **Impact:**
 High, as possibly significant value will be lost
@@ -76,8 +72,6 @@ Design the code so that the remainder of the `volume / price` division gets refu
 
 ### [C-03] The logic in `elapsedTime` is flawed
 
-#### Severity
-
 **Impact:**
 High, as the method is used to calculate the price of the auction but will give out wrong results
 
@@ -101,8 +95,6 @@ Remove the method altogether or extract two methods out of it, removing the `tim
 ## High Risk
 
 ### [H-01] Users are likely to lose their bid if `purchaseToken` is a low-decimals token
-
-#### Severity
 
 **Impact:**
 High, because users will lose their entire bid amount
@@ -133,8 +125,6 @@ In `commitBid` enforce that `volume >= price` and in `createAuction` enforce tha
 
 ### [M-01] Missing input validation on `createAuction` function parameters can lead to loss of value
 
-#### Severity
-
 **Impact:**
 High, as it can lead to stuck funds
 
@@ -156,8 +146,6 @@ Those possibilities should all be mitigated, as they can lead to the initial res
 Use a minimal `duration` value, for example 1 day, as well as a max value, for example 20 days. Make sure auction does not start more than X days after it has been created as well.
 
 ### [M-02] Loss of precision in `scalarPrice` function
-
-#### Severity
 
 **Impact:**
 Medium, as the price will not be very far from the expected one
@@ -186,8 +174,6 @@ Always do multiplications before divisions in Solidity, make sure to follow this
 
 ### [M-03] Protocol won't work correctly with tokens that do not revert on failed `transfer`
 
-#### Severity
-
 **Impact:**
 High, as it can lead to a loss of value
 
@@ -203,8 +189,6 @@ Some tokens do not revert on failure in `transfer` or `transferFrom` but instead
 Use OpenZeppelin's `SafeERC20` library and its `safe` methods for ERC20 transfers.
 
 ### [M-04] Auction won't work correctly with fee-on-transfer & rebasing tokens
-
-#### Severity
 
 **Impact:**
 High, as it can lead to a loss of value

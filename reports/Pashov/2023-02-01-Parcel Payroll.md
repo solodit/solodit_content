@@ -8,8 +8,6 @@
 
 ### [C-01] Contract is missing a `payable` function which makes it impossible to operate with native assets
 
-#### Severity
-
 **Impact:**
 High, as all transactions that use native assets will revert
 
@@ -25,8 +23,6 @@ The `PayrollManager` does not have a `receive` function that is marked as `payab
 Add a `payable` `fallback` or `receive` function in `PayrollManager` to allow for native assets transfers.
 
 ### [C-02] Contract fails to handle `address(0)` as a native asset for it's zero balance left invariant
-
-#### Severity
 
 **Impact:**
 High, as all transactions that use native assets will revert
@@ -69,8 +65,6 @@ Check separately for the native asset balance of the contract in the end of `exe
 
 ### [M-01] Using the `transfer` function of `address payable` is discouraged
 
-#### Severity
-
 **Impact:**
 Medium, as payroll will revert and Merkle Trees & approvals would have to be done again
 
@@ -87,8 +81,6 @@ Use a `call` with value instead of `transfer`. The function already has a `nonRe
 
 ### [М-02] Usage of non-standard ERC20 tokens might lead to stuck funds
 
-#### Severity
-
 **Impact:**
 High, because tokens will be left stuck in `PayrollManager`
 
@@ -104,8 +96,6 @@ The `executePayroll` method uses the `transfer` method of `ERC20`, but does not 
 Use the `SafeERC20` library from `OpenZeppelin` and change the `transfer` call to a `safeTransfer` call instead.
 
 ### [M-03] Contract inherits from `Pausable` but does not expose pausing/unpausing functionality
-
-#### Severity
 
 **Impact:**
 Low, as methods do not have `whenNotPaused` modifier

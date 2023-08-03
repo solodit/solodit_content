@@ -8,8 +8,6 @@
 
 ### [C-01] If strategy is losing money the last person left to claim from vault will handle all losses
 
-#### Severity
-
 **Impact:**
 High, as some users will bear substantial value losses
 
@@ -37,8 +35,6 @@ Possibly forbid withdraws while funds are lent out to a strategy or think of ano
 
 ### [H-01] Vesting schedule for a beneficiary can be overwritten
 
-#### Severity
-
 **Impact:**
 High, as the amount left to be vested will be stuck in the contract forever
 
@@ -54,8 +50,6 @@ The vesting schedules in `Vesting` are saved in `schedules` mapping, which uses 
 A possible solution is to use a vesting ID instead of the `beneficiary` address as the key in the `schedules` mapping or to disallow multiple schedules set for the same `beneficiary`.
 
 ### [H-02] Vault depositors can be front-ran and lose their funds
-
-#### Severity
 
 **Impact:**
 High, as a theft of user assets is possible
@@ -93,8 +87,6 @@ Implementing all of those solutions will resolve this vulnerability.
 
 ### [M-01] Some vesting recipients temporarily won't be able to claim
 
-#### Severity
-
 **Impact:**
 Medium, as funds will be locked for 30 days
 
@@ -116,8 +108,6 @@ If `timeFromStart` is less than 30 days this will round down to zero, which mean
 Make the `SLICE_PERIOD` smaller, or implement another design for handling no cliff vesting schedules that won't be using this calculation.
 
 ### [M-02] Insufficient input validation can lead to loss of funds
-
-#### Severity
 
 **Impact:**
 High, as funds might be stuck forever in contracts

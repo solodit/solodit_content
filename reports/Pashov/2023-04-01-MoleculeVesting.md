@@ -8,8 +8,6 @@
 
 ### [M-01] The `revoke` mechanics are not compatible with tokens that implement a block list feature
 
-#### Severity
-
 **Impact:**
 High, as important functionality in the protocol won't work
 
@@ -25,8 +23,6 @@ Some tokens, for example `USDC` and `USDT` implement an admin controlled address
 Use the [Pull over Push](https://fravoll.github.io/solidity-patterns/pull_over_push.html) pattern to send tokens out of the contract in a `revoke` scenario.
 
 ### [M-02] Insufficient input validation in function `createVestingSchedule`
-
-#### Severity
 
 **Impact:**
 High, as it can lead to users never vesting their tokens
@@ -49,8 +45,6 @@ Add sensible lower and upper bounds for all arguments of the `createVestingSched
 
 ### [M-03] Contract can receive ETH but has no withdraw function for it
 
-#### Severity
-
 **Impact:**
 High, as value can be stuck forever
 
@@ -66,8 +60,6 @@ The `TokenVesting` contract has `receive` and `fallback` functions that are `pay
 Remove the `receive` and `fallback` functions since the ETH balance is not used in the contract anyway.
 
 ### [M-04] Users won't be able to claim vested tokens when contract is paused
-
-#### Severity
 
 **Impact:**
 High, as owner has the power to make it so that users can't claim any vested tokens

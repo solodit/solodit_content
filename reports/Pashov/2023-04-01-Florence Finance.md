@@ -8,8 +8,6 @@
 
 ### [C-01] Anyone can move `EURS` tokens that the user allowed `FlorinTreasury` to spend
 
-#### Severity
-
 **Impact:**
 High, as funds will be moved from a user's wallet unwillingly
 
@@ -37,8 +35,6 @@ Use `msg.sender` instead of a user-supplied `from` argument, so tokens can only 
 ## High Risk
 
 ### [H-01] Stakers/vault depositors can be front-run and lose their funds
-
-#### Severity
 
 **Impact:**
 High, as it results in a theft of user assets
@@ -75,8 +71,6 @@ Implementing them both will resolve this vulnerability.
 ## Medium Risk
 
 ### [M-01] The Chainlink price feed's input is not properly validated
-
-#### Severity
 
 **Impact:**
 High, as it can result in the application working with an incorrect asset price
@@ -120,8 +114,6 @@ This way you will also check for negative price (as it is of type `int256`) and 
 
 ### [M-02] The ERC4626 standard is not followed correctly
 
-#### Severity
-
 **Impact:**
 Medium, as functionality is not working as expected but without a value loss
 
@@ -141,8 +133,6 @@ Go through [the standard](https://eips.ethereum.org/EIPS/eip-4626) and follow it
 
 ### [M-03] User exit/claim methods should not have a `whenNotPaused` modifier
 
-#### Severity
-
 **Impact:**
 High, as user funds can be left stuck in the contract
 
@@ -158,8 +148,6 @@ The `unstake` and `claim` methods in `FlorinStaking` have a `whenNotPaused` modi
 Remove the `whenNotPaused` modifier from user exit/claim methods in the protocol or reconsider the `Pausable` integration in the protocol altogether.
 
 ### [M-04] The `apr` and `fundingFee` percentage values are not constrained
-
-#### Severity
 
 **Impact:**
 High, as this can result in the contract being in a state of DoS or in 0 rewards for users
@@ -177,8 +165,6 @@ Add a min and max value checks in both the `setApr` and `setFundingFee` methods 
 
 ### [M-05] The protocol uses `_msgSender()` extensively, but not everywhere
 
-#### Severity
-
 **Impact:**
 Low, because protocol will still function normally, but an expectedly desired types of transactions won't work
 
@@ -194,8 +180,6 @@ The code is using OpenZeppelin's `Context` contract which is intended to allow m
 Change the code in the `onlyDelegate` and `onlyFundApprover` modifiers to use `_msgSender()` instead of `msg.sender`.
 
 ### [M-06] Multiple centralization attack vectors are present in the protocol
-
-#### Severity
 
 **Impact:**
 High, as it can result in a rug from the protocol owner
