@@ -15,13 +15,13 @@ The KeyManager offers reentrancy protection for interactions with the associated
 Through the LSP20 callbacks or through the execute() calls, it will call _nonReentrantBefore()
 before execution, and _nonReentrantAfter() post-execution. The latter will always reset the 
 flag signaling entry.
-```solidity
-function _nonReentrantAfter() internal virtual {
- // By storing the original value once again, a refund is triggered 
- (see // https://eips.ethereum.org/EIPS/eip-2200)
- _reentrancyStatus = false;
-}
-```
+    ```solidity
+    function _nonReentrantAfter() internal virtual {
+    // By storing the original value once again, a refund is triggered 
+             (see // https://eips.ethereum.org/EIPS/eip-2200)
+        _reentrancyStatus = false;
+     }
+     ```
 An attacker can abuse it to reenter provided that there exists some third-party contract with 
 REENTRANCY_PERMISSION that performs some interaction with the contract. The attacker 
 would trigger the third-party code path, which will clear the reentrancy status, and enable 
@@ -50,23 +50,21 @@ accepts some account interaction. The specification states they must return a sp
 magic value. 
 However, the implementation will accept any byte array that starts with the required magic 
 value.
-```solidity
-function _verifyCall(address logicVerifier) internal virtual returns 
-(bool verifyAfter) {
- (bool success, bytes memory returnedData) = logicVerifier.call(
- abi.encodeWithSelector(ILSP20.lsp20VerifyCall.selector, 
-msg.sender, msg.value, msg.data)
- );
- if (!success) _revert(false, returnedData);
- if (returnedData.length < 32) revert 
-LSP20InvalidMagicValue(false, returnedData);
- bytes32 magicValue = abi.decode(returnedData, (bytes32));
- if (bytes3(magicValue) != 
-bytes3(ILSP20.lsp20VerifyCall.selector))
- revert LSP20InvalidMagicValue(false, returnedData);
- return bytes1(magicValue[3]) == 0x01 ? true : false;
-}
-```
+    ```solidity
+    function _verifyCall(address logicVerifier) internal virtual returns (bool verifyAfter) {
+        (bool success, bytes memory returnedData) = logicVerifier.call(
+            abi.encodeWithSelector(ILSP20.lsp20VerifyCall.selector, msg.sender, msg.value, msg.data)
+    );
+    if (!success) _revert(false, returnedData);
+    if (returnedData.length < 32) revert 
+      LSP20InvalidMagicValue(false, returnedData);
+        bytes32 magicValue = abi.decode(returnedData, (bytes32));
+    if (bytes3(magicValue) != 
+      bytes3(ILSP20.lsp20VerifyCall.selector))
+        revert LSP20InvalidMagicValue(false, returnedData);
+    return bytes1(magicValue[3]) == 0x01 ? true : false;
+    }
+    ```
 Therefore, implementations of the above functions which intend to signal failure status may 
 be accepted by the verification wrapper above.
 
@@ -87,12 +85,10 @@ length which is greater than 32 bytes, which has been confirmed as a design deci
 **Description:**
 The LSP0 universalReceiver() function looks up the receiver delegate by crafting a mapping key 
 type.
-```solidity
-bytes32 lsp1typeIdDelegateKey = LSP2Utils.generateMappingKey(
- _LSP1_UNIVERSAL_RECEIVER_DELEGATE_PREFIX,
- bytes20(typeId)
-);
-```
+  ```solidity
+  bytes32 lsp1typeIdDelegateKey = LSP2Utils.generateMappingKey(
+  _LSP1_UNIVERSAL_RECEIVER_DELEGATE_PREFIX, bytes20(typeId));
+  ```
 Mapping keys are constructed of a 10-byte prefix, 2 zero bytes and a 20-byte suffix. However, 
 followers of the specification will use an incorrect suffix.
 The docs do not discuss the trimming of bytes32 into a bytes20 type. The mismatch may cause 
@@ -132,37 +128,27 @@ check because of only one edge case.
 **Description:**
 Some contracts use the utility below to interact with the registered universal receiver 
 delegate.
-```solidity
-function callUniversalReceiverWithCallerInfos(
- address universalReceiverDelegate,
- bytes32 typeId,
- bytes calldata receivedData,
- address msgSender,
- uint256 msgValue
-) internal returns (bytes memory) {
- bytes memory callData = abi.encodePacked(
- abi.encodeWithSelector(
- ILSP1UniversalReceiver.universalReceiver.selector,
- typeId,
- receivedData
- ),
- msgSender,
- msgValue
- );
- (bool success, bytes memory result) = 
-universalReceiverDelegate.call(callData);
- Address.verifyCallResult(success, result, "Call to 
-universalReceiver failed");
- return result.length != 0 ? abi.decode(result, (bytes)) : result;
-}
-```
+    ```solidity
+    function callUniversalReceiverWithCallerInfos(address universalReceiverDelegate,
+        bytes32 typeId, bytes calldata receivedData, address msgSender, uint256 msgValue) internal            returns (bytes memory) {
+    bytes memory callData = abi.encodePacked(
+           abi.encodeWithSelector(
+ILSP1UniversalReceiver.universalReceiver.selector, typeId,receivedData ),
+    msgSender,
+       msgValue
+    );
+    (bool success, bytes memory result) = 
+        universalReceiverDelegate.call(callData);
+    Address.verifyCallResult(success, result, "Call to universalReceiver failed");
+          return result.length != 0 ? abi.decode(result, (bytes)) : result;
+        }
+    ```
 The universalReceiver() function has to return a **bytes** type.
-```solidity
-function universalReceiver(
- bytes32 typeId,
- bytes memory /* data */
-) public payable virtual returns (bytes memory result) {
-  ```
+      ```solidity
+      function universalReceiver(bytes32 typeId, bytes memory
+       /* data */
+      )   public payable virtual returns (bytes memory result) {
+        ```
   However, the wrapper above will only decode the low-level call into a **bytes** type when **result**
 in non-zero. In fact, when **result** is zero the delegate has returned invalid output (no 
 **returndata**). The callee will confuse the response with a valid zero-bytes return value and will 
@@ -197,15 +183,13 @@ Fixed.
 **Description:** 
 LSP6KeyManager supports LSP20 call verification. However, in supportInterface() it does not 
 return the LSP20 **interfaceId**.
-```solidity
-function supportsInterface(bytes4 interfaceId) public view virtual 
-override returns (bool) {
- return
-interfaceId == _INTERFACEID_LSP6 ||
- interfaceId == _INTERFACEID_ERC1271 ||
- super.supportsInterface(interfaceId);
-}
-```
+    ```solidity
+    function supportsInterface(bytes4 interfaceId) public view virtual override returns (bool) {
+    return
+    interfaceId == _INTERFACEID_LSP6 || interfaceId == _INTERFACEID_ERC1271 ||
+        super.supportsInterface(interfaceId);
+           }
+         ```
 As a result, clients which correctly check for support of LSP20 methods will not operate with 
 the KeyManager implementation.
 
@@ -226,29 +210,28 @@ a design decision.
 In case the caller of LSP6 does not have **_PERMISSION_SUPER_CALL**, _verifyAllowedCall() is 
 called to check they have specific permissions for the call. It will use the function 
 _extractExecuteParameters() to get the call selector.
-```solidity
-// CHECK if there is at least a 4 bytes function selector
-bytes4 selector = executeCalldata.length >= 168
- ? bytes4(executeCalldata[164:168])
- : bytes4(0);
-return (operationType, to, value, selector);
-```
+    ```solidity
+    // CHECK if there is at least a 4 bytes function selector
+    bytes4 selector = executeCalldata.length >= 168
+       ? bytes4(executeCalldata[164:168]) : bytes4(0);
+           return (operationType, to, value, selector);
+    ```
 Due to the behavior above, the 0x00000000 selector would be confused with an empty call. 
 Later in _extractCallType(), the call will not be marked as requiring **_ALLOWEDCALLS_WRITE** 
 permission, if it's passing value.
-```solidity
-if (operationType == OPERATION_0_CALL) {
- if (
- // CHECK if we are doing an empty call
- (selector == bytes4(0) && value == 0) ||
- // we do not require callType CALL
- // if we are just transferring value without `data`
- selector != bytes4(0)
- ) {
- requiredCallTypes = _ALLOWEDCALLS_WRITE;
- }
-}
-```
+      ```solidity
+      if (operationType == OPERATION_0_CALL) {
+      if (
+      // CHECK if we are doing an empty call
+          (selector == bytes4(0) && value == 0) ||
+      // we do not require callType CALL
+      // if we are just transferring value without `data`
+          selector != bytes4(0)
+       ) {
+           requiredCallTypes = _ALLOWEDCALLS_WRITE;
+           }
+      }
+      ```
 As a result, a user that has transfer permission but not write permission for 0xFFFFFFFF 
 (function wildcard), will be permitted to pass calldata to the fallback function. The fallback as 
 implemented in LSP0ERC725AccountCore would look up the extension for 0x00000000 
@@ -270,23 +253,20 @@ Fixed
 ### TRST-L-1 LSP0 ownership functions deviate from specification and reject native tokens
 **Description:**
 The LSP specifications define the following functions for LSP0:
-```solidity
-function transferOwnership(address newPendingOwner) external payable;
-function renounceOwnership() external payable;
-```
+    ```solidity
+    function transferOwnership(address newPendingOwner) external payable;
+    function renounceOwnership() external payable;
+    ```
 However, their implementations are not payable.
-```solidity
-function transferOwnership(address newOwner)
- public
- virtual
- override(LSP14Ownable2Step, OwnableUnset)
-{
-  ```
-  ```solidity
-function renounceOwnership() public virtual 
-override(LSP14Ownable2Step, OwnableUnset) {
- address _owner = owner();
- ```
+    ```solidity
+    function transferOwnership(address newOwner) public virtual
+        override(LSP14Ownable2Step, OwnableUnset)
+    {
+      ```
+      ```solidity
+    function renounceOwnership() public virtual override(LSP14Ownable2Step, OwnableUnset) {
+         address _owner = owner();
+    ```
 This may break interoperation between conforming and non-confirming contracts.
 
 **Recommended Mitigation:**
@@ -302,15 +282,14 @@ Fixed in Specs
 **Description:**
 In the universalReceiver() function, if the notifying contract does not support LSP9, yet the 
 **typeID** corresponds to an LSP9 transfer, the function will return instead of reverting.
-```solidity
-if (
- mapPrefix == _LSP10_VAULTS_MAP_KEY_PREFIX &&
- notifier.code.length > 0 &&
- !notifier.supportsERC165InterfaceUnchecked(_INTERFACEID_LSP9)
-) {
- return "LSP1: not an LSP9Vault ownership transfer";
-}
-```
+    ```solidity
+    if (
+      mapPrefix == _LSP10_VAULTS_MAP_KEY_PREFIX && notifier.code.length > 0 &&
+         !notifier.supportsERC165InterfaceUnchecked(_INTERFACEID_LSP9)
+    ) {
+        return "LSP1: not an LSP9Vault ownership transfer";
+     }
+    ```
 
 **Recommended Mitigation:**
 Revert when dealing with transfers that cannot be valid.
@@ -325,15 +304,14 @@ The code above has been removed. This validation indeed does not seem to be nece
 ### TRST-L-3 Relayer can choose amount of gas for delivery of message
 **Description:**
 LSP6 supports relaying of calls using a supplied signature. The encoded message is defined as:
-```solidity
-bytes memory encodedMessage = abi.encodePacked(
- LSP6_VERSION,
- block.chainid,
- nonce,
- msgValue,
- payload
-);
-```
+    ```solidity
+        bytes memory encodedMessage = abi.encodePacked( LSP6_VERSION,
+           block.chainid,
+              nonce,
+                   msgValue,
+         payload
+     );
+    ```
 The message doesn't include a gas parameter, which means the relayer can specify any gas 
 amount. If the provided gas is insufficient, the entire transaction will revert. However, if the called contract exhibits different behavior depending on the supplied gas, a relayer (attacker) 
 has control over that behavior.
@@ -353,9 +331,9 @@ decided to keep it as it is for now and implement the fix in the future if the p
 ### The uncheckedIncrement() code is not efficient
 **Description:**
 In various places a loop construct is used as below:
-```solidity
-for (uint256 i; i < data.length; i = GasLib.uncheckedIncrement(i)) {
-  ```
+    ```solidity
+         for (uint256 i; i < data.length; i = GasLib.uncheckedIncrement(i)) {
+      ```
 The resulting bytecode is actually unoptimized compared to an inline unchecked block. This 
 creates a jump and several additional opcodes as overhead.
 
@@ -368,10 +346,9 @@ as they don't have non-zero initial state. It is worth explicitly noting this as
 derived Proxy classes have to initialize parent contracts.
 2. Copy-paste error in documentation of 
 _getPermissionToSetAllowedERC725YDataKeys()
-```solidity
-@dev retrieve the permission required to set some AllowedCalls
-for a controller.
-```
+      ```solidity
+      @dev retrieve the permission required to set some AllowedCalls  for a controller.
+      ```
 **Team response:**
 Fixed Natspec.
 
@@ -397,21 +374,21 @@ Documented in specs.
 
 1. In LSP0ERC725AccountCore's universalReceiver(), the delegate value can be over 20 
 bytes.
-```solidity
-bytes memory lsp1DelegateValue = 
-_getData(_LSP1_UNIVERSAL_RECEIVER_DELEGATE_KEY);
-bytes memory resultDefaultDelegate;
-if (lsp1DelegateValue.length >= 20) {
-```
+    ```solidity
+    bytes memory lsp1DelegateValue = 
+       _getData(_LSP1_UNIVERSAL_RECEIVER_DELEGATE_KEY);
+           bytes memory resultDefaultDelegate;
+              if (lsp1DelegateValue.length >= 20) {
+    ```
 It would be better to avoid errors and only call the delegate if length is precisely 20 
 bytes.
 2. In LSP6ExecuteModule's _verifyCanExecute(), the 12 upper bytes of the address 
 **uint256** are never parsed.
-```solidity
-// MUST be one of the ERC725X operation types.
-uint256 operationType = uint256(bytes32(payload[4:36]));
-address to = address(bytes20(payload[48:68]));
-```
+      ```solidity
+      // MUST be one of the ERC725X operation types.
+             uint256 operationType = uint256(bytes32(payload[4:36]));
+                address to = address(bytes20(payload[48:68]));
+      ```
 Good practice would be to verify they are all zeros. Such issues have the potential to 
 lead to high-impact bugs as some address verifications could be bypassed.
 

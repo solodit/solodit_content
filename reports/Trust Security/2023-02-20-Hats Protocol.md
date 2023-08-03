@@ -12,44 +12,39 @@
 ### TRST-H-1 More than one hat of the same hatId can be assigned to a user
 **Description:**
 Hats are minted internally using _mintHat().
-```solidity
-/// @notice Internal call to mint a Hat token to a wearer
-/// @dev Unsafe if called when `_wearer` has a non-zero balance of 
-`_hatId`
-/// @param _wearer The wearer of the Hat and the recipient of the 
-newly minted token
-/// @param _hatId The id of the Hat to mint
-function _mintHat(address _wearer, uint256 _hatId) internal {
- unchecked {
- // should not overflow since `mintHat` enforces max balance 
-of 1
- _balanceOf[_wearer][_hatId] = 1;
- // increment Hat supply counter
- // should not overflow given AllHatsWorn check in `mintHat`
- ++_hats[_hatId].supply;
- }
- emit TransferSingle(msg.sender, address(0), _wearer, _hatId, 1);
-}
-```
+        ```solidity
+        /// @notice Internal call to mint a Hat token to a wearer
+        /// @dev Unsafe if called when `_wearer` has a non-zero balance of `_hatId`
+        /// @param _wearer The wearer of the Hat and the recipient of the  newly minted token
+        /// @param _hatId The id of the Hat to mint
+        function _mintHat(address _wearer, uint256 _hatId) internal {
+            unchecked {
+        // should not overflow since `mintHat` enforces max balance of 1
+            _balanceOf[_wearer][_hatId] = 1;
+        // increment Hat supply counter
+        // should not overflow given AllHatsWorn check in `mintHat` ++_hats[_hatId].supply;
+        }
+        emit TransferSingle(msg.sender, address(0), _wearer, _hatId, 1);
+        }
+        ```
 As documentation states, it is unsafe if **_wearer** already has the **hatId**. However, this could 
 easily be the case when called from mintHat(). 
-```solidity
-function mintHat(uint256 _hatId, address _wearer) public returns 
-(bool) {
- Hat memory hat = _hats[_hatId];
- if (hat.maxSupply == 0) revert HatDoesNotExist(_hatId);
- // only the wearer of a hat's admin Hat can mint it
- _checkAdmin(_hatId);
- if (hat.supply >= hat.maxSupply) {
- revert AllHatsWorn(_hatId);
- }
- if (isWearerOfHat(_wearer, _hatId)) {
- revert AlreadyWearingHat(_wearer, _hatId);
- }
- _mintHat(_wearer, _hatId);
- return true;
-}
-```
+        ```solidity
+        function mintHat(uint256 _hatId, address _wearer) public returns (bool) {
+        Hat memory hat = _hats[_hatId];
+            if (hat.maxSupply == 0) revert HatDoesNotExist(_hatId);
+        // only the wearer of a hat's admin Hat can mint it
+             _checkAdmin(_hatId);
+            if (hat.supply >= hat.maxSupply) {
+                 revert AllHatsWorn(_hatId);
+                     }
+        if (isWearerOfHat(_wearer, _hatId)) {
+                revert AlreadyWearingHat(_wearer, _hatId);
+                      }
+        _mintHat(_wearer, _hatId);
+             return true;
+                  }
+              ```
 The function validates **_wearer** doesn't currently wear the hat, but its balance could still be 
 over 0, if the hat is currently toggled off or the wearer is not eligible.
 The impact is that the hat supply is forever spent, while nobody actually received the hat. 
@@ -73,20 +68,19 @@ Fixed by checking the static hat balance of wearer.
 **Description:**
 In HatsSignerGateBase, checkTransaction() is the function called by the Gnosis safe to 
 approve the transaction. Several checks are in place.
-```solidity
-uint256 safeOwnerCount = safe.getOwners().length;
-if (safeOwnerCount < minThreshold) {
- revert BelowMinThreshold(minThreshold, safeOwnerCount);
-}
-```
-```solidity
-uint256 validSigCount = countValidSignatures(txHash, signatures, 
-signatures.length / 65);
-// revert if there aren't enough valid signatures
-if (validSigCount < safe.getThreshold()) {
- revert InvalidSigners();
-}
-```
+        ```solidity
+        uint256 safeOwnerCount = safe.getOwners().length;
+             if (safeOwnerCount < minThreshold) {
+                 revert BelowMinThreshold(minThreshold, safeOwnerCount);
+        }
+        ```
+        ```solidity
+           uint256 validSigCount = countValidSignatures(txHash, signatures, signatures.length / 65);
+        // revert if there aren't enough valid signatures
+             if (validSigCount < safe.getThreshold()) {
+              revert InvalidSigners();
+                  }
+                    ```
 The first check is that the number of owners registered on the safe is at least **minThreshold**. 
 The second check is that the number of valid signatures (wearers of relevant hats) is not 
 below the safe's threshold. However, it turns out these requirements are not sufficient. A 
@@ -113,14 +107,13 @@ Fixed
 **Description:**
 checkTransaction() is the enforcer of the HSG logic, making sure signers are wearers of hats 
 and so on. The check below makes sure sufficient hat wearers signed the TX:
-```solidity
-uint256 validSigCount = countValidSignatures(txHash, signatures, 
-signatures.length / 65);
-// revert if there aren't enough valid signatures
-if (validSigCount < safe.getThreshold()) {
- revert InvalidSigners();
-}
-```
+        ```solidity
+        uint256 validSigCount = countValidSignatures(txHash, signatures, signatures.length / 65);
+                // revert if there aren't enough valid signatures
+        if (validSigCount < safe.getThreshold()) {
+                     revert InvalidSigners();
+         }
+             ```
 The issue is that the safe's threshold is not guaranteed to be up to date. For example, 
 initially there were 5 delegated signers. At some point, three lost eligibility. 
 reconcileSignerCount() is called to update the safe's threshold to now have 2 signers. At a 
@@ -142,20 +135,20 @@ Fixed
 **–targetThreshold** may never be set above it, and new signers cannot register to the HSG 
 when the signer count reached **maxSigners**. Below is the implementation code in 
 HatsSignerGate.
-```solidity
-function claimSigner() public virtual {
- if (signerCount == maxSigners) {
- revert MaxSignersReached();
- }
- if (safe.isOwner(msg.sender)) {
- revert SignerAlreadyClaimed(msg.sender);
- }
- if (!isValidSigner(msg.sender)) {
- revert NotSignerHatWearer(msg.sender);
- }
- _grantSigner(msg.sender);
-}
-```
+        ```solidity
+        function claimSigner() public virtual {
+             if (signerCount == maxSigners) {
+                revert MaxSignersReached();
+        }
+        if (safe.isOwner(msg.sender)) {
+                revert SignerAlreadyClaimed(msg.sender);
+            }
+        if (!isValidSigner(msg.sender)) {
+             revert NotSignerHatWearer(msg.sender);
+         }
+         _grantSigner(msg.sender);
+           }
+             ```
 An issue that arises is that this doesn't actually limit the number of registered signers. 
 Indeed, **signerCount** is a variable that can fluctuate when wearers lose eligibility or a hat is 
 inactive. At this point, reconcileSignerCount() can be called to update the signerCount to the 
@@ -183,16 +176,15 @@ Accepted; added a swapSigner() flow to claimSigner().
 **Mitigation review:**
 Fixed but introduced a new issue. The new code will swap the new signer with an invalid old 
 signer.
-```solidity
-address[] memory owners = safe.getOwners();
-uint256 ownerCount = owners.length;
-if (ownerCount >= maxSigs) {
- _swapSigner(owners, ownerCount, maxSigs, currentSignerCount, 
-msg.sender);
-} else {
- _grantSigner(owners, currentSignerCount, msg.sender);
-}
-```
+    ```solidity
+    address[] memory owners = safe.getOwners();
+         uint256 ownerCount = owners.length;
+    if (ownerCount >= maxSigs) {
+        _swapSigner(owners, ownerCount, maxSigs, currentSignerCount, msg.sender);
+    } else {
+        _grantSigner(owners, currentSignerCount, msg.sender);
+        }
+        ```
 However, it's possible that all current owners are valid signers, in this case _swapSigner() will 
 complete the loop and return gracefully. A user will think they have claimed signer 
 successfully, but nothing has changed.
@@ -200,29 +192,26 @@ successfully, but nothing has changed.
 ### TRST-H-5 Minority may be able to call safe operations 
 **Description:**
 Users can update the HSG's view of signers using reconcileSignerCount()
-```solidity
-function reconcileSignerCount() public {
- address[] memory owners = safe.getOwners();
- uint256 validSignerCount = _countValidSigners(owners);
- // update the signer count accordingly
- signerCount = validSignerCount;
- if (validSignerCount <= targetThreshold && validSignerCount != 
-safe.getThreshold()) {
- bytes memory data = 
-abi.encodeWithSignature("changeThreshold(uint256)", 
-validSignerCount);
- bool success = safe.execTransactionFromModule(
- address(safe), // to
- 0, // value
- data, // data
- Enum.Operation.Call // operation
- );
- if (!success) {
- revert FailedExecChangeThreshold();
- }
- }
-}
-```
+        ```solidity
+        function reconcileSignerCount() public {
+            address[] memory owners = safe.getOwners();
+                 uint256 validSignerCount = _countValidSigners(owners);
+        // update the signer count accordingly
+        signerCount = validSignerCount;
+        if (validSignerCount <= targetThreshold && validSignerCount != safe.getThreshold())
+             {
+        bytes memory data =  abi.encodeWithSignature("changeThreshold(uint256)", validSignerCount);
+        bool success = safe.execTransactionFromModule(
+        address(safe), // to 0, 
+        // value data, // data
+        Enum.Operation.Call // operation
+        );
+        if (!success) {
+                   revert FailedExecChangeThreshold();
+                }
+             }
+         }
+        ```
 Notice that the safe's registered threshold is only updated if the new **validSignerCount** is 
 lower than the **targetThreshold**. Actually, that is not desired behavior, because if signers
 have reactivated or have become eligible again, it's possible this condition doesn't hold, and 
@@ -271,10 +260,10 @@ In Hats protocol, anyone can be assigned a top hat via the mintTopHat() function
 hats are structured with top 32 bits acting as a domain ID, and the lower 224 bits are 
 cleared. There are therefore up to 2^32 = ~ 4 billion top hats. Once they are all consumed, 
 mintTopHat() will always fail:
-```solidity
-// uint32 lastTopHatId will overflow in brackets
-topHatId = uint256(++lastTopHatId) << 224;
-```
+        ```solidity
+          // uint32 lastTopHatId will overflow in brackets
+             topHatId = uint256(++lastTopHatId) << 224;
+                ```     
 This behavior exposes the project to a DOS vector, where an attacker can mint 4 billion top 
 hats in a loop and make the function unusable, forcing a redeploy of Hats protocol. This is 
 unrealistic on ETH mainnet due to gas consumption, but definitely achievable on the 
@@ -300,21 +289,21 @@ Hats support tree-linking, where hats from one node link to the first level of a
 domain. This way, the amount of levels for the linked-to tree increases by the linked-from 
 level count. This is generally fine, however lack of checking of the new total level introduces 
 severe risks. 
-```solidity
-/// @notice Identifies the level a given hat in its hat tree
-/// @param _hatId the id of the hat in question
-/// @return level (0 to type(uint8).max)
-function getHatLevel(uint256 _hatId) public view returns (uint8) {
-```
+        ```solidity
+        /// @notice Identifies the level a given hat in its hat tree
+        /// @param _hatId the id of the hat in question
+        /// @return level (0 to type(uint8).max)
+     function getHatLevel(uint256 _hatId) public view returns (uint8) {
+        ```
 The getHatLevel() function can only return up to level 255. It is used by the checkAdmin() call 
 used in many of the critical functions in the Hats contract. Therefore, if for example, 17 hat
 domains are joined together in the most stretched way possible, It would result in a correct 
 hat level of 271, making this calculation revert:
-```solidity
-if (treeAdmin != 0) {
- return 1 + uint8(i) + getHatLevel(treeAdmin);
-}
-```
+        ```solidity
+        if (treeAdmin != 0) {
+                 return 1 + uint8(i) + getHatLevel(treeAdmin);
+            }
+                ```
 The impact is that intentional or accidental linking that creates too many levels would freeze 
 the higher hat levels from any interaction with the contract.
 
@@ -333,13 +322,12 @@ Fixed.
 **Description:**
 Hat admins may transfer child hats using transferHat(). It checks the hat receiver does not 
 currently have a balance for this **hatId**.
-```solidity
-// Check if recipient is already wearing hat; also checks storage to 
-maintain balance == 1 invariant
-if (_balanceOf[_to][_hatId] > 0) {
- revert AlreadyWearingHat(_to, _hatId);
-}
-```
+        ```solidity
+        // Check if recipient is already wearing hat; also checks storage to  maintain balance == 1 invariant
+        if (_balanceOf[_to][_hatId] > 0) {
+            revert AlreadyWearingHat(_to, _hatId);
+         }
+                 ```
 The issue is that it does not also check that the recipient is eligible for the **hatId**. Therefore, 
 an admin could transfer a hat and then it could be immediately burnt by anyone using the 
 checkHatWearerStatus() call.
@@ -359,46 +347,34 @@ Fixed
 DAOs can deploy a HSG using deployHatsSignerGateAndSafe() or 
 deployMultiHatsSignerGateAndSafe().The parameters are encoded and passed to 
 moduleProxyFactory.deployModule():
-```solidity
-bytes memory initializeParams = abi.encode(
- _ownerHatId, _signersHatId, _safe, hatsAddress, _minThreshold, 
-_targetThreshold, _maxSigners, version
-);
-hsg = moduleProxyFactory.deployModule(
- hatsSignerGateSingleton, abi.encodeWithSignature("setUp(bytes)", 
-initializeParams), _saltNonce
-);
-```
+    ```solidity
+    bytes memory initializeParams = abi.encode(_ownerHatId, _signersHatId, _safe, hatsAddress, _minThreshold, 
+    _targetThreshold, _maxSigners, version );
+        hsg = moduleProxyFactory.deployModule(hatsSignerGateSingleton, abi.encodeWithSignature("setUp(bytes)", 
+    initializeParams), _saltNonce );
+    ```
 This function will call createProxy():
-```solidity
-proxy = createProxy(
- masterCopy,
- keccak256(abi.encodePacked(keccak256(initializer), saltNonce))
-);
-```
+    ```solidity
+    proxy = createProxy( masterCopy, keccak256(abi.encodePacked(keccak256(initializer), saltNonce)) );
+    ```
 The second parameter is the generated salt, which is created from the initializer and passed 
 saltNonce. Finally createProxy() will use CREATE2 to create the contract:
-```solidity
-function createProxy(address target, bytes32 salt)
-    internal
-    returns (address result)
-{
-     if (address(target) == address(0)) revert ZeroAddress(target);
-     if (address(target).code.length == 0) revert 
-TargetHasNoCode(target);
-     bytes memory deployment = abi.encodePacked(
-        hex"602d8060093d393df3363d3d373d3d3d363d73",
-        target,
-        hex"5af43d82803e903d91602b57fd5bf3"
-     );
-     // solhint-disable-next-line no-inline-assembly
-     assembly {
-         result := create2(0, add(deployment, 0x20), 
-mload(deployment), salt)
-     }
-     if (result == address(0)) revert TakenAddress(result);
-}
-```
+        ```solidity
+        function createProxy(address target, bytes32 salt)  internal  returns (address result)
+        {
+            if (address(target) == address(0)) revert ZeroAddress(target);
+            if (address(target).code.length == 0) revert 
+        TargetHasNoCode(target);
+                bytes memory deployment = abi.encodePacked(
+                  hex"602d8060093d393df3363d3d373d3d3d363d73", target, hex"5af43d82803e903d91602b57fd5bf3" );
+            // solhint-disable-next-line no-inline-assembly
+                assembly {
+                     result := create2(0, add(deployment, 0x20), 
+        mload(deployment), salt)
+              }
+                  if (result == address(0)) revert TakenAddress(result);
+             }
+                 ```
 An issue could be that an attacker can frontrun the creation TX with their own creation 
 request, with the same parameters. This would create the exact address created by the 
 CREATE2 call, since the parameters and therefore the final salt will be the same. When the 
@@ -419,27 +395,24 @@ Accepted.
 The function checkAfterExecution() is called by the safe after signer's request TX was 
 executed (and authorized). It mainly checks that the linkage between the safe and the HSG 
 has not been compromised.
-```solidity
-function checkAfterExecution(bytes32, bool) external override {
-     if (
- 
-abi.decode(StorageAccessible(address(safe)).getStorageAt(uint256(GUAR
-D_STORAGE_SLOT), 1), (address))
-             != address(this)
-    ) {
-          revert CannotDisableThisGuard(address(this));
-    }
-    if (!IAvatar(address(safe)).isModuleEnabled(address(this))) {
-          revert CannotDisableProtectedModules(address(this));
-    }
-    if (safe.getThreshold() != _correctThreshold()) {
-          revert SignersCannotChangeThreshold();
-    }
-    // leave checked to catch underflows triggered by re-erntry
-attempts
-    --guardEntries;
-}
-```
+        ```solidity
+        function checkAfterExecution(bytes32, bool) external override {
+            if (abi.decode(StorageAccessible(address(safe)).getStorageAt(uint256(GUARD_STORAGE_SLOT), 1), (address))
+                    != address(this)) 
+                    {
+                revert CannotDisableThisGuard(address(this));
+            }
+            if (!IAvatar(address(safe)).isModuleEnabled(address(this))) {
+                    revert CannotDisableProtectedModules(address(this));
+            }
+            if (safe.getThreshold() != _correctThreshold()) {
+                     revert SignersCannotChangeThreshold();
+            }
+            // leave checked to catch underflows triggered by re-erntry
+        attempts
+            --guardEntries;
+        }
+        ```
 However, it is missing a check that no new modules have been introduced to the safe. When 
 modules execute TXs on a Gnosis safe, the guard safety callbacks do not get called. As a 
 result, any new module introduced is free to execute whatever it wishes on the safe. It 
@@ -500,22 +473,16 @@ Fixed.
 ### TRST-L-1 createHat does not detect MAX_LEVEL admin correctly
 **Description:**
 In createHat(), the contract checks user is not minting hats for the lowest hat tier:
-```solidity
-function createHat(
- uint256 _admin,
- string memory _details,
- uint32 _maxSupply,
- address _eligibility,
- address _toggle,
- bool _mutable,
- string memory _imageURI
-) public returns (uint256 newHatId) {
- if (uint8(_admin) > 0) {
- revert MaxLevelsReached();
- }
- ….
-}
-```
+        ```solidity
+        function createHat( uint256 _admin, string memory _details, uint32 _maxSupply, address _eligibility,
+            address _toggle, bool _mutable,  string memory _imageURI)       
+                 public returns (uint256 newHatId) {
+        if (uint8(_admin) > 0) {
+                    revert MaxLevelsReached();
+                 }
+             ….
+        }
+        ```
 
 The issue is that it does not check for max level correctly, as it looks only at the lowest 8 bits. 
 Each level is composed of 16 bits, so ID xx00 would pass this check. 
@@ -538,42 +505,39 @@ Fixed.
 Function getImageURIForHat() should return the most relevant imageURI for the requested 
 hatId. It will iterate backwards from the current level down to level 0, and return an image if 
 it exists for that level.
-```solidity
-function getImageURIForHat(uint256 _hatId) public view returns 
-(string memory) {
-    // check _hatId first to potentially avoid the `getHatLevel` call
-    Hat memory hat = _hats[_hatId];
-    string memory imageURI = hat.imageURI; // save 1 SLOAD
-    // if _hatId has an imageURI, we return it
-    if (bytes(imageURI).length > 0) {
-       return imageURI;
-    }
-    // otherwise, we check its branch of admins
-    uint256 level = getHatLevel(_hatId);
-    // but first we check if _hatId is a tophat, in which case we 
-fall back to the global image uri
-    if (level == 0) return baseImageURI;
-    // otherwise, we check each of its admins for a valid imageURI
-    uint256 id;
-    // already checked at `level` above, so we start the loop at 
-`level - 1`
-    for (uint256 i = level - 1; i > 0;) {
-       id = getAdminAtLevel(_hatId, uint8(i));
-       hat = _hats[id];
-       imageURI = hat.imageURI;
-       if (bytes(imageURI).length > 0) {
-          return imageURI;
-       }
-      // should not underflow given stopping condition is > 0
-      unchecked {
-           --i;
-       }
-   }
-    // if none of _hatId's admins has an imageURI of its own, we 
-again fall back to the global image uri
-      return baseImageURI;
-}
-```
+            ```solidity
+            function getImageURIForHat(uint256 _hatId) public view returns (string memory) {
+                // check _hatId first to potentially avoid the `getHatLevel` call
+                      Hat memory hat = _hats[_hatId];
+                        string memory imageURI = hat.imageURI; // save 1 SLOAD
+                // if _hatId has an imageURI, we return it
+                            if (bytes(imageURI).length > 0) {
+                return imageURI;
+                }
+                // otherwise, we check its branch of admins
+                        uint256 level = getHatLevel(_hatId);
+                // but first we check if _hatId is a tophat, in which case we fall back to the global image uri
+                if (level == 0) return baseImageURI;
+                // otherwise, we check each of its admins for a valid imageURI
+                     uint256 id;
+                // already checked at `level` above, so we start the loop at `level - 1`
+                for (uint256 i = level - 1; i > 0;) {
+                     id = getAdminAtLevel(_hatId, uint8(i));
+                        hat = _hats[id];
+                            imageURI = hat.imageURI;
+                if (bytes(imageURI).length > 0) {
+                      return imageURI;
+                 }
+                // should not underflow given stopping condition is > 0
+                    unchecked {
+                         --i;
+                    }
+             }
+                // if none of _hatId's admins has an imageURI of its own, we 
+            again fall back to the global image uri
+                return baseImageURI;
+            }
+            ```
 It can be observed that the loop body will not run for level 0. When the loop is finished, the 
 code just returns the baseImageURI, which is a Hats-level fallback, rather than top hat level fallback. As a result, the image displayed will not be correct when querying for a level above 
 0, when all levels except level 0 have no registered image.
@@ -590,20 +554,19 @@ Fixed using an additional check.
 **Description:**
 The functions _isActive() and _isEligible() are used by balanceOf() and other functions, so 
 they should not ever revert. However, they perform ABI decoding from external inputs.
-```solidity
-function _isActive(Hat memory _hat, uint256 _hatId) internal view 
-returns (bool) {
- bytes memory data = 
-abi.encodeWithSignature("getHatStatus(uint256)", _hatId);
- (bool success, bytes memory returndata) = 
-_hat.toggle.staticcall(data);
- if (success && returndata.length > 0) {
- return abi.decode(returndata, (bool));
- } else {
- return _getHatStatus(_hat);
- }
-}
-```
+        ```solidity
+        function _isActive(Hat memory _hat, uint256 _hatId) internal view  returns (bool) {
+        bytes memory data = 
+             abi.encodeWithSignature("getHatStatus(uint256)", _hatId);
+                (bool success, bytes memory returndata) = 
+        _hat.toggle.staticcall(data);
+        if (success && returndata.length > 0) {
+            return abi.decode(returndata, (bool));
+                } else {
+        return _getHatStatus(_hat);
+                }
+         }
+        ```
 If **toggle** returns invalid return data (whether malicious or by accident), abi.decode() would 
 revert causing the entire function to revert.
 
@@ -625,18 +588,18 @@ standing.
 Hats checks for most operations that the caller is an authorized hat admin. The function 
 implementing this check is isAdminOfHat(). The function loops and checks if the sender is a 
 wearer of a lower-level hat.
-```solidity
-while (adminHatLevel > 0) {
-     if (isWearerOfHat(_user, getAdminAtLevel(_hatId, adminHatLevel))) 
-{
-           return true;
-    }
-   // should not underflow given stopping condition > 0
-    unchecked {
-         --adminHatLevel;
-    }
-}
-```
+        ```solidity
+        while (adminHatLevel > 0) {
+             if (isWearerOfHat(_user, getAdminAtLevel(_hatId, adminHatLevel))) 
+        {
+                return true;
+            }
+        // should not underflow given stopping condition > 0
+            unchecked {
+                --adminHatLevel;
+            }
+        }
+        ```
 The issue is that calling getAdminAtLevel() for every level is very gas intensive. The vast 
 majority of the cost of the function is resolving the hat level using getHatLevel(), but it is 
 implemented recursively. Most of the gas can be saved by refactoring this code, which will 
@@ -652,19 +615,18 @@ Accepted; refactored to increase efficiency
 **Mitigation review:**
 Fixed, but introduced new issue. The new implementation checks at the end of 
 isAdminOfHat() if the hat is linked to another tree.
-```solidity
-// if we get here, we're at the top of _hatId's local tree
-linkedTreeAdmin = linkedTreeAdmins[getTophatDomain(_hatId)];
-if (linkedTreeAdmin == 0) {
-    // tree is not linked
-   return isWearerOfHat(_user, getLocalAdminAtLevel(_hatId, 0));
-} else {
-    if (isWearerOfHat(_user, linkedTreeAdmin)) return true; // user 
-wears the linkedTreeAdmin
-    else return isAdminOfHat(_user, linkedTreeAdmin); // check if 
-user is admin of linkedTreeAdmin (recursion)
-}
-```
+        ```solidity
+        // if we get here, we're at the top of _hatId's local tree
+             linkedTreeAdmin = linkedTreeAdmins[getTophatDomain(_hatId)];
+        if (linkedTreeAdmin == 0) {
+            // tree is not linked
+                return isWearerOfHat(_user, getLocalAdminAtLevel(_hatId, 0));
+        } else {
+            if (isWearerOfHat(_user, linkedTreeAdmin)) return true; // user  wears the linkedTreeAdmin
+            else return isAdminOfHat(_user, linkedTreeAdmin); 
+                // check if  user is admin of linkedTreeAdmin (recursion)
+        }
+        ```
 Importantly, it is never checked if user is wearer of the admin hat at level 0, in the event that 
 the tree is linked. The impact is lack of adminship at the top of the tree.
 
@@ -672,18 +634,18 @@ the tree is linked. The impact is lack of adminship at the top of the tree.
 ### TRST-L-5 Lack of zero-address check for important parameters
 **Description:** 
 Hats allows admin hats to change the **toggle** and **eligibility** set for a given hat. For example:
-```solidity
-function changeHatToggle(uint256 _hatId, address _newToggle) external 
-{
- _checkAdmin(_hatId);
- Hat storage hat = _hats[_hatId];
- if (!_isMutable(hat)) {
- revert Immutable();
- }
- hat.toggle = _newToggle;
- emit HatToggleChanged(_hatId, _newToggle);
-}
-```
+    ```solidity
+    function changeHatToggle(uint256 _hatId, address _newToggle) external 
+    {
+        _checkAdmin(_hatId);
+             Hat storage hat = _hats[_hatId];
+    if (!_isMutable(hat)) {
+            revert Immutable();
+        }
+         hat.toggle = _newToggle;
+             emit HatToggleChanged(_hatId, _newToggle);
+     }
+    ```
 The code lacks a zero-address check for _newToggle. There is no good reason why this value 
 might need to be set to zero, and it's a standard best practice for fault-detection.
 **Recommended mitigation:**
@@ -737,32 +699,28 @@ Fixed
 ## Informational
 ### Documentation issues
 • Remove irrelevant comment in buildHatId():
-```solidity///
-@dev Check hats[_admin].lastHatId for the previous hat 
-created underneath _admin
-```
+        ```solidity///
+        @dev Check hats[_admin].lastHatId for the previous hat created underneath _admin
+        ```
 • Correct comment in checkHatStatus():
-```solidity
-// then we know the contract exists and has the getWearerStatus 
-function
-```
+        ```solidity
+        // then we know the contract exists and has the getWearerStatus function
+        ```
 • Remove comment in MultiHatsSignerGate's claimSigner():
-```solidity
-/// @dev overloads HatsSignerGateBase.claimSigner()
-```
+        ```solidity
+        /// @dev overloads HatsSignerGateBase.claimSigner()
+        ```
 • Change comment in approveLinkTopHatToTree() – can be approved by wearer or
 admin
-```solidity
-/// @dev Requests can only be approved by an admin of the 
-`_newAdminHat`, and there
-```
+        ```solidity
+        /// @dev Requests can only be approved by an admin of the `_newAdminHat`, and there
+        ```
 
 ### Cleaner code
 • Consider using the utility function getTophatDomain() here:
-```solidity
-uint256 treeAdmin = linkedTreeAdmins[uint32(_hatId >> (256 -
-TOPHAT_ADDRESS_SPACE))];
-```
+        ```solidity
+        uint256 treeAdmin = linkedTreeAdmins[uint32(_hatId >> (256 - TOPHAT_ADDRESS_SPACE))];
+        ```
 • **SAFE_TX_TYPEHASH** is not used throughout the code, yet it is declared. Consider 
 omitting it.
 • Several variables which cannot be changed in the lifetime of the contract are not 
@@ -776,17 +734,12 @@ recommended to validate the next supply is greater than the current one.
 
 ### Improving display of information
 In _constructURI(), the printed JSON string is composed of some properties.
-```solidity
-// split into two objects to avoid stack too deep error
-string memory idProperties = string.concat(
- '"domain": "',
- LibString.toString(getTophatDomain(_hatId)),
- '", "id": "',
- LibString.toString(_hatId),
- '", "pretty id": "',
- "{id}",
- '",'
-);
- ```
+        ```solidity
+        // split into two objects to avoid stack too deep error
+                string memory idProperties = string.concat('"domain": "',
+                     LibString.toString(getTophatDomain(_hatId)), '", "id": "',
+                        LibString.toString(_hatId), '", "pretty id": "', "{id}", '",'
+        );
+        ```
 It is recommended to change the {id} placeholder to a more informative value, such as 
 LibString.toHexString(_hatId, 32)
