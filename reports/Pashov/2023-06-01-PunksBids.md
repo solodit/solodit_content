@@ -8,8 +8,6 @@
 
 ### [M-01] Malicious owner could arbitrage sales
 
-#### Severity
-
 **Impact:**
 High, as it will charge users more than the should be charged
 

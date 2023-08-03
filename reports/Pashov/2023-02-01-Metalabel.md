@@ -8,8 +8,6 @@
 
 ### [M-01] The protection check for `maxRecordsPerTransaction` can be gamed
 
-#### Severity
-
 **Impact:**
 Medium, because a protocol invariant can be broken and the code gives a false sense of security
 
@@ -33,8 +31,6 @@ Document that the `maxRecordsPerTransaction` check does not protect the protocol
 
 ### [M-02] Insufficient input validation opens up multiple attack vectors
 
-#### Severity
-
 **Impact:**
 High, as it can overflow a balance and re-mint burned NFTs
 
@@ -54,8 +50,6 @@ The `adminTransferFrom` method does not validate that the `from` argument should
 Add a check and assert that the `from` argument is not `address(0)`.
 
 ### [M-03] Owner can front-run sequence configurations by setting fee to 100%
-
-#### Severity
 
 **Impact:**
 High, as if it goes unnoticed it can rug the `revenueRecipient` address

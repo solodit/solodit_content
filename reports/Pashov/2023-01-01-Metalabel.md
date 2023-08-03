@@ -8,8 +8,6 @@
 
 ### [M-01] Insufficient input data validation for `configureSequence`
 
-#### Severity
-
 **Impact:**
 High, as some of those can result in a DoS or too big of a royalty payment
 
@@ -34,8 +32,6 @@ Add sensible constraints and validations for all user input mentioned above.
 
 ### [M-02] Using the `transfer` function of `address payable` is discouraged
 
-#### Severity
-
 **Impact:**
 Medium, as sequence won't be usable as mints will revert
 
@@ -52,8 +48,6 @@ Use a `call` with value instead of `transfer`. There is no risk from reentrancy 
 
 ### [M-03] Role transfer actions done in a single-step manner are dangerous
 
-#### Severity
-
 **Impact:**
 High, as important protocol functionality would become unusable
 
@@ -69,8 +63,6 @@ This is a common problem where transferring a role or admin rights to a differen
 Use a two-step ownership/rights transfer pattern in both the `AccountRegistry` ownership and in the `transferAccount` method, you can reuse the approach you used in `NodeRegistry`.
 
 ### [M-04] Records minted to an address that is a smart contract that can't handle ERC721 tokens will be stuck forever
-
-#### Severity
 
 **Impact:**
 High, as records will be stuck forever
