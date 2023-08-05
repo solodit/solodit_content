@@ -41,7 +41,7 @@ Imagine the following scenario:
 2. Alice wants to deposit 10 ether(10e18) worth of `underlying` and sends a transaction to the public mempool
 3. A MEV bot sees Alice’s transaction and front runs it by depositing 1 wei(1e-18) of `underlying`, resulting in him receiving 1 wei(1e-18) of vault tokens (shares)
 4. The MEV bot also front runs Alice’s transaction with a transfer of 10 ether(10e18) of `underlying` to the vault via `ERC20::transfer`
-5. Now the code calculates Alice’s shares as `shares = (_amount * totalSupply()) / _pool;` which is 10e18 * 1 / (10e18 + 1) which is 0
+5. Now the code calculates Alice’s shares as `shares = (_amount * totalSupply()) / _pool;` which is 10e18 \* 1 / (10e18 + 1) which is 0
 6. Alice gets minted 0 shares, but she deposited 10e18 of `underlying`
 7. Now the MEV bot backruns Alice’s transaction calling `withdraw` with his 1e-18 (1 wei) of share, which is the total supply, so he withdraws his deposit + Alice’s whole deposit
 
@@ -113,7 +113,7 @@ The `NYProfitTakingVaultBaseV1` contract inherits from OpenZeppelin’s `Reentra
 
 **Impact**
 
-If ERC777 tokens were used as `rewardToken` or `underlying` they can reenter the `depositOutputTokenForUsers` and `earn` methods, which currently is not exploitable, but might become a big problem when new code is added. 
+If ERC777 tokens were used as `rewardToken` or `underlying` they can reenter the `depositOutputTokenForUsers` and `earn` methods, which currently is not exploitable, but might become a big problem when new code is added.
 
 **Recommendation**
 
@@ -123,7 +123,7 @@ Add the `nonReentrant` modifier to the `depositOutputTokenForUsers` and `earn` m
 
 **Proof of Concept**
 
-Some ERC20 tokens on the blockchain are deployed behind a proxy, so they have at least 2 entrypoints (the proxy and the implementation) for their functionality. Example is Synthetix’s `ProxyERC20` contract from where you can interact with `sUSD, sBTC etc). If such a token was used as the `underlying` token in a vault, then the owner will be able to rug all depositors with the `inCaseTokensGetStuck` method, even though it has the following checks
+Some ERC20 tokens on the blockchain are deployed behind a proxy, so they have at least 2 entrypoints (the proxy and the implementation) for their functionality. Example is Synthetix’s `ProxyERC20` contract from where you can interact with `sUSD, sBTC etc). If such a token was used as the `underlying`token in a vault, then the owner will be able to rug all depositors with the`inCaseTokensGetStuck` method, even though it has the following checks
 
 ```solidity
 if (_token == address(underlying)) {
