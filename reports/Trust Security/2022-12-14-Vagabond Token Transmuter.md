@@ -15,13 +15,13 @@ TokenTransmuter supports two types of transmutations, linear and instant. In lin
 allocated amount is released across time until fully vested, while in instant the entire 
 amount is released immediately. **transmuteLinear()** checks that there is enough output 
 tokens left in the contract before accepting transfer of input tokens.
-        ```solidity
+ ```solidity
         require(IERC20(outputTokenAddress).balanceOf(address(this)) >= 
             (totalAllocatedOutputToken - totalReleasedOutputToken), 
         "INSUFFICIENT_OUTPUT_TOKEN");
              IERC20(inputTokenAddress).transferFrom(msg.sender, address(0), 
         _inputTokenAmount);
-        ```
+ ```
 However, transmuteInstant() lacks any remaining balance checks, and will operate as long 
 as the function has enough output tokens to satisfy the request.
 
