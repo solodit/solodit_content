@@ -14,18 +14,18 @@
 Users of Ninja can use Vault's withdrawProfit() to withdraw profits. It starts with the 
 following check:
  
-   ```solidity 
+```solidity 
    if (block.timestamp <= lastProfitTime) {
       revert NYProfitTakingVault__ProfitTimeOutOfBounds();
       }
 
-   ```
+```
 If attacker can front-run user's withdrawProfit() TX and set **lastProfitTime** to 
 block.timestamp, they would effectively freeze the user's yield. That is indeed possible using 
 the Vault paired strategy's harvest() function. It is permissionless and calls _harvestCore(). 
 The attack path is shown in **bold**.
 
-         ```solidity 
+```solidity 
       function harvest() external override whenNotPaused returns (uint256 callerFee) {
             require(lastHarvestTimestamp != block.timestamp);
                 uint256 harvestSeconds = lastHarvestTimestamp > 0 ? block.timestamp 
@@ -37,9 +37,9 @@ The attack path is shown in **bold**.
             emit StrategyHarvest(msg.sender, underlyingTokenCount, 
                    harvestSeconds, sentToVault);
                 }
-            ```
+```
 
-            ```solidity
+```solidity
       function _harvestCore() internal override returns (uint256 callerFee, uint256 underlyingTokenCount,      uint256 sentToVault)
             {
         IMasterChef(SPOOKY_SWAP_FARM_V2).deposit(POOL_ID, 0);
@@ -48,8 +48,8 @@ The attack path is shown in **bold**.
                     underlyingTokenCount = balanceOf();
                        sentToVault = _sendYieldToVault();
             } 
-            ```
-            ```solidity
+```
+```solidity
       function _sendYieldToVault() internal returns (uint256 sentToVault) {
          sentToVault = IERC20Upgradeable(USDC).balanceOf(address(this));
             if (sentToVault > 0) {
@@ -57,8 +57,8 @@ The attack path is shown in **bold**.
             IVault(vault).depositProfitTokenForUsers(sentToVault);
                 }
                   }
-            ```
-            ```solidity
+```
+```solidity
       function depositProfitTokenForUsers(uint256 _amount) external nonReentrant {
          if (_amount == 0) {
             revert NYProfitTakingVault__ZeroAmount();
@@ -81,7 +81,7 @@ The attack path is shown in **bold**.
                profitToken.transferFrom(strategy, address(this), _amount);
             emit ProfitReceivedFromStrategy(_amount);
                 }
-            ```
+```
 **Recommended Mitigation:**
 Do not prevent profit withdrawals during lastProfitTime block.
 
@@ -97,7 +97,7 @@ using the complex rewarder and any child rewarders. If the complex rewarder does
 enough tokens to hand out the reward, it correctly stores the rewards owed in storage. 
 However, child rewarded will attempt to hand out the reward and may revert:
 
-      ```solidity 
+```solidity 
    function onReward(uint _pid, address _user, address _to, uint, uint _amt) external override onlyParent nonReentrant {
       PoolInfo memory pool = updatePool(_pid);
          if (pool.lastRewardTime == 0) return;
@@ -112,9 +112,9 @@ However, child rewarded will attempt to hand out the reward and may revert:
             ACC_TOKEN_PRECISION;
       emit LogOnReward(_user, _pid, pending, _to);
       }
-      ```
+```
  Importantly, if the child rewarder fails, the parent's onReward() reverts too:
-      ```solidity
+```solidity
       uint len = childrenRewarders.length();
          for (uint i = 0; i < len; ) {
       IRewarder(childrenRewarders.at(i)).onReward(_pid, _user, _to, 0, 
@@ -123,7 +123,7 @@ However, child rewarded will attempt to hand out the reward and may revert:
          ++i;
          }
       }
-      ```
+```
 In the worst-case scenario, this will lead the user's withdraw() call to V3 Vault, to revert.
 
 **Recommended Mitigation:**
@@ -143,15 +143,15 @@ In deposit(), withdraw() and withdrawProfit(), rewarder.onReward() is called for
 bookkeeping. It will transfer previous eligible rewards and update the current amount user 
 has:
 
-      ```solidity
+```solidity
       user.amount = _amt;
       user.rewardDebt = (_amt * pool.accRewardPerShare) / ACC_TOKEN_PRECISION;
       user.rewardsOwed = rewardsOwed;
-      ```
+```
 
 In withdraw(), there is a critical issue where onReward() is called too early:
 
-      ```solidity
+```solidity
       // Update rewarder for this user
           if (address(rewarder) != address(0)) {
       rewarder.onReward(0, msg.sender, msg.sender, pending, user.amount);
@@ -166,7 +166,7 @@ In withdraw(), there is a critical issue where onReward() is called too early:
          } else {
             user.amount -= r;
          }
-      ```
+```
 The new **_amt** which will be stored in reward contract's **user.amount** is vault's **user.amount**, 
 before decrementing the withdrawn amount. Therefore, the withdrawn amount is still 
 gaining rewards even though it's no longer in the contract. Effectively it is stealing the 
@@ -189,13 +189,13 @@ Accepted and updated.
 **Description:**
 In Ninja vaults, the delegated strategy sends profit tokens to the vault using 
 depositProfitTokenForUsers(). The vault transfers the tokens in using:
-      ```solidity 
+```solidity 
          // Now pull in the tokens (Should have permission)
           // We only want to pull the tokens with accounting
                 profitToken.transferFrom(strategy, address(this), _amount);
           emit ProfitReceivedFromStrategy(_amount);
 
-          ```
+```
 The issue is that the code doesn't use the safeTransferFrom() utility from SafeERC20. 
 Therefore, profitTokens that don't return a bool in transferFrom() will cause a revert which 
 means they are stuck in the strategy. 
@@ -214,7 +214,7 @@ Accepted. Excellent find. I can't believe we missed this.
 In Ninja vaults, users call withdraw() to take back their deposited tokens. There is 
 bookkeeping on remaining amount:
 
-      ```solidity
+```solidity
       uint256 userAmount = balanceOf(msg.sender);
          // - Underlying (Frontend ONLY)
             if (userAmount == 0) {
@@ -222,24 +222,24 @@ bookkeeping on remaining amount:
          } else {
          user.amount -= r;
       }
-         ```
+```
 If the withdraw is partial (some tokens are left), user.amount is decremented by r.
 
-      ```solidity
+```solidity
       uint256 r = (balance() * _shares) / totalSupply();
-      ```
+```
 Above, r is calculated as the relative share of the user's _shares of the total balance kept in 
 the vault.
 
 We can see that user.amount is incremented in deposit().
 
-      ```solidity
+```solidity
       function deposit(uint256 _amount) public nonReentrant {
       …
             user.amount += _amount;
       …
          }
-      ```
+```
 The issue is that the calculated r can be more than _amount , causing an overflow in 
 withdraw() and freezing the withdrawal. All attacker needs to do is send a tiny amount of 
 underlying token directly to the contract, to make the shares go out of sync.
@@ -260,7 +260,7 @@ also allows dynamic underlying decimals).
 **Description:**
 In NyPtvFantomWftmBooSpookyV2StrategyToUsdc.sol, MAX_SLIPPAGE is used to limit 
 slippage in trades of BOO tokens to USDC, for yield:
-      ```solidity
+```solidity
       function _swapFarmEmissionTokens() internal { IERC20Upgradeable boo = IERC20Upgradeable(BOO);
             uint256 booBalance = boo.balanceOf(address(this));
       if (booToUsdcPath.length < 2 || booBalance == 0) {
@@ -272,7 +272,7 @@ slippage in trades of BOO tokens to USDC, for yield:
           uint256 amountOutMin = (amounts[amounts.length - 1] * MAX_SLIPPAGE) / PERCENT_DIVISOR;
             IUniswapV2Router02(SPOOKY_ROUTER).swapExactTokensForTokensSupportingFeeOnTransferTokens( booBalance, amountOutMin, booToUsdcPath, address(this), block.timestamp );
                 }
-      ```
+```
 If slippage is not satisfied the entire transaction reverts. Since **MAX_SLIPPAGE** is constant, it 
 is possible that harvesting of the strategy will be stuck, due to operations leading to too high 
 of a slippage. For example, strategy might accumulate a large amount of BOO, or harvest() 
@@ -290,7 +290,7 @@ an individual harvest issue and put it back before the next harvest.
 ### TRST-M-4 truncation in reward calculation could cause leakage of rewards
 **Description:**
 In ComplexRewarder.sol, updatePool() call updates values in the specified pool.
-      ```solidity
+```solidity
       uint lpSupply = IVault(VAULT).balance();
           if (lpSupply > 0) {
       uint time = block.timestamp - pool.lastRewardTime;
@@ -299,13 +299,13 @@ In ComplexRewarder.sol, updatePool() call updates values in the specified pool.
                pool.accRewardPerShare = pool.accRewardPerShare + uint128((reward * 
           ACC_TOKEN_PRECISION) / lpSupply);
       }
-      ```
+```
 **reward** could be a fairly large number. The decimals of **reward * ACC_TOKEN_PRECISION** is 
 10**30, because of how ACC_TOKEN_PRECISION is defined:
 
-   ```solidity
+```solidity
          ACC_TOKEN_PRECISION = 10 ** (30 - decimalsRewardToken);
-   ```
+```
 
 **lpSupply** is given in LP's decimals, but could be as small as 1. If **lpSupply** is 1, **reward** of 
 2**28 = 268435456 will be enough to cause uint128 overflow of the product (10 * * 30 is 100 
@@ -323,12 +323,12 @@ Accepted. We updated to uint192 and can move to uint256 if you prefer
 
 **Description:** 
 Note the above description of updatePool() functionality. We can see that **accRewardPerShare** is only allocated 128 bits in **PoolInfo:**
-      ```solidity
+```solidity
       struct PoolInfo {
           uint128 accRewardPerShare;
             uint64 lastRewardTime;
                uint64 allocPoint;
-       ```
+```
 Therefore, even if truncation issues do not occur, it is likely that continuous incrementation 
 of the counter would cause **accRewardPerShare** to overflow, which would freeze vault 
 functionalities such as withdrawal.
@@ -347,7 +347,7 @@ Accepted. We updated PoolInfo.accRewardPerShare to uint256.
 **Description:**
 Vault V3 documentation states it accounts properly for fee-on-transfer tokens. It calculates 
 actual transferred amount as below:
-      ```solidity
+```solidity
       uint256 _pool = balance();
            if (_pool + _amount > underlyingCap) {
       revert NYProfitTakingVault__UnderlyingCapReached(underlyingCap);
@@ -356,7 +356,7 @@ actual transferred amount as below:
             underlying.safeTransferFrom(msg.sender, address(this), _amount);
                uint256 _after = underlying.balanceOf(address(this));
                    _amount = _after - _before;
-          ```
+```
 A small issue is that underlyingCap is compared to the _amount before correction for actual 
 transferred amount. Therefore, it cannot actually be reached, and limits the maximum 
 capacity of the vault to underlyingCap minus a factor of the fee %.
@@ -373,11 +373,11 @@ Accepted and updated.
 ### TRST-L-2 Redundant checks in Vault V3
 **Description:**
 depositProfitTokenForUsers() and withdrawProfit() contain the following check:
-   ```solidity
+```solidity
     if (block.timestamp <= lastProfitTime) {
        revert NYProfitTakingVault__ProfitTimeOutOfBounds();
           }
-      ```
+```
 However, lastProfitTime is only ever set to block.timestamp. Therefore, it can never be 
 larger than block.timestamp.
 
@@ -410,7 +410,7 @@ Rejected.
 **Description:**
 In NyPtvFantomWftmBooSpookyV2StrategyToUsdc.sol, estimateHarvest() is used to check if 
 harvesting is profitable.
-      ```solidity
+```solidity
       function estimateHarvest() external view override returns (uint256 profit, uint256 callFeeToUser) {
          uint256 pendingReward = 
          IMasterChef(SPOOKY_SWAP_FARM_V2).pendingBOO(POOL_ID, address(this));
@@ -425,16 +425,16 @@ harvesting is profitable.
          callFeeToUser = (usdcFee * callFee) / PERCENT_DIVISOR;
       profit -= usdcFee;
       }
-      ```
+```
 Note that the code assumes getAmountsOut() will return USDC amount at index [1]. That is 
 indeed the case right now, as **booToUsdcPath = [BOO, USDC];** However, it is an unnecessary 
 coupling in code. _swapFarmEmissionTokens() handles the path correctly:
 
-      ```solidity
+```solidity
             uint256[] memory amounts = 
          IUniswapV2Router02(SPOOKY_ROUTER).getAmountsOut(booBalance, booToUsdcPath);
       uint256 amountOutMin = (amounts[amounts.length - 1] * MAX_SLIPPAGE) / PERCENT_DIVISOR;
-      ```
+```
 
 **Recommended mitigation**
 Make the code more futureproof by refactoring estimateHarvest() to act similarly to 
@@ -447,7 +447,7 @@ Accepted, updated
 ### TRST-L-5 Strategy deployer has privileges intended only for multisig addresses.
 **Description:** 
 When V3 Strategy is initialized, different roles are given to privileged addresses:
-         ```solidity
+```solidity
          for (uint256 i = 0; i < _strategists.length; i++) {
             _grantRole(STRATEGIST, _strategists[i]);
                }
@@ -455,7 +455,7 @@ When V3 Strategy is initialized, different roles are given to privileged address
             _grantRole(DEFAULT_ADMIN_ROLE, _multisigRoles[0]);
          _grantRole(ADMIN, _multisigRoles[1]);
          _grantRole(GUARDIAN, _multisigRoles[2]);
-         ```
+ ```
 As the previous @audit note says, it is really important to not permit msg.sender to be 
 **DEFAULT_ADMIN_ROLE**. In fact, this role gives arbitrary power to the EOA, to remove the 
 multisig, to assign itself any of the roles, and so on. In a way, it makes the multisig be just for 
@@ -472,13 +472,13 @@ access.
 ### TRST-L-6 Strategy upgrade cooldown is set too low
  **Description:** 
 **UPGRADE_TIMELOCK** defines how long admin must wait before upgrading the contract. 
-      ```solidity
+```solidity
       function _authorizeUpgrade(address) internal override {
             _atLeastRole(DEFAULT_ADMIN_ROLE);
       require(upgradeProposalTime + UPGRADE_TIMELOCK < block.timestamp);
           clearUpgradeCooldown();
              }
-          ```
+```
 It is currently set to 1 hour, which is far too low in relation to its importance and funds at 
 risk. We recommend a value of 24 hours at minimum to give the community a chance to 
 respond to a malicious upgrade risk.
