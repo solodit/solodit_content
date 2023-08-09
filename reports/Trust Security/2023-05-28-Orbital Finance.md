@@ -157,9 +157,9 @@ paths. It uses the following data structures:
 ```solidity
          mapping(address => mapping(address => listInfo)) private allowedPairsMap;
                   pair[] private allowedPairsList;
-         ```
+```
 
-         ```solidity
+```solidity
           struct listInfo {
                bool allowed;
                 uint256 listPosition;
