@@ -13,7 +13,7 @@
 ### TRST-M-1 Operator can spoof query fees to make net profit from pool
 
 **Description:**
-Operators call collect() to pay query fees to the indexer. The fees are accumulated for all allocations that end in the same epoch in a Rebates.Pool structure, later to be split per indexer using the Cobb-Douglas production function.
+Operators call `collect()` to pay query fees to the indexer. The fees are accumulated for all allocations that end in the same epoch in a Rebates.Pool structure, later to be split per indexer using the Cobb-Douglas production function.
 This fee structure should be resistant to query fee donations that:
 ⦁	Lower another indexer's total rebate amount
 ⦁	Result in a net positive for the donator (query fee MEV)
@@ -85,7 +85,7 @@ now we think this is an acceptable consequence of decentralizing gateways.
 ### TRST-L-1 collected amount might be entirely burnt as protocol fees unintentionally
 
 **Description:**
-When collect() is called after allocation closed, entire pulled amount is consumed as protocol 
+When `collect()` is called after allocation closed, entire pulled amount is consumed as protocol 
 tax. The transition from closed state to finalized state is instantaneous at a specific epoch. 
 Therefore, it may occur that money sent for curation and indexer query fees is consumed 
 entirely as tax. This happens when the time between sending of TX and its execution is 
@@ -113,8 +113,8 @@ establishment of relations across the different Graph roles
 
 ## Informational
 ### Improve documentation
-Documentation of the collect() function states:
-        ```solidity
+Documentation of the `collect()` function states:
+```solidity
         /**
             * @dev Collect query fees from state channels and assign them to an allocation.
             * Funds received are only accepted from a valid sender.
@@ -126,12 +126,12 @@ Documentation of the collect() function states:
                 * @param _tokens Amount of tokens to collect
                 * @param _allocationID Allocation where the tokens will be assigned
                 */
-                  ```
+```
 Note that the highlighted text is no longer relevant, now that the operator is decentralized. 
 It should be omitted.
 
 ### Redundant event emission
 
-In collect(), the event AllocationCollected is emitted outside the main if block. It is 
+In `collect()`, the event AllocationCollected is emitted outside the main if block. It is 
 recommended that it shall be placed inside the if block, as when queryFees is zero, the 
 function doesn't change state and therefore shouldn’t emit an event.
