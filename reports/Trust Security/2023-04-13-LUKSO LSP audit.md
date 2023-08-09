@@ -109,7 +109,7 @@ Docs clearly state the described behavior.
 LSP20 call verification protects actions on an LSP0 account. The pre-execution check may mark 
 the action as requiring a post-execution check. However, in the case of **delegate call** execution, the post-execution check can never be guaranteed to execute. The called contract 
 may call the SELFDESTRUCT opcode and destroy the calling contract. Call flow returns 
-immediately from the call to execute(), without executing the necessary check.
+immediately from the call to `execute()`, without executing the necessary check.
 
 
 **Recommended Mitigation:**
