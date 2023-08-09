@@ -11,7 +11,7 @@
 ## High Risk
 ### TRST-H-1 Attacker can freeze profit withdrawals from V3 vaults
 **Description:**
-Users of Ninja can use Vault's withdrawProfit() to withdraw profits. It starts with the 
+Users of Ninja can use Vault's `withdrawProfit()` to withdraw profits. It starts with the 
 following check:
  
 ```solidity 
@@ -20,9 +20,9 @@ following check:
       }
 
 ```
-If attacker can front-run user's withdrawProfit() TX and set **lastProfitTime** to 
+If attacker can front-run user's `withdrawProfit()` TX and set **lastProfitTime** to 
 block.timestamp, they would effectively freeze the user's yield. That is indeed possible using 
-the Vault paired strategy's harvest() function. It is permissionless and calls _harvestCore(). 
+the Vault paired strategy's `harvest()` function. It is permissionless and calls `_harvestCore()`. 
 The attack path is shown in **bold**.
 
 ```solidity 
@@ -92,7 +92,7 @@ Accepted and removed.
 
 ### TRST-H-2 Lack of child rewarder reserves could lead to freeze of funds
 **Description:**
-In ComplexRewarder.sol, onReward() is used to distribute rewards for previous time period, 
+In ComplexRewarder.sol, `onReward()` is used to distribute rewards for previous time period, 
 using the complex rewarder and any child rewarders. If the complex rewarder does not have 
 enough tokens to hand out the reward, it correctly stores the rewards owed in storage. 
 However, child rewarded will attempt to hand out the reward and may revert:
@@ -113,7 +113,7 @@ However, child rewarded will attempt to hand out the reward and may revert:
       emit LogOnReward(_user, _pid, pending, _to);
       }
 ```
- Importantly, if the child rewarder fails, the parent's onReward() reverts too:
+ Importantly, if the child rewarder fails, the parent's `onReward()` reverts too:
 ```solidity
       uint len = childrenRewarders.length();
          for (uint i = 0; i < len; ) {
@@ -124,11 +124,11 @@ However, child rewarded will attempt to hand out the reward and may revert:
          }
       }
 ```
-In the worst-case scenario, this will lead the user's withdraw() call to V3 Vault, to revert.
+In the worst-case scenario, this will lead the user's `withdraw()` call to V3 Vault, to revert.
 
 **Recommended Mitigation:**
 Introduce sufficient exception handling in the CompexRewarder.sol contract, so that 
-onReward() would never fail.
+`onReward()` would never fail.
 
 **Team Response:**
 Rejected. Child rewarders are not being used in the protocol and are out of the scope. We 
@@ -139,7 +139,7 @@ use. We appreciate this being pointed out and will take care of the issue in fut
 ### TRST-H-3 Wrong accounting of user's holdings allows theft of reward
 
 **Description:**
-In deposit(), withdraw() and withdrawProfit(), rewarder.onReward() is called for reward 
+In `deposit()`, `withdraw()` and `withdrawProfit()`, `rewarder.onReward()` is called for reward 
 bookkeeping. It will transfer previous eligible rewards and update the current amount user 
 has:
 
@@ -149,7 +149,7 @@ has:
       user.rewardsOwed = rewardsOwed;
 ```
 
-In withdraw(), there is a critical issue where onReward() is called too early:
+In `withdraw()`, there is a critical issue where `onReward()` is called too early:
 
 ```solidity
       // Update rewarder for this user
@@ -173,12 +173,12 @@ gaining rewards even though it's no longer in the contract. Effectively it is st
 rewards of others, leading to reward insolvency.
 In order to exploit this flaw, attacker will deposit a larger amount and immediately withdraw 
 it, except for one wei. When they would like to receive the rewards accrued for others, they 
-will withdraw the remaining wei, which will trigger onReward(), which will calculate and 
+will withdraw the remaining wei, which will trigger `onReward()`, which will calculate and 
 send pending awards for the previously withdrawn amount. 
 
 
 **Recommended Mitigation:**
-Move the onReward() call to after user.amount is updated.
+Move the `onReward()` call to after user.amount is updated.
 
 **Team response:**
 Accepted and updated.
@@ -188,7 +188,7 @@ Accepted and updated.
 ### TRST-M-1 Unsafe transferFrom breaks compatibility with 100s of ERC20 tokens
 **Description:**
 In Ninja vaults, the delegated strategy sends profit tokens to the vault using 
-depositProfitTokenForUsers(). The vault transfers the tokens in using:
+`depositProfitTokenForUsers()`. The vault transfers the tokens in using:
 ```solidity 
          // Now pull in the tokens (Should have permission)
           // We only want to pull the tokens with accounting
@@ -196,13 +196,13 @@ depositProfitTokenForUsers(). The vault transfers the tokens in using:
           emit ProfitReceivedFromStrategy(_amount);
 
 ```
-The issue is that the code doesn't use the safeTransferFrom() utility from SafeERC20. 
-Therefore, profitTokens that don't return a bool in transferFrom() will cause a revert which 
+The issue is that the code doesn't use the `safeTransferFrom()` utility from SafeERC20. 
+Therefore, profitTokens that don't return a bool in `transferFrom()` will cause a revert which 
 means they are stuck in the strategy. 
 Examples of such tokens are USDT, BNB, among hundreds of other tokens.
 
 **Recommended Mitigation:**
-Use safeTransferFrom() from SafeERC20.sol
+Use `safeTransferFrom()` from SafeERC20.sol
 
 **Team Response:**
 Accepted. Excellent find. I can't believe we missed this.
@@ -211,7 +211,7 @@ Accepted. Excellent find. I can't believe we missed this.
 ### TRST-M-2 Attacker can force partial withdrawals to fail
 
 **Description:**
-In Ninja vaults, users call withdraw() to take back their deposited tokens. There is 
+In Ninja vaults, users call `withdraw()` to take back their deposited tokens. There is 
 bookkeeping on remaining amount:
 
 ```solidity
@@ -241,7 +241,7 @@ We can see that user.amount is incremented in deposit().
          }
 ```
 The issue is that the calculated r can be more than _amount , causing an overflow in 
-withdraw() and freezing the withdrawal. All attacker needs to do is send a tiny amount of 
+`withdraw()` and freezing the withdrawal. All attacker needs to do is send a tiny amount of 
 underlying token directly to the contract, to make the shares go out of sync.
 
 **Recommended Mitigation:**
@@ -275,7 +275,7 @@ slippage in trades of BOO tokens to USDC, for yield:
 ```
 If slippage is not satisfied the entire transaction reverts. Since **MAX_SLIPPAGE** is constant, it 
 is possible that harvesting of the strategy will be stuck, due to operations leading to too high 
-of a slippage. For example, strategy might accumulate a large amount of BOO, or harvest() 
+of a slippage. For example, strategy might accumulate a large amount of BOO, or `harvest()` 
 can be sandwich-attacked.
 
 **Recommended Mitigation:**
@@ -289,7 +289,7 @@ an individual harvest issue and put it back before the next harvest.
 
 ### TRST-M-4 truncation in reward calculation could cause leakage of rewards
 **Description:**
-In ComplexRewarder.sol, updatePool() call updates values in the specified pool.
+In ComplexRewarder.sol, `updatePool()` call updates values in the specified pool.
 ```solidity
       uint lpSupply = IVault(VAULT).balance();
           if (lpSupply > 0) {
@@ -322,7 +322,7 @@ Accepted. We updated to uint192 and can move to uint256 if you prefer
 ### TRST-M-5 potential overflow in reward accumulator may freeze functionality
 
 **Description:** 
-Note the above description of updatePool() functionality. We can see that **accRewardPerShare** is only allocated 128 bits in **PoolInfo:**
+Note the above description of `updatePool()` functionality. We can see that **accRewardPerShare** is only allocated 128 bits in **PoolInfo:**
 ```solidity
       struct PoolInfo {
           uint128 accRewardPerShare;
@@ -372,7 +372,7 @@ Accepted and updated.
 
 ### TRST-L-2 Redundant checks in Vault V3
 **Description:**
-depositProfitTokenForUsers() and withdrawProfit() contain the following check:
+`depositProfitTokenForUsers()` and `withdrawProfit()` contain the following check:
 ```solidity
     if (block.timestamp <= lastProfitTime) {
        revert NYProfitTakingVault__ProfitTimeOutOfBounds();
@@ -391,15 +391,15 @@ can not impact production, we have left it as is.
 
 ### TRST-L-3 Strategy may be initialized by attacker
 **Description:**
-In NyPtvFantomWftmBooSpookyV2StrategyToUsdc.sol, initialize() is used to bootstrap the 
+In NyPtvFantomWftmBooSpookyV2StrategyToUsdc.sol, `initialize()` is used to bootstrap the 
 strategy. However, there is no caller check, which means it is only safe if proxy is upgraded 
-to the strategy and immediately calls initialize(), using upgradeToAndCall() proxy 
+to the strategy and immediately calls `initialize()`, using `upgradeToAndCall()` proxy 
 functionality. Otherwise, attacker may call it themself and pass malicious values for treasury 
 and other important parameters.
 
 **Recommended Mitigation:**
 Consider adding initialization protection. For example, during construction set an immutable 
-to be the deployer address, which is the only one that is allowed to call initialize().
+to be the deployer address, which is the only one that is allowed to call `initialize()`.
 
 
 **Team response:**
@@ -426,9 +426,9 @@ harvesting is profitable.
       profit -= usdcFee;
       }
 ```
-Note that the code assumes getAmountsOut() will return USDC amount at index [1]. That is 
+Note that the code assumes `getAmountsOut()` will return USDC amount at index [1]. That is 
 indeed the case right now, as **booToUsdcPath = [BOO, USDC];** However, it is an unnecessary 
-coupling in code. _swapFarmEmissionTokens() handles the path correctly:
+coupling in code. `_swapFarmEmissionTokens()` handles the path correctly:
 
 ```solidity
             uint256[] memory amounts = 
@@ -437,8 +437,8 @@ coupling in code. _swapFarmEmissionTokens() handles the path correctly:
 ```
 
 **Recommended mitigation**
-Make the code more futureproof by refactoring estimateHarvest() to act similarly to 
-_swapFarmEmissionTokens().
+Make the code more futureproof by refactoring `estimateHarvest()` to act similarly to 
+`_swapFarmEmissionTokens()`.
 
 **Team response**
 Accepted, updated
@@ -498,15 +498,15 @@ Accepted & done.
 
 ### Emission of events during state changes
 To satisfy the objective of transparency, it is recommended to emit events when any change 
-of importance takes place. In V3 Strategies, updateSecurityFee(), updateTreasury() and the 
-important upgrade related functions clearUpgradeCooldown() and 
-initiateUpgradeCooldown() do not emit events.
+of importance takes place. In V3 Strategies, `updateSecurityFee()`, `updateTreasury()` and the 
+important upgrade related functions `clearUpgradeCooldown()` and 
+`initiateUpgradeCooldown()` do not emit events.
 
 **Team response**
 Accepted & done.
 
 ### Lack of zero-address checks
-It is a standard practice to validate important addresses for zero value. updateTreasury() 
+It is a standard practice to validate important addresses for zero value. `updateTreasury()` 
 does not conform to this best practice.
 
 **Team response**

@@ -22,10 +22,10 @@ tokens left in the contract before accepting transfer of input tokens.
              IERC20(inputTokenAddress).transferFrom(msg.sender, address(0), 
         _inputTokenAmount);
  ```
-However, transmuteInstant() lacks any remaining balance checks, and will operate as long 
+However, `transmuteInstant()` lacks any remaining balance checks, and will operate as long 
 as the function has enough output tokens to satisfy the request.
 
- ```solidity
+```solidity
         IERC20(inputTokenAddress).transferFrom(msg.sender, address(0), 
              _inputTokenAmount);
         SafeERC20.safeTransfer(IERC20(outputTokenAddress), msg.sender, 
@@ -74,8 +74,8 @@ Timestamp checks implemented successfully.
 **Description:**
 linearVestingDuration is used as the total period from start to end of vesting in linear 
 transmutation. It is set in the constructor and is fixed. There is no validation in construction 
-that the variable is not set to zero. When users call releaseTransmutedLinear() to claim 
-released tokens, _vestingSchedule() is called which divides by linearVestingDuration in one 
+that the variable is not set to zero. When users call `releaseTransmutedLinear()` to claim 
+released tokens, `_vestingSchedule()` is called which divides by linearVestingDuration in one 
 flow. 
   ```solidity
      } else {
@@ -114,7 +114,7 @@ Issue was fixed.
 **Mitigation review:**
 Both functions now support linear and instant vesting. However, 
 vestedAmountAtTimestamp may still return incorrect results for timestamp < time of vesting
-for instant vesting. Function does not take into account timestamp of transmute() call.
+for instant vesting. Function does not take into account timestamp of `transmute()` call.
 ```solidity
         if (addressToVestingCode[_vester] == 1) {
                  return addressToTotalAllocatedOutputToken[_vester];
@@ -169,7 +169,7 @@ Acknowledged, but will not be fixed at this time as use case does not require di
 
 ### TRST-L-5 transmute functions may charge input tokens but not allocate any output tokens
 **Description:** 
-transmuteInstant() calculates and distributes allocation like so:
+`transmuteInstant()` calculates and distributes allocation like so:
 ```solidity
         uint256 allocation = (_inputTokenAmount * instantMultiplier) / 
              tokenDecimalDivider;
@@ -183,7 +183,7 @@ The issue is that allocation result could be zero due to division by tokenDecima
 which trims many decimal points. If user does not provide a sufficient input amount, 
 allocation will be zero but the function won't revert. Therefore, function will charge user the 
 input amount but not give in return any output amount. The issue repeats in 
-transmuteLinear(). It is not severe because if allocation is zero, input amount was probably 
+`transmuteLinear()`. It is not severe because if allocation is zero, input amount was probably 
 quite small, but still important to address for user experience.
 
 **Recommended mitigation:**

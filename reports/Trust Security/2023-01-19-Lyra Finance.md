@@ -12,10 +12,10 @@
 ### TRST-H-1 canHedge may return wrong result when there is a pending position request
 **Description:**
 Lyra’s security model relies on being able to hedge and achieve delta-neutrality when opening 
-a user position. The check is done in canHedge() in GMXFuturesPoolHedger. The current 
-hedge is calculated using _getCurrentHedgedNetDeltaWithSpot(). However, this function only 
+a user position. The check is done in `canHedge()` in GMXFuturesPoolHedger. The current 
+hedge is calculated using `_getCurrentHedgedNetDeltaWithSpot()`. However, this function only 
 takes the current position and ignores the pending increase/decrease position request. 
-Therefore, canHedge result can be wrong - users may be rejected from interacting with the 
+Therefore, `canHedge` result can be wrong - users may be rejected from interacting with the 
 market, while attackers or innocent users may put the protocol in an unchangeable position.
 
 **Recommended Mitigation:**
@@ -33,10 +33,10 @@ system feels unnecessary at this stage so this will not be implemented.
 ### TRST-H-2 canHedge will return true when hedging requirement would be above the defined hedgeCap
 **Description:**
 Lyra’s security model relies on being able to hedge and achieve delta-neutrality when opening 
-a user position. The check is done in canHedge() in GMXFuturesPoolHedger. The expected 
-hedge is fetched using _getCappedExpectedHedge(). However, it is never checked that the 
+a user position. The check is done in `canHedge()` in GMXFuturesPoolHedger. The expected 
+hedge is fetched using `_getCappedExpectedHedge()`. However, it is never checked that the 
 hedge has reached capacity, which should disqualify the hedge from taking place. Any hedge 
-above the cap will never be hedged, so whenever canHedge() wrongly approves a hedge that 
+above the cap will never be hedged, so whenever `canHedge()` wrongly approves a hedge that 
 is beyond the cap, the protocol will be guaranteed not to be delta-neutral.
 
 **Recommended Mitigation:**
@@ -50,13 +50,13 @@ current intended design.
 
 ### TRST-H-3 disordered fee calculated causes collateral changes to be inaccurate
 **Description:**
-_increasePosition() changes the Hedger’s GMX position by **sizeDelta** amount and 
+`_increasePosition()` changes the Hedger’s GMX position by **sizeDelta** amount and 
 **collateralDelta** collateral. There are two **collateralDelta** corrections - one for swap fees and 
 one for position fees. Since the swap fee depends on up-to-date **collateralDelta**, it’s important 
 to calculate it after the position fee, contrary to the current state. In practice, it may lead to 
 the leverage ratio being higher than intended as **collateralDelta** sent to GMX is lower than it 
 should be.
-      ```solidity
+```solidity
       if (isLong) {
           uint swapFeeBP = getSwapFeeBP(isLong, true, collateralDelta);
            collateralDelta = (collateralDelta * (BASIS_POINTS_DIVISOR + swapFeeBP)) / BASIS_POINTS_DIVISOR;
@@ -64,10 +64,10 @@ should be.
       // add margin fee
       // when we increase position, fee always got deducted from collateral
           collateralDelta += _getPositionFee(currentPos.size, sizeDelta, currentPos.entryFundingRate);
-        ``` 
+``` 
 
 **Recommended Mitigation:**
-Flip the order of getSwapFeeBP() and _getPositionFee(). 
+Flip the order of `getSwapFeeBP()` and `_getPositionFee()`. 
 
 **Team response:**
 Fixed
@@ -78,12 +78,12 @@ Fixed
 **Description:**
 In LiquidityPool’s initiateWithdraw(), it’s required that withdrawn value is above a minimum 
 parameter, or that withdrawn tokens is above the minimum parameter.
-      ```solidity 
+```solidity 
       if (withdrawalValue < lpParams.minDepositWithdraw && 
           amountLiquidityToken < lpParams.minDepositWithdraw) {
       revert MinimumWithdrawNotMet(address(this), withdrawalValue, lpParams.minDepositWithdraw);
       }
-      ```
+```
 The issue is that **minDepositWithdraw** is measured in dollars while **amountLiquidityToken** is 
 LP tokens. The intention was that if LP tokens lost value and a previous deposit is now worth 
 less than **minDepositWithdraw**, it would still be withdrawable. However, the current 
@@ -113,7 +113,7 @@ insolvent portion claimed from the liquidity pool. The issue is that delaying th
 collection may cause ShortCollateral to have insufficient funds to pay for user proceeds.
 
 **Recommended Mitigation:**
-Insert _reclaimInsolvency() call to the end of the for loop.
+Insert `_reclaimInsolvency()` call to the end of the for loop.
 
 **Team Response:**
 Not really an issue if insolvent positions are settled in a separate transaction prior to solvent 
@@ -130,7 +130,7 @@ Indeed, GMX supports “AMM pricing” mode where quotes are calculated from Uni
 reserves. A possible attack would be to drive up the base token (e.g. ETH) price, sell a large 
 ETH amount to the GMXAdapter, and repay the flashloan used for manipulation. 
 exchangeFromExactBase() is attacker-reachable from LiquidityPool’s exchangeBase().
-    ```solidity
+```solidity
     uint tokenInPrice = _getMinPrice(address(baseAsset));
         uint tokenOutPrice = _getMaxPrice(address(quoteAsset));
     ...
@@ -138,14 +138,14 @@ exchangeFromExactBase() is attacker-reachable from LiquidityPool’s exchangeBas
       .multiplyDecimal(marketPricingParams[_optionMarket].minReturnPercent)
         .multiplyDecimal(_amountBase)
           .divideDecimal(tokenOutPrice);
-    ```
+```
 
 **Recommended Mitigation:**
-Verify getMinPrice(), getMinPrice() outputs are close to Chainlink-provided prices as done in 
-getSpotPriceForMarket().
+Verify `getMinPrice()`, `getMinPrice()` outputs are close to Chainlink-provided prices as done in 
+`getSpotPriceForMarket()`.
 
 **Team Response:**
-Fixed for exchangeFromExactBase() here, by using Chainlink price instead of **gmxMinPrice** of 
+Fixed for `exchangeFromExactBase()` here, by using Chainlink price instead of **gmxMinPrice** of 
 **baseAsset**. This way if the price is favorable for the LPs (given they rely on CL) it will not revert.
 
 
@@ -153,14 +153,14 @@ Fixed for exchangeFromExactBase() here, by using Chainlink price instead of **gm
 **Description:**
 sendAllFundsToLP() is used to transfer quote and base tokens to the LP after interaction with 
 GMX. It uses an unsafe transfer call:
-    ```solidity
+```solidity
     if (baseBal > 0) {
        if (!baseAsset.transfer(address(liquidityPool), baseBal)) {
     revert AssetTransferFailed(address(this), baseAsset, baseBal, 
          address(liquidityPool));
      }
     emit BaseReturnedToLP(baseBal);
-    ```
+```
 There are a great many tokens such as BNB and USDT that for historical reasons, don’t return 
 a value in transfer(). Since Lyra aims to support blue-chip tokens, it should refactor and use 
 the safe transfer variant.
@@ -177,12 +177,12 @@ only those that do not return boolean values.
 recoverFunds() is used for recovery in case of mistakenly-sent tokens. However, it uses unsafe 
 transfer to send tokens back, which will not support 100s of non-compatible ERC20 tokens. 
 Therefore it is likely unsupported tokens will be unrecoverable.
-  ```solidity
+```solidity
   if (token == quoteAsset || token == baseAsset || token == weth) {
       revert CannotRecoverRestrictedToken(address(this));
     }
         token.transfer(recipient, token.balanceOf(address(this)));
-      ```
+```
 
 **Recommended Mitigation:**
 Use Open Zeppelin’s SafeERC20 encapsulation of ERC20 transfer functions.
@@ -194,8 +194,8 @@ used - it is not core to the functionality of the protocol. Will not be changed 
 
 ### TRST-M-6 option board will be settled with incorrect prices when settled after a delay
 **Description:** 
-settleExpiredBoard() runs after a board expires to perform accounting. It uses 
-getSettlementPriceForMarket() to get the settlement price, which simply returns the current 
+`settleExpiredBoard()` runs after a board expires to perform accounting. It uses 
+`getSettlementPriceForMarket()` to get the settlement price, which simply returns the current 
 price. It does not account for the possibility that the function was called after some delay, and 
 that the current price does not reflect the option’s expiry value. This situation could arise from 
 many different reasons. For example, keepers may have been offline, or the network was 
@@ -211,15 +211,15 @@ alternative than to rely on a centralized source for the settlement price.
 
 ### TRST-M-7 attackers can delay or disrupt hedging activity by abusing mutual exclusion with updateCollateral()
 **Description:**
-hedgeDelta() is the engine behind the PoolHedger.sol used to offset exposure. GMX increase 
-/ decrease position requests are performed in two steps to minimize slippage attacks. Firstly, 
-users call increasePositionRequest(). Every short period (usually several seconds), GMX keeper 
+`hedgeDelta()` is the engine behind the PoolHedger.sol used to offset exposure.
+ GMX increase / decrease position requests are performed in two steps to minimize slippage attacks. Firstly, 
+users call `increasePositionRequest()`. Every short period (usually several seconds), GMX keeper 
 will execute all requests in a batch. The PoolHedger deals with this pending state using the 
 **pendingOrderKey** parameter. When it is not 0, it is the key received from the last GMX 
-position request. When there is a pending action, hedgeDelta() as well as updateCollateral() 
+position request. When there is a pending action, `hedgeDelta()` as well as `updateCollateral()` 
 cannot be called. The latter function is another permissionless entry point, which triggers the 
 correction of the leverage ratio on GMX to the target. The issue stems from the fact there are 
-no DOS-preventions put in place, which allow attackers to continually call updateCollateral() 
+no DOS-preventions put in place, which allow attackers to continually call `updateCollateral()` 
 as soon as the previous request completes, keeping the Hedger ever busy perfecting the 
 leverage ratio, albeit not hedging properly. If done for a long enough period, the impact is an 
 increased insolvency risk for the protocol as it is not delta-neutral.
@@ -238,11 +238,11 @@ The protectedQuote storage variable ensures that a portion of the liquidity pool
 even in the case of a “contract adjustment event” (i.e. when the pool has become insolvent). 
 However, the protectedQuote is updated on deposits and withdraws using the following 
 calculation:
-     ```solidity
+```solidity
        protectedQuote = (liquidity.NAV - withdrawalValue).multiplyDecimal(
        DecimalMath.UNIT - lpParams.adjustmentNetScalingFactor
       );
-      ```
+```
 The new value depends on the Net Asset Value (NAV) of the pool which, in turn, depends on 
 the current hedge and price of the base asset. If the base asset moves sharply the NAV can 
 drop, which can lead to a large drop in the **protectedQuote**. 
@@ -269,14 +269,14 @@ Lyra’s security model relies on being able to hedge and achieve delta-neutrali
 a user position. The check is done in canHedge() in GMXFuturesPoolHedger. After expected 
 hedge delta and current hedge delta are fetched, remainingDeltas is assigned the amount of 
 liquidity of the side that will be bought. Then this check is made:
-      ```solidity
+```solidity
       uint absHedgeDiff = (Math.abs(expectedHedge) - Math.abs(currentHedge));
       if (remainingDeltas < 
            absHedgeDiff.multiplyDecimal(futuresPoolHedgerParams.marketDepthBuffer)) {
         return false;
       }
 
-      ```
+```
 The issue is that the checked requirement for GMX liquidity is not strict enough. If 
 **expectedHedge** and **currentHedge** have different signs, **remainingDeltas** needs to be above 
 **expectedHedge**. That’s because the current holdings can’t be deducted from the necessary 
@@ -298,12 +298,12 @@ will make these checks operate as expected. Will not be resolved at this stage.
 Lyra’s security model relies on being able to hedge and achieve delta-neutrality when opening 
 a user position. The check is done in canHedge() in GMXFuturesPoolHedger. The function will 
 return true when the delta of the trade has the same sign as the expectedHedge. For example:
-    ```solidity 
+```solidity 
     // expected hedge is positive, and trade increases delta of the pool - risk is reduced, so accept trade
     if (increasesPoolDelta && expectedHedge >= 0) {
         return true;
           }
-            ```
+```
 However, this will not always reduce the pool delta. For example an **expectedHedge** of 5 
 would indicate the pool delta is -5. A trade which increases pool delta by 11 would mean the 
 subsequent **expectedHedge** would be -6. In general, if the **expectedHedge** is equal to n/-n 
@@ -324,7 +324,7 @@ GMXFuturesPoolHedger does that, it also decreases the collateral so that the lev
 would equal the set **targetLeverage**. In GMX, fees are deducted from collateral when losses 
 are realized. Therefore, the code takes into account that additional collateral needs to be sent, 
 to make up for the fees deducted. It’s done in this block:
-      ```solidity
+```solidity
       if (currentPos.unrealisedPnl < 0) {
           uint adjustedDelta = Math.abs(currentPos.unrealisedPnl).multiplyDecimal(sizeDelta)divideDecimal      (currentPos.size);
       if (adjustedDelta > collateralDelta) {
@@ -333,7 +333,7 @@ to make up for the fees deducted. It’s done in this block:
             collateralDelta -= adjustedDelta;
            }
        }
-        ```
+```
 Notably, when **adjustedDelta > collateralDelta** is true, **collateralDelta** is zero-ed out. Since 
 GMX decreasePositionRequest() receives a uint as the collateral delta and decreases by that 
 amount, the function is not able to add the delta difference. However, that collateral debt is 
@@ -359,11 +359,11 @@ temporary and there is no easy fix, this will not be resolved.
 **Description:**
 GMXAdapter inherits from BaseExchangeAdapter. It is an implementation contract for a 
 transparent proxy and has the following initializer:
-    ```solidity
+```solidity
        function initialize() external initializer {
          __Ownable_init();
        }
-       ``` 
+``` 
 Therefore, an attacker can call initialize() on the implementation contract and become the 
 owner. At this point they can do just about anything to this contract, but it has no impact on 
 the proxy as it is using separate storage. If there was a delegatecall coded in GMXAdapter, 
@@ -388,13 +388,13 @@ positionRouter is used to change GMX positions in GMXFuturesPoolHedger. It can b
 by a new router if GMX redeploys, for example if a bug is found or the previous one is hacked. 
 The new positionRouter receives approval from the contract. However, approval to the 
 previous positionRouter is not revoked.
-    ```solidity
+```solidity
     function setPositionRouter(IPositionRouter _positionRouter) external onlyOwner {
       positionRouter = _positionRouter;
         router.approvePlugin(address(positionRouter));
     emit PositionRouterSet(_positionRouter);
        }
-       ```
+```
 A number of unlikely, yet dire scenarios could occur.
 
 **Recommended Mitigation:**
@@ -413,13 +413,13 @@ setPositionRouter(), with an permissioned approvePlugin() method for unblocking 
 
 ### TRST-L-3 PoolHedger can receive ETH directly from anyone
 **Description:**
-A receive() function has been added to GMXFuturesPoolHedger, so that it is able to receive 
+A `receive()` function has been added to GMXFuturesPoolHedger, so that it is able to receive 
 ETH from GMX as request refunds. However, it is not advisable to have an open receive() 
 function if it is not necessary. Users may wrongly send ETH directly to PoolHedger and lose it 
 forever.
-    ```solidity
+```solidity
            receive() external payable {}
-    ``` 
+``` 
 **Recommended Mitigation:**
 Add a msg.sender check in the receive() function, and make sure sender is positionRouter.
 
@@ -429,13 +429,13 @@ Will not be resolved at this stage.
 
 ### TRST-L-4 GMXAdapter minReturnPercent can be over 100%, requiring positive slippage for exchange to execute
 **Description:**
-In GMXAdapter exchangeFromExactBase(), minReturnPercent is used to set the minimum 
+In GMXAdapter `exchangeFromExactBase()`, minReturnPercent is used to set the minimum 
 output tokens for the trade:
-    ```solidity
+```solidity
     uint minOut = tokenInPrice.multiplyDecimal(marketPricingParams[_optionMarket].minReturnPercent)
       .multiplyDecimal(_amountBase)
        .divideDecimal(tokenOutPrice);
-       ```
+```
 Since the rest of the calculation is done precisely the same as in positionRouter, except 
 imposed fees, if minReturnPercent is above 100% transactions will never succeed. However, 
 it’s allowed to be up to 120%. It appears the reason for that is to protect against any 
@@ -453,7 +453,7 @@ Allow **minReturnPercent** up to 100% (1e18).
 
 ### TRST-L-5 Slippage in hedger may be double what is set in slippage parameter
 **Description:** 
-_decreasePosition() in GMXFuturesPoolHedger calls the GMX createDecreasePosition() entry 
+`_decreasePosition()` in GMXFuturesPoolHedger calls the GMX `createDecreasePosition()` entry 
 point, passing **minOut** = 0. According to docs, 0 should only be used if there are no swaps. But 
 in the case of a long position, there is a swap (base to quote). The swap direction has the same 
 exposure to base/quote as position decrease exposure. This means the slippage is applied 
@@ -470,8 +470,8 @@ Acknowledged.
 ### TRST-L-6 LiquidityToken owner can freeze all token interactions and suspend the platform
 **Description:** 
 Owner can freely set the **liquidityTracker** variable in LiquidityToken. It is used in 
-_afterTokenTransfer():
-    ```solidity
+`_afterTokenTransfer()`:
+```solidity
     function _afterTokenTransfer(address from, address to, uint amount) internal override {
       if (address(liquidityTracker) != address(0)) {
         if (from != address(0)) {
@@ -482,22 +482,22 @@ _afterTokenTransfer():
            }
          }
        }
-          ```
+```
 If owner is compromised, the platform can be immediately shut down by passing an invalid 
 address as **liquidityTracker**.
 
  ### TRST-L-7 Owner can manipulate board’s baseIv
  **Description:** 
 In OptionMarket, board characteristics can only be changed when they are frozen. However, 
-freezing and unfreezing are done instantly using setBoardFrozen(). Therefore, the owner can 
+freezing and unfreezing are done instantly using `setBoardFrozen()`. Therefore, the owner can 
 abuse a temporary freeze-unfreeze and inject any sort of malicious behavior, such as setting 
 a low baseIv to make personal profit from the protocol. It is advised to put a time lock on 
 unfreeze for greater trustability.
 
 ### TRST-L-8 Owner can drain liquidity pool instantly
 **Description:** 
-In LiquidityPool, transferQuoteToHedge() allows the defined poolHedger to pull up to the 
-entire available liquidity. Since poolHedger can be set instantly using setPoolHedger(), it 
+In LiquidityPool, `transferQuoteToHedge()` allows the defined poolHedger to pull up to the 
+entire available liquidity. Since poolHedger can be set instantly using `setPoolHedger()`, it 
 represents significant damage potential. The recommendation is to impose a timelock, either 
 at the contract level or at the owner level (time-locked governance contract).
 
@@ -513,33 +513,33 @@ parameter assignments and make sure insensible values are disallowed.
 There are some instances in the code base where a long if/else clause ends with an else that 
 assumes the enum value is the remaining value after matching all other options. This pattern 
 is prone to future errors as additional types are added, and the existing code would not throw 
-any warnings but behave incorrectly. For example, in _updateExposure() the last else clause 
+any warnings but behave incorrectly. For example, in `_updateExposure()` the last else clause 
 catches OptionType.SHORT_PUT_QUOTE, but if new options are added this would introduce 
 a bug.
 
 ### Misleading variable names
 There are some instances where possibly code has been duplicated without proper renaming. 
 For example, in GMXAdapter, _getMaxPrice() is implemented as:
-    ```solidity
+```solidity
     function _getMaxPrice(address asset) internal view returns (uint) {
         uint minPrice = vault.getMaxPrice(asset);
        return ConvertDecimals.normaliseTo18(minPrice, GMX_PRICE_PRECISION);
          }
-          ```
-Another example is the function _getPendingIncreaseCollateralDelta() which actually returns 
+```
+Another example is the function`_getPendingIncreaseCollateralDelta()` which actually returns 
 the **amountIn** variable.
 Such patterns are prone to the introduction of bugs. 
 
 ### Redundant event parameters
-Some events have unuseful parameters. For example, in cancelPendingOrder(), the event 
+Some events have unuseful parameters. For example, in `cancelPendingOrder()`, the event 
 OrderCanceled can only be emitted if **success** is true (otherwise the transaction would revert). 
 
 ### Adopt single-validation pattern
 Some parameters are checked in multiple places for the same conditions, but are only 
 changeable from a single gateway. It is preferable to move the check to the gateway and avoid 
 SLOAD checks at runtime. For example, **staticSwapFeeEstimate** is checked in 
-_estimateExchangeFee() and exchangeFromExactBase(), but it’s only set at 
-setMarketPricingParams().
+`_estimateExchangeFee()` and `exchangeFromExactBase()`, but it’s only set at 
+`setMarketPricingParams()`.
 
 ### Model-related risks
 **Description:**
