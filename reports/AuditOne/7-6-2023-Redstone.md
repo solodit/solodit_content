@@ -4,7 +4,7 @@
 
 # Findings
 
-## Medium Risks
+## Medium Risk
 
 ### The minimum interval between updates is short and poses risk of front-running attack
 
@@ -52,7 +52,7 @@ Adjust the maxDataDelaySeconds value in the getAllowedTimestampDiffsInSeconds() 
 
 
 
-## Low Risks
+## Low Risk
 
 ### Packed timestamp value could change
 
@@ -102,7 +102,7 @@ The validateAndUpdateDataFeedsValues() function iterates through the dataFeedsId
 
 
 
-## Quality Assurance
+## Informational
 
 ### Consider a higher Solidity version Severity: Quality Assurance
 
