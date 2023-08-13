@@ -123,7 +123,7 @@ Add attributes(pausable) to derive\_pausable.
 
 
 
-## Quality Assurance
+## Informational
 
 ### Staging code is not removed
 
