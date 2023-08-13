@@ -338,7 +338,7 @@ Consider fixing the issue by initializing loanCount = 1 so that a loan with id =
 
 
 
-## Quality Assurance
+## Informational
 
 ### Redundant Hardhat Console 
 
