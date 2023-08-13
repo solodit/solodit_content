@@ -4,7 +4,7 @@
 
 # Findings
 
-## High Risks
+## High Risk
 
 ### Initializers could be front-run 
 
@@ -18,7 +18,7 @@ Make the initialize function executed in the same transaction.
 
 
 
-## Medium Risks
+## Medium Risk
 
 ### The function getCurrentPeriod() returns wrong value which results in staking before startDate
 
@@ -68,7 +68,7 @@ Docs says the user can stake from 1 to 52 weeks but this value is different from
 
 
 
-## Low Risks
+## Low Risk
 
 ### Unsafe ERC20 methods 
 
@@ -92,7 +92,7 @@ Consider using SafeERC20 for transferFrom, transfer and approve.
 
 
 
-## Quality Assurance
+## Informational
 
 ### Missing important events
 
