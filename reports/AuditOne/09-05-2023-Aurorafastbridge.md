@@ -4,7 +4,7 @@
 
 # Findings
 
-## High Risks
+## High Risk
 
 ### Block Reorg Can Allow For Double Spending
 
@@ -68,7 +68,7 @@ We should check if the nonce still exists in the pending\_transfers at unlock\_c
 
 
 
-## Medium Risks
+## Medium Risk
 
 ### Subscribed message may get lost Severity: Medium
 
@@ -119,7 +119,7 @@ To address this issue, it is recommended that the ![ref4]FastBridge Service impl
 
 
 
-## Low Risks
+## Low Risk
 
 ### Missing comparison between lock\_time\_min and lock\_time\_max in set\_lock\_time function
 
@@ -144,7 +144,7 @@ To address this issue, it is recommended that the NEAR contract includes a check
 
 
 
-## Quality Assurance
+## Informational
 
 ### Missing comments on Code 
 
