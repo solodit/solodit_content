@@ -100,7 +100,7 @@ The \_initiateAdventure function is called both by the goAdventure function and 
 
 One possible solution is to use the "Checks-Eects-Interactions"pattern. This means that the contract should first check if the calling conditions are met,then perform all internal state changes,and finally interact with other contracts. By following this pattern,it becomes more dicult for an attacker to exploit the contract's logic. Specifically,in this case,the developer should ensure that the ether transfer to the contract owner happens after the
 
-\_initiateAdventure function is called,rather than before. This can be achieved by using a withdrawal pattern where the contract owner can withdraw the funds after the adventure is completed and the payout function has been called.
+_initiateAdventure function is called,rather than before. This can be achieved by using a withdrawal pattern where the contract owner can withdraw the funds after the adventure is completed and the payout function has been called.
 
 It is also recommended to use the ReentrancyGuard library from OpenZeppelin
 
