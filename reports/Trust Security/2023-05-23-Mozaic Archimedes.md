@@ -421,7 +421,8 @@ tokens. This could be repeated in every block to make the system unusable.
 
 
 ### TRST-M-10 MozBridge underestimates gas for sending of Moz messages
-**Description:**The bridge calculates LayerZero fees for sending Mozaic messages using the function below:
+**Description:**
+The bridge calculates LayerZero fees for sending Mozaic messages using the function below:
 ```solidity
         function quoteLayerZeroFee(uint16 _chainId, uint16 _msgType, LzTxObj memory _lzTxParams) public view returns (uint256 _nativeFee, uint256 _zroFee) { 
              bytes memory payload = "";
