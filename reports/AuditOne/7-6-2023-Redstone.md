@@ -1,0 +1,191 @@
+**Auditors**
+
+[AuditOne](https://twitter.com/auditone_team)
+
+# Findings
+
+## Medium Risk
+
+### The minimum interval between updates is short and poses risk of front-running attack
+
+**Description:**
+
+The MIN\_INTERVAL\_BETWEEN\_UPDATES constant, as its name suggests, represents the minimum amount of time that must pass between updates. In this case, a 3-second interval has been set, meaning that the updates cannot occur more frequently than once every 3 seconds.
+
+This suggests that a 3-second interval is considered low, which means that it may not provide enough time for transactions to be processed before a new update occurs. This can create a vulnerability known as front-running, where an attacker can exploit the time gap between transactions to gain an advantage or manipulate the contract's state.
+
+**Recommendations:**
+
+To mitigate this risk, it is necessary to set a higher minimum interval between updates or implement other additional security measures, to prevent front-running attacks.
+
+` `MIN\_INTERVAL\_BETWEEN\_UPDATES constant is only used in the getMinIntervalBetweenUpdates function. And that the getMinIntervalBetweenUpdates function is virtual and will be overridden to specify custom min interval between updates.
+
+
+
+### Stale Prices could be returned 
+
+**Description:**
+
+It was observed that there is no check to validate that price feed timestamp (in this case blockTimestamp) is recent. If price feed was not updated recently then old prices would be returned by latestRoundData function.
+
+**Recommendations:**
+
+Validate that blockTimestamp is recent. Something similar to [_assertMinIntervalBetweenUpdatesPas](https://github.com/redstone-finance/redstone-oracles-monorepo/blob/e19d97d0f3bb5d93a59af7a115da42908c2b9777/packages/on-chain-relayer/contracts/core/RedstoneAdapterBase.sol#L102)sed at [RedstoneAdapterBase.sol#L102 could b](https://github.com/redstone-finance/redstone-oracles-monorepo/blob/e19d97d0f3bb5d93a59af7a115da42908c2b9777/packages/on-chain-relayer/contracts/core/RedstoneAdapterBase.sol#L102)e helpful.
+
+
+
+### Long Delays Can Cause Sandwich Attacks
+
+**Description:**
+
+Price Manipulation: An attacker can take advantage of the delayed data to manipulate the price or other values within the contract, potentially affecting users and other contracts relying on the data.
+
+Front-Running: Attackers can monitor pending transactions and exploit the outdated data to place their transactions with more favorable conditions, causing potential financial loss to users.
+
+ The validateDataPackagesTimestampOnce() function in the given contract validates the timestamp of data packages to ensure that they are not too far in the future or too old. However, long delays between the actual data timestamp and the current block timestamp can lead to potential sandwich attacks, where an attacker can manipulate the order of transactions in a block to their advantage.
+
+**Recommendations:** 
+
+To mitigate the risk of sandwich attacks due to long ![ref3]delays in data package timestamps, consider implementing the following changes:
+
+Adjust the maxDataDelaySeconds value in the getAllowedTimestampDiffsInSeconds() function to a shorter time frame, reducing the allowed delay between the data package timestamp and the current block timestamp.
+
+
+
+## Low Risk
+
+### Packed timestamp value could change
+
+[Where: https://github.com/redstone-finance/redstone-oracles- monorepo/blob/483-implement-a-roundless-and-a-roundful- version-of-on-chain-relayer-contracts/packages/on-chain- relayer/contracts/core/RedstoneAdapterBase.sol#L179](https://github.com/redstone-finance/redstone-oracles-monorepo/blob/483-implement-a-roundless-and-a-roundful-version-of-on-chain-relayer-contracts/packages/on-chain-relayer/contracts/core/RedstoneAdapterBase.sol#L179)
+
+**Description:**
+
+Packed timestamp will be incorrectly saved. However it requires privilleged user to use a value>uint128 for dataPackagesTimestamp which is unlikely.
+
+When value of dataPackagesTimestamp exceeds uint128, then packTwoNumbers will not work properly (since it is expecting dataPackagesTimestamp to be max uint128). Due to this a different value of dataPackagesTimestamp will be retrieved when \_unpackTimestamps is used.
+
+**Recommendations:**
+
+dataPackagesTimestamp should be uint128 instead of uint256.
+
+
+
+### Inline assembly bug in solidity 0.8.13.
+
+**Description:**
+
+ There is a known medium severity bug which affects memory writing in Solidity version 0.8.13. It would remove unused writes to memory and storage.
+
+ There is a known medium severity bug which affects memory writing in Solidity version 0.8.13. It would remove unus[ed writes to memory and storage.](https://github.com/ethereum/solidity-blog/blob/499ab8abc19391be7b7b34f88953a067029a5b45/_posts/2022-06-15-inline-assembly-memory-side-effects-bug.md)
+
+[https://github.com/ethereum/solidity- blog/blob/499ab8abc19391be7b7b34f88953a067029a5b45/_p osts/2022-06-15-inline-assembly-memory-side-effects- ](https://github.com/ethereum/solidity-blog/blob/499ab8abc19391be7b7b34f88953a067029a5b45/_posts/2022-06-15-inline-assembly-memory-side-effects-bug.md)[bug.md https://medium.com/certora/overly-optimistic-optimizer- certora-bug-disclosure-2101e3f7994d](https://medium.com/certora/overly-optimistic-optimizer-certora-bug-disclosure-2101e3f7994d)
+
+Since pragmas are floating in the contracts. the contracts may suffer from the issue. For example, the following contract has the issue. It only uses mstore in the inline assembly block. So it will be removed in Solidity 0.8.13.
+
+**Recommendations:**
+
+Use >= 0.8.14 instead of ^0.8.4. Status: Resolved. Project team switched to ^0.8.14.
+
+
+
+### Potential Gas Problem in validateAndUpdateDataFeedsValues().
+
+**Description: **
+
+Transaction Failures: Transactions calling the validateAndUpdateDataFeedsValues() function may fail due to insufficient gas, causing potential disruption to the contract's operation.
+
+The validateAndUpdateDataFeedsValues() function iterates through the dataFeedsIdsArray and values arrays and calls the \_updateDataFeedValue() function for each element. The gas cost of this function will increase linearly with the number of elements in the arrays, potentially leading to high gas costs and out-of-gas issues if the arrays become too large.
+
+**Recommendations:**
+
+ To mitigate the potential impact of high gas costs and out-of-gas scenarios in the validateAndUpdateDataFeedsValues() function, consider implementing the following changes:![](Aspose.Words.cc05696b-7cd7-4d14-8e1d-301af2188d90.027.png) Limit the Size of Input Arrays: Add a check to ensure that the length of the dataFeedsIdsArray and values arrays does not exceed a predefined maximum limit.
+
+
+
+## Informational
+
+### Consider a higher Solidity version Severity: Quality Assurance
+
+**Description:**
+
+When a new version of Solidity is released, it typically includes security updates and bug fixes, which can make your contract less vulnerable to attacks from hackers or malicious actors. Additionally, new versions of Solidity can also introduce new language features and improve existing ones, making it easier for developers to write efficient and safe code.
+
+**Recommendations**:
+
+It is recommended to use a higher solidity version primarily for security purposes.
+
+
+
+### Missing/Insufficient Natspec comments Severity: Quality Assurance
+
+**Description:**
+
+There are cases of missing or insufficient Natspec comments in the code.
+
+**Recommendations:**
+
+Consider including Natspec comments in the contract code, explaining its purpose and functionality..
+
+
+
+### Loop optimization
+
+**Description:**
+
+When a loop iterates many times, it causes the amount of gas required to execute the function to increase significantly. In Solidity, excessive looping can cause a function to use more than the maximum allowed gas, which causes the function to fail.
+
+For instance, the validateAndUpdateDataFeedsValues() function in the PriceFeedsAdapterWithRounds.sol contract loops through an array of data feed values and updates each value in the contract storage. If the number of data feeds to update is too large, it may consume too much gas and exceed the block gas limit, causing the transaction to fail. This could be exploited by an attacker to perform a denial-of-service attack on the contract by sending a transaction with a large array of data feeds to update, causing legitimate transactions to fail.
+
+**Recommendations:**
+
+ To reduce gas consumption, it's recommended to find ways to optimize the loop or potentially break the loop into smaller batches. The following pattern can also be used:
+
+
+
+### Import declarations should import specific identifiers, rather than the whole file 
+
+**Description:**
+
+Using import declarations of the form import {<identifier\_name>} from "some/file.sol" avoids polluting the symbol namespace making flattened files smaller, and speeds up compilation.
+
+**Recommendations:** 
+
+Consider using import declarations of the form import {<identifier\_name>} from "some/file.sol".
+
+
+
+### Redundant Usage of SafeMath Library in Solidity ^0.8.4 
+
+**Description:**
+
+The RedstoneConsumerBase contract imports and uses the SafeMath library for performing arithmetic operations. However, as of Solidity version 0.8.0, the language has built-in overflow and underflow protection for arithmetic operations, rendering the SafeMath library redundant and unnecessary. Using the SafeMath library in a contract with Solidity version ^0.8.4 increases gas costs, introduces additional complexity, and may lead to confusion among developers who are already familiar with the updated Solidity features.
+
+**Recommendations:**
+
+To address this issue, it is recommended to remove the import and usage of the SafeMath library from the RedstoneConsumerBase contract, as the built-in arithmetic checks in Solidity ^0.8.4 are sufficient.
+
+
+
+### Typo in the comment
+
+**Description:**
+
+While this typo does not directly impact the functionality of the contract, it can cause confusion for developers who are trying to understand the code. Clear and accurate comments are essential for maintaining a high-quality codebase and ensuring smooth collaboration among developers.
+
+There is a typo in the comment within the PriceFeedWithoutRounds contract. The comment states "but still rely on getRoundData or latestRounud functions", where the correct term should be latestRound.
+
+**Recommendations:**
+
+To address this issue, it is recommended to correct the typo in the comment.
+
+
+
+### Missing event logging and emission 
+
+**Description:**
+
+None of the functions in the contracts log nor emit any events to notify external actors of changes to its state, which makes it harder to monitor and detect potential exploits or attacks.
+
+**Recommendations:**
+
+Consider logging events and adding event emissions to functions.
