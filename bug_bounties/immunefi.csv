@@ -1,52 +1,51 @@
 Name,Source,Max Bounty($),Total Paid Amount($),Response Time(Mins),Languages,Product Types,Project Types,Ecosystems,Program Types,Last Updated,Hash
-Sweat Economy,Immunefi,2000000,0,0,"Rust","Staking","Defi,NFT","","Smart Contract",2023-04-04,9fbccc49f69acbb9ca39464cbdef18bf32f8450b59a4dc6a4e849168faf900b8
 Lido on Polygon,Immunefi,2000000,0,0,"Solidity","Staking","Defi","ETH","Smart Contract,Websites and Applications",2023-04-15,1ab2dc18dfb740386c2327bf4ad830a9a64c90aef18fff1f1f729f0e8b351236
 Zodiac,Immunefi,2000000,0,0,"Solidity","","Defi","ETH","Smart Contract",2022-10-31,07324f5bb38b676ff576ddb0ee3ba8896e38665d6853d022431c635a2d04886c
 Gnosis Chain,Immunefi,2000000,25000,5344,"Solidity","Stablecoin,Staking,Crosschain Liquidity,Wallet","Defi","ETH,BSC","Smart Contract",2022-10-13,38da8d7822fe8bb406770b3b344709aaf3e76c00c5675815244a8f76c8e6abe0
-Celer,Immunefi,2000000,167000,2165,"Solidity","Crosschain Liquidity,L1,Wallet","Blockchain,Defi,NFT","ETH,Avalanche,Polygon,BSC,Arbitrum","Smart Contract,Websites and Applications",2022-10-13,3162df5fe7eb22c206ae1a557fb767d970609ed9ceec691f5a51b771e4f4cd7f
+Celer,Immunefi,2000000,167000,2163,"Solidity","Crosschain Liquidity,L1,Wallet","Blockchain,Defi,NFT","ETH,Avalanche,Polygon,BSC,Arbitrum","Smart Contract,Websites and Applications",2022-10-13,3162df5fe7eb22c206ae1a557fb767d970609ed9ceec691f5a51b771e4f4cd7f
 Lido on Solana,Immunefi,2000000,0,0,"Rust","Staking","Defi","Solana","Smart Contract,Websites and Applications",2023-04-15,cdbad6cb12ead514e8e976b28fe099d2b24c77ff1d0cddb5cb9fe24dcc53f8d4
 Spool,Immunefi,1500000,0,0,"Solidity","Yield Aggregator","Defi","ETH","Smart Contract",2023-03-17,98583643daf47a3e674788ca7bc6bb0809ad08d5a18f71d5df6c56169fa72908
 DeGate,Immunefi,1110000,500,2718,"Solidity","Asset Management,DEX,L2","Defi,Exchange","ETH","Smart Contract,Websites and Applications",2023-04-07,0425b7ace0b436b57557252353fbcb2b406f5d80a6e716d8da3c4b3c71366fe4
 zkSync Era,Immunefi,1100000,0,489,"Solidity","L2","Blockchain","ETH","Smart Contract,Websites and Applications",2023-04-11,7343a03203fe9a48aceca47f71ac585c51d24c22bae69926dfbc85aba59a765f
-Reserve,Immunefi,5000000,0,595,"Solidity","Stablecoin,Synthetic Assets,Oracle,Asset Management,Bug bounty","Defi","ETH","Smart Contract",2023-05-01,fdda1595cc54e2ad63663423ce4f6f06b4e07bdd302fa98854e23e74ec935208
+Reserve,Immunefi,5000000,0,464,"Solidity","Stablecoin,Synthetic Assets,Oracle,Asset Management,Bug bounty","Defi","ETH","Smart Contract",2023-05-01,fdda1595cc54e2ad63663423ce4f6f06b4e07bdd302fa98854e23e74ec935208
 GMX,Immunefi,5000000,0,0,"Solidity","DEX,Perpetuals","Defi","ETH,Avalanche","Smart Contract,Websites and Applications",2023-08-05,4068e8440896b1c176a540f1750a11fd2c1ab067676c96b6d77d4684cdd0fb25
 Olympus,Immunefi,3333333,260433,581,"Solidity","Stablecoin,Staking","Defi","ETH","Smart Contract,Websites and Applications",2023-05-30,e5835f533713d29af3f9733d2c6b764cdc44451a3c6e33bcb45b5cb0d3d423bd
 Chainlink,Immunefi,3000000,0,0,"Solidity","Oracle","Infrastructure","ETH","Smart Contract,Websites and Applications",2023-02-16,c38cd80742732139f564c3a5c89d9d92202830d6fd93a295a2395113a519e674
 Wormhole,Immunefi,2500000,0,0,"Solidity,Rust","DEX,Crosschain Liquidity,Lending","Blockchain,NFT","ETH,Fantom,Polygon,Solana,Terra","Smart Contract,Blockchain/DLT",2023-05-05,3fc440708115c78c066279e97c1877543cc294211d710f480fb6d2e1345d6f36
-zkSync,Immunefi,2300000,0,0,"Rust","L2","NFT","ETH","Smart Contract,Websites and Applications,Blockchain/DLT",2023-04-04,b2fd20ef585916140e0f6aaaccc798b7246568fe41aa014e08c61cebd78525c2
+The Graph,Immunefi,2500000,749488,4126,"Solidity,Rust","Staking","Blockchain,Infrastructure","ETH,Avalanche,Fantom,Polygon,Fuse","Smart Contract,Websites and Applications,Blockchain/DLT",2023-08-05,4677c74421d63f92e1c1ee3c13ebcb23348490046688fb601d6649ef0c09c029
 Axelar Network,Immunefi,2250000,0,0,"Rust","Crosschain Liquidity,AMM","Defi,NFT","ETH,Avalanche,Fantom,Polygon","Smart Contract,Blockchain/DLT",2022-10-24,49c8a23d0d6a00bd3132c3bbb43597b817e2042f16ddd2731d6777c6dce73f20
-Optimism,Immunefi,2000042,2177042,1809,"Solidity","L2,L1","Defi,NFT","ETH,Optimism","Smart Contract,Blockchain/DLT",2023-06-23,98c9360192777b182a29afef58ea577b72bf4051c113cd5c471325850d8005bb
+Optimism,Immunefi,2000042,2177042,1691,"Solidity","L2,L1","Defi,NFT","ETH,Optimism","Smart Contract,Blockchain/DLT",2023-06-23,98c9360192777b182a29afef58ea577b72bf4051c113cd5c471325850d8005bb
 Rhino.fi,Immunefi,2000000,0,0,"Solidity","L2","Blockchain","ETH","Smart Contract",2023-06-30,3508894f1b28aa458d97b6083129dd6cd24a91e229e4b64dca563884a3e7bfb8
 EigenLayer,Immunefi,2000000,0,0,"Solidity","Staking","Infrastructure","ETH","Smart Contract,Websites and Applications",2023-07-17,bbe375264bf5fcc4be15a9c0f8cac738f8892c636565977cb2cbfac85d66b2ad
-The Graph,Immunefi,2500000,749488,4336,"Solidity,Rust","Staking","Blockchain,Infrastructure","ETH,Avalanche,Fantom,Polygon,Fuse","Smart Contract,Websites and Applications,Blockchain/DLT",2023-08-05,4677c74421d63f92e1c1ee3c13ebcb23348490046688fb601d6649ef0c09c029
-Moonbeam Network,Immunefi,1000000,0,0,"Rust","L1","Blockchain","Polkadot","Websites and Applications,Blockchain/DLT",2022-10-21,834152ad15a1d983ed70666ad1cdd4bf63e12549dcfa2984905b37836d5b5719
+Sweat Economy,Immunefi,2000000,0,0,"Rust","Staking","Defi,NFT","","Smart Contract",2023-04-04,9fbccc49f69acbb9ca39464cbdef18bf32f8450b59a4dc6a4e849168faf900b8
+zkSync,Immunefi,2300000,0,0,"Rust","L2","NFT","ETH","Smart Contract,Websites and Applications,Blockchain/DLT",2023-04-04,b2fd20ef585916140e0f6aaaccc798b7246568fe41aa014e08c61cebd78525c2
 Metis,Immunefi,1000000,130000,705,"Solidity","L2","Blockchain","ETH","Smart Contract",2023-02-06,06d0baa9ae533872ee34c39f94371d6897dd93211085d3cd69884e0ac034e018
 Origin DeFi (OUSD and OETH),Immunefi,1000000,12700,422,"Solidity","Stablecoin","Defi","ETH","Smart Contract,Websites and Applications",2023-07-12,a59de858d5d396978f92fcb2800cba23f8a0cda046326606cdef3b7c299e47ed
 Gro,Immunefi,1000000,0,0,"Solidity","Stablecoin,Lending,AMM,Yield Aggregator","Defi","ETH","Smart Contract",2023-03-08,2bc745cd9f4b884fdc216e78efabe02ca4c3d5428fb8fc650df82fab714a18c3
 PancakeSwap,Immunefi,1000000,0,0,"Solidity","DEX,AMM","Defi","BSC","Smart Contract,Websites and Applications",2023-03-08,063811d48ee26350fab16e0ad4bd983d57cd864e28470b09d479c5da5a4f53b3
 Sovryn,Immunefi,1000000,0,0,"Solidity","Staking,Lending","Defi","RSK","Smart Contract,Websites and Applications",2023-05-23,d8c4f334fcdde74d589ea6889a8e61b0abf81ac4b4b47a57e8ad4217cc309374
-Carbon & Bancor,Immunefi,900000,9647,709,"Solidity","DEX,AMM","Defi","ETH","Smart Contract",2023-04-19,1d7d193fc2cad8c398ddd23468fc5e30784aa1498ccc0e7714e00f4db30227d5
+Carbon & Bancor,Immunefi,900000,9647,694,"Solidity","DEX,AMM","Defi","ETH","Smart Contract",2023-04-19,1d7d193fc2cad8c398ddd23468fc5e30784aa1498ccc0e7714e00f4db30227d5
 Morpho,Immunefi,555555,0,0,"Solidity","Lending","Defi","ETH","Smart Contract,Websites and Applications",2023-07-03,58308cd11cee6521dc65ec619b20a6b06117cde87e4fef03ecbafaff05b24003
 Flux Finance,Immunefi,550000,0,0,"Solidity","Lending","Defi","ETH","Smart Contract",2023-03-21,4898fe34aaa0862c0fcb67820a787d79ac80b71796a60119a3ca3c3f062f605a
 StarkEx,Immunefi,1000000,0,0,"Solidity","DEX,Perpetuals","Defi","ETH","Smart Contract,Blockchain/DLT",2023-08-01,a6ae999d1f65c79b2495974a8dc8b6ebd8b3451576a84517f71d515dbaa3c387
 Mynt and Zero,Immunefi,1000000,0,0,"Solidity","Stablecoin","Defi","RSK","Smart Contract,Websites and Applications",2023-06-16,ae9b7bdd09116b3acf11645c7adb24218da609f35c33ac3408890f7c96f9baf5
 Polygon zkEVM,Immunefi,1000000,0,0,"Solidity","L2,L1","Blockchain","BSC,Arbitrum","Blockchain/DLT",2023-05-07,8b0a912a711cc3e9d39a68b4af9790966e82744d52d1f62c959760d9bbb47aac
-Alchemix,Immunefi,1000000,43605,3194,"Solidity","Lending","Defi","ETH","Smart Contract",2022-10-13,e1c8f5a20ef05b9f83372afae8654eef293c4c08d9c05fbbe1d71cf877bc1b36
+Alchemix,Immunefi,1000000,43605,2900,"Solidity","Lending","Defi","ETH","Smart Contract",2022-10-13,e1c8f5a20ef05b9f83372afae8654eef293c4c08d9c05fbbe1d71cf877bc1b36
 Aura Finance,Immunefi,1000000,0,0,"Solidity","Staking","Defi","ETH","Smart Contract",2022-12-15,f0f8da15b0e91d2047b957154f104de0a8a19bc54c8b23faf57740d2c540ea72
 Nomad,Immunefi,1000000,0,0,"Solidity","Crosschain Liquidity","Defi","ETH","Smart Contract",2023-02-03,f2a9727d45c822dbb19375eed2e8b89e5b56795ea7bfdd96a28e3477a9e4b95c
 Aztec Network,Immunefi,1000000,0,0,"Solidity","L2","Blockchain","ETH","Smart Contract",2023-04-29,eccd897e85ce709f76598c5cb4717dc317d3ace14eda6fa5a9719948a87dc692
-Balancer,Immunefi,1000000,0,0,"Solidity","Asset Management,DEX,AMM","Defi","ETH","Smart Contract",2023-08-05,9de8aacd6cb96f533b01ba4d39c06ca9150651ecb27f65a1105b35f4c6c937f5
+Balancer,Immunefi,1000000,0,0,"Solidity","Asset Management,DEX,AMM","Defi","ETH","Smart Contract",2023-08-13,9de8aacd6cb96f533b01ba4d39c06ca9150651ecb27f65a1105b35f4c6c937f5
 Stader for Polygon,Immunefi,1000000,0,0,"Rust","Staking,Crosschain Liquidity","Defi","ETH","Smart Contract",2023-06-15,f22cb968c2fa847c0e032335d86a3b5fe9629298a29eabedf922bf48ccb32a77
 Nebula Protocol,Immunefi,1000000,0,0,"Rust","Asset Management","Defi","Terra","Smart Contract",2022-10-13,6c36dda5a2b418d534118e0c6cf521bbb5b27401422999b769285a39aae290d4
 Hakka Finance,Immunefi,1000000,5500,1218,"Solidity","Stablecoin,DEX,AMM,Insurance","Defi","ETH,Fantom,Polygon,BSC","Smart Contract,Websites and Applications",2023-03-28,2f5766b04362ee479a0adeebc5635a1b28be6f92a090837a3382485d02317c18
-Maple,Immunefi,500000,0,0,"Solidity","Lending","Defi","ETH","Smart Contract",2023-06-24,dc095298db159e035acafdc1152cb4b0f2c02778f3ad3093e614257b9dc5ff8f
+Moonbeam Network,Immunefi,1000000,0,0,"Rust","L1","Blockchain","Polkadot","Websites and Applications,Blockchain/DLT",2022-10-21,834152ad15a1d983ed70666ad1cdd4bf63e12549dcfa2984905b37836d5b5719
 Port Finance,Immunefi,500000,0,0,"Rust","Lending","Defi","ETH,Solana,Terra","Smart Contract",2022-12-29,8d3d4df52cfb6b674a329998b56e87834fe62ce70bd9967c39169a771f37c9d6
 Buttonwood,Immunefi,500000,0,0,"Solidity","AMM","Defi","ETH","Smart Contract",2023-03-08,46b9c061e70f294026e4a7a70a491d15c3e0ad620b8a4f2f44a70cc70db0baa3
 Cartesi,Immunefi,500000,0,0,"Solidity","L2","Blockchain","ETH,Avalanche,Polygon,BSC","Smart Contract,Websites and Applications",2023-08-08,00341893887cbd2619b3d687f683ec416b08864c601c902635da71342c1253cb
 Sherlock,Immunefi,500000,0,0,"Solidity","Staking,Insurance","Defi","ETH","Smart Contract",2022-11-28,1a4e33acd1f0d7b707d1d09a6bd3259ff3242208fa353bd8ba4c67dadec4705f
-Goldfinch,Immunefi,500000,94250,2171,"Solidity","Lending","Defi","ETH","Smart Contract,Websites and Applications",2023-08-01,cb5546e9e3cc5f17c688870853f3e119fa9421394598bdada02867728157a3ed
+Goldfinch,Immunefi,500000,94250,2169,"Solidity","Lending","Defi","ETH","Smart Contract,Websites and Applications",2023-08-01,cb5546e9e3cc5f17c688870853f3e119fa9421394598bdada02867728157a3ed
 Rocket Pool,Immunefi,500000,0,0,"Solidity","Staking","Defi,Infrastructure","ETH","Smart Contract",2023-08-04,fcef710a044799b6d09c48765355978c09c0d19caead67dcf060b86f997d9834
-BENQI,Immunefi,500000,0,0,"Solidity","AMM","Defi","Avalanche","Smart Contract,Websites and Applications",2023-07-28,624b18aa68e27b9b1aab5bd250360bc62a9b988616096b318f19d884671cd4f6
+BENQI,Immunefi,500000,0,0,"Solidity","AMM","Defi","Avalanche","Smart Contract,Websites and Applications",2023-08-16,624b18aa68e27b9b1aab5bd250360bc62a9b988616096b318f19d884671cd4f6
 Composable Finance,Immunefi,500000,0,0,"Solidity","","Infrastructure","ETH","Smart Contract",2023-03-08,decd1509a6561ceb292a531abc6df04e0531d66d5af4c289b751b01921da3c99
 Alpha Venture DAO,Immunefi,500000,0,0,"Solidity","Staking,Crosschain Liquidity,Yield Aggregator","Defi,Infrastructure","ETH,Avalanche,BSC","Smart Contract,Websites and Applications",2023-04-17,a04187207a92ae46f9adac9ec159565525761fdc69a4daf023cf3d2a1e7a9706
 Ajna,Immunefi,500000,0,0,"Solidity","Lending","Defi","ETH,Avalanche,Polygon,Optimism,Arbitrum","Smart Contract",2023-08-09,0117e8b00114b826461d31eee351418825a514523d40d2df28f35e6c22e0127f
@@ -60,16 +59,16 @@ Interlay,Immunefi,500000,208500,3413,"Rust","Crosschain Liquidity,Insurance","De
 Helio,Immunefi,500000,0,0,"Solidity","Stablecoin,Lending,Yield Aggregator","Defi","BSC","Smart Contract",2022-10-24,2d8c8cd452a189e939e54eff5161e332ced2dd7708b7603180bd06a8be3227c4
 Orca,Immunefi,500000,0,0,"Rust","Crosschain Liquidity,AMM","Defi","Solana","Smart Contract",2022-10-13,b27291962e8a993ce26a5595d98615381bfef6ee124eaecae8c8e8b5f55c0179
 Wombat Exchange,Immunefi,500000,0,0,"Solidity","DEX,Crosschain Liquidity","Defi","BSC","Smart Contract,Websites and Applications",2022-10-16,b615895e740de939beefed449e630d9f876f41df2e5b0fd78746138ff6d14d62
-DeFi Saver,Immunefi,250000,0,0,"Solidity","Asset Management","Defi","ETH","Smart Contract,Websites and Applications",2022-10-13,221ac405059cca97feab1e4ef0438b395d45ba518caaba15ef404cee0df7baf9
-Yield Protocol,Immunefi,250000,147600,2370,"Solidity,Rust","Lending","Defi","ETH","Smart Contract",2023-08-04,23dd04caafafb085aea933f59fbde5dfbc3ba363039be61a3438d1267ca4bb5f
+Maple,Immunefi,500000,0,0,"Solidity","Lending","Defi","ETH","Smart Contract",2023-06-24,dc095298db159e035acafdc1152cb4b0f2c02778f3ad3093e614257b9dc5ff8f
+Yield Protocol,Immunefi,250000,147600,1794,"Solidity,Rust","Lending","Defi","ETH","Smart Contract",2023-08-04,23dd04caafafb085aea933f59fbde5dfbc3ba363039be61a3438d1267ca4bb5f
 Perpetual,Immunefi,250000,0,0,"Solidity","Perpetuals","Defi","Optimism,xDAI","Smart Contract",2022-10-24,a36877a8a6a9b6fd811a3053b84d5d37558d2904f10146daed9294b6159729a7
-Radiant,Immunefi,200000,0,6439,"Solidity","Staking,Crosschain Liquidity,Lending","Defi","Arbitrum","Smart Contract,Websites and Applications",2023-06-15,01a71f5d2819ca1c57224d348b25fde81a0210b7071ad9d1991bc400b9e53e79
+Radiant,Immunefi,200000,0,6797,"Solidity","Staking,Crosschain Liquidity,Lending","Defi","Arbitrum","Smart Contract,Websites and Applications",2023-06-15,01a71f5d2819ca1c57224d348b25fde81a0210b7071ad9d1991bc400b9e53e79
 ParaSpace,Immunefi,200000,0,0,"Solidity","Lending","NFT","ETH","Smart Contract",2023-03-22,1b6762b20024dfda6e8b38541ce4f3e27ba5a4541d25bd267e152241ad2296dc
 Gearbox,Immunefi,200000,343000,419,"Solidity","Perpetuals,Options","Defi","ETH","Smart Contract",2023-01-09,ee75efc9fe3b8a9eb69f0b5460f99ba6c9cd6a2d68a009158de1bbc9279f7493
 pNetwork,Immunefi,200000,0,0,"Solidity","L2","Defi,NFT","ETH,Polygon,xDAI","Smart Contract,Websites and Applications",2023-05-26,03d2f97285e4d331c9cb9f1c75a729b2a88a735e05282b61e566f8492e377db2
 SpookySwap,Immunefi,200000,0,0,"Solidity","DEX,Staking,Crosschain Liquidity,AMM","Defi,NFT","Fantom","Smart Contract",2022-10-24,1b59549a440bf383c50f7cfddac3f1de18340abf0ab994ec86dcef54b51e9561
 Gains Network,Immunefi,400000,118000,0,"Solidity","DEX,Perpetuals,Staking,L2,Options","Defi,NFT","Polygon","Smart Contract,Websites and Applications",2023-08-11,8638b396efe47d393109b1290a1c2b3efa377889b46d138c17185368c13878fb
-Enzyme Finance,Immunefi,400000,536000,114,"Solidity","Asset Management","Defi","ETH","Smart Contract",2023-08-11,61d36ae07b23a5fc6b6e25165dc6dd30c75ae6c9ff484057975db29b28b1e254
+Enzyme Finance,Immunefi,400000,536000,69,"Solidity","Asset Management","Defi","ETH","Smart Contract",2023-08-11,61d36ae07b23a5fc6b6e25165dc6dd30c75ae6c9ff484057975db29b28b1e254
 Ribbon,Immunefi,300000,0,0,"Solidity","Yield Aggregator,Derivatives","Defi","ETH","Smart Contract",2023-05-26,1c73824bf3375e889a84a8393072520be48372d7f89a6b76b29d71cc0a9badcc
 Ondo Finance,Immunefi,250000,0,0,"Solidity","Yield Aggregator","Defi","ETH","Smart Contract",2023-03-07,a0d9c39859ccf662cf330689e6034e50eed1f3130837a5b06a32263b5dd3b0f2
 Furucombo Funds,Immunefi,250000,0,0,"Solidity","DEX,L2","Defi","ETH,Polygon","Smart Contract",2023-04-28,fd98ab6acb6a82ca6b16ebe8f249b27680b46ca2a8e017c55b51e928bce35b09
@@ -79,19 +78,19 @@ Cronos,Immunefi,250000,0,0,"Solidity","L1","Blockchain,Defi","Cronos","Smart Con
 Notional,Immunefi,250000,0,135,"Solidity","Staking,Lending","Defi","ETH","Smart Contract,Websites and Applications",2023-07-03,094dbf24124209effd7c0cde2aed5ea4818f2151f40996acc3ff5512c1744fe8
 Tokemak,Immunefi,250000,0,0,"Solidity","Staking,Crosschain Liquidity","Defi","ETH","Smart Contract,Websites and Applications",2022-12-07,95016f0772fa9aa851bf79515441332f4a671c4a4b4211a5c69ea58e47d3dc3b
 Pendle,Immunefi,250000,0,1914,"Solidity","AMM","Defi","ETH","Smart Contract",2023-04-05,5069bc71523e7225f1dc05e415ac509ce81cd042e694a7394bf6434a936b2f7d
-Trader Joe,Immunefi,100000,0,0,"Solidity","DEX,Staking,Lending,AMM","Defi","Avalanche,Fuse,Arbitrum","Smart Contract",2023-06-19,74fe7d9afeaed5c2961d066edb946d5297f4f28169a520d8025283e40b18a3fe
+DeFi Saver,Immunefi,250000,0,0,"Solidity","Asset Management","Defi","ETH","Smart Contract,Websites and Applications",2022-10-13,221ac405059cca97feab1e4ef0438b395d45ba518caaba15ef404cee0df7baf9
 Chronos,Immunefi,100000,0,0,"Solidity","DEX","Defi,NFT","Arbitrum","Smart Contract",2023-05-03,6a45762c19ee5e1fc93c4af076bc85c0f3a0fda6f6df582418d4eb8c976050f4
 IPOR,Immunefi,100000,1000,646,"Solidity","Asset Management,DEX,Staking,AMM,Derivatives","Defi","ETH","Smart Contract",2023-04-19,1df814a26b844266cc1a411d65d1f85271fbb380a6571617fa852f1a5a04ba0b
-Uniwhale,Immunefi,100000,21200,371,"Solidity","Synthetic Assets,Oracle,DEX,Perpetuals,Derivatives","Defi","BSC","Smart Contract",2023-05-01,33b2e0fb8bd0d0bb6574b2cb6167a40cdbb74c686af4b4200da2429b3675bc89
 Metronome,Immunefi,100000,0,0,"Solidity","Synthetic Assets,Yield Aggregator","Defi","ETH","Smart Contract,Websites and Applications",2023-02-23,afbbee70e8e4ff1c9121794e3ef2aa55d29c2e85f47eb656f756d6512d3196b2
-DFX Finance,Immunefi,100000,128000,2915,"Solidity","DEX","Defi","ETH,Polygon","Smart Contract",2023-02-13,3307881c00a7abfdd2aac79c19078f548a1a58637ff05b1a92e8e8da90c08dff
+DFX Finance,Immunefi,100000,128000,2869,"Solidity","DEX","Defi","ETH,Polygon","Smart Contract",2023-02-13,3307881c00a7abfdd2aac79c19078f548a1a58637ff05b1a92e8e8da90c08dff
 Mars Protocol,Immunefi,100000,20000,0,"Rust","L1","Blockchain","Terra","Smart Contract,Blockchain/DLT",2023-08-08,ca47c283b0a19950a39fb8788ce381d3d79646eeda8217d6e2654d422480fd4b
 Pods,Immunefi,100000,0,0,"Solidity","Yield Aggregator","Defi","ETH","Smart Contract,Websites and Applications",2023-06-01,4ac495616c61941c3da825c6ec9a5f7796f1afb16a005d84343efff95816f78f
 Geode Finance,Immunefi,100000,0,0,"Solidity","Staking","Defi","Avalanche","Smart Contract,Websites and Applications",2023-03-08,c3205e05cf93a0363684527d16c2fe6e2d80a8ce1f98c983a1e90fc288b5f09a
 Revert,Immunefi,100000,0,0,"Solidity","AMM","Defi","ETH","Smart Contract",2022-11-15,b28de340c0da93fef847e092ba4a1d2d0fc33d04b0ce3b6ca0a5da5369277cf2
+Uniwhale,Immunefi,13915,21200,371,"Solidity","Synthetic Assets,Oracle,DEX,Perpetuals,Derivatives","Defi","BSC","Smart Contract",2023-08-13,33b2e0fb8bd0d0bb6574b2cb6167a40cdbb74c686af4b4200da2429b3675bc89
 Router,Immunefi,200000,103755,7048,"Solidity","Crosschain Liquidity,L2,L1","Blockchain,Defi,Infrastructure","ETH,Polygon","Smart Contract,Websites and Applications",2022-10-13,b914464e0448b36193b0ef0b08b63bbfee4a0a0ec4c449914869d8791a023fea
-Yearn Finance,Immunefi,200000,207500,156,"Solidity","Lending,Yield Aggregator","Blockchain,Defi","ETH,Fantom","Smart Contract",2023-07-17,040c20486e8fe1e0113e36e5baa4245b4c32ba602275e247d5e8e24c8fccd244
-SushiSwap,Immunefi,200000,469101,9577,"Solidity","DEX,AMM","Defi","ETH,Fantom,Polygon,BSC,xDAI","Smart Contract,Websites and Applications",2023-05-10,93c983dc3604142f5b941c271a4b90c24e0caaf76c9655277a3991489fd0f9f8
+Yearn Finance,Immunefi,200000,207500,155,"Solidity","Lending,Yield Aggregator","Blockchain,Defi","ETH,Fantom","Smart Contract",2023-07-17,040c20486e8fe1e0113e36e5baa4245b4c32ba602275e247d5e8e24c8fccd244
+SushiSwap,Immunefi,200000,469101,9577,"Solidity","DEX,AMM","Defi","ETH,Fantom,Polygon,BSC,xDAI","Smart Contract,Websites and Applications",2023-08-16,93c983dc3604142f5b941c271a4b90c24e0caaf76c9655277a3991489fd0f9f8
 Popcorn,Immunefi,150000,26000,4397,"Solidity","Yield Aggregator","Defi","ETH","Smart Contract",2023-06-28,94c3d113f6ca6988b1c78dba9d01cbd990fa821133c8919680a3496a2545c068
 88mphV3,Immunefi,100420,0,0,"Solidity","Lending","Defi","ETH","Smart Contract",2022-10-13,d9ace973c6b8736bbdc0e4793e9b5811e99d1035fd0087fd91a1a4d2467bea13
 Bonfida,Immunefi,100000,0,0,"Rust","","Defi","Solana","Smart Contract,Websites and Applications",2023-08-05,ba274415dbf68cc5513c13ce70472c0759fbd4a5eb56cebb301322a9e2f5d3bd
@@ -100,7 +99,7 @@ Linea,Immunefi,100000,0,0,"Solidity","L2","Blockchain","","Smart Contract",2023-
 Velodrome Finance,Immunefi,100000,0,0,"Solidity","DEX,Staking,AMM","Defi","ETH","Smart Contract",2023-07-19,a42e4ddc1275e6b85c333068644608b5cbf110d58054a5fdaf260ac0bb6cdd11
 Push Protocol,Immunefi,100000,0,0,"Solidity","Staking","Infrastructure","ETH,BSC","Smart Contract",2023-06-21,70267788a064f6426b9556f158fbb576c792600eec5ad5591b04f35fc0b28e98
 Lybra Finance,Immunefi,100000,0,0,"Solidity","Lending","Defi","ETH","Smart Contract",2023-05-30,60d504516811738b60c81da7bfed8ec986b748899a5d38bba8b8a0c6265f5f96
-BiFi,Immunefi,100000,250,2133,"Solidity","Perpetuals,Crosschain Liquidity,Wallet","Defi","ETH,Avalanche,BSC","Smart Contract",2023-07-18,e5cb2161664f80a226f1491e8664f8e28e442dd278764da3019d93ab65067024
+Trader Joe,Immunefi,100000,0,0,"Solidity","DEX,Staking,Lending,AMM","Defi","Avalanche,Fuse,Arbitrum","Smart Contract",2023-06-19,74fe7d9afeaed5c2961d066edb946d5297f4f28169a520d8025283e40b18a3fe
 Polkastarter,Immunefi,100000,0,0,"Solidity","","Defi","ETH,Avalanche,Polygon,Solana,Polkadot","Smart Contract",2022-10-19,3114bd2b3c9a88cf16cc396de03cae444717b92eb2043dc6f37e19bdfb19ddc7
 Jet Protocol,Immunefi,100000,165500,10542,"Rust","Lending","Defi","Solana","Smart Contract,Websites and Applications",2022-10-13,ca20c8d22f1443a3432df4bb395bab083c7fb4b486bc0ebac7c8877f85ed8aef
 Popsicle,Immunefi,100000,0,0,"Solidity","Staking,AMM","Blockchain","ETH,Fantom,BSC","Smart Contract",2023-03-08,e0ae3f23ab0880995a159b6d92efe644f5ced97d06afa6f9374b749ce2fb3831
@@ -112,8 +111,8 @@ MUX,Immunefi,100000,0,0,"Solidity","DEX","Defi","ETH","Smart Contract,Websites a
 DODO,Immunefi,100000,0,0,"Solidity","DEX,AMM","Defi","ETH,Polygon,BSC","Smart Contract",2023-05-07,051326179bdc092b3cbfb1d557f8326fc581ec7a3c1ba25c882767b9e6f07db3
 Shadow Farm,Immunefi,100000,0,0,"Solidity","Staking,Yield Aggregator","Defi","Fantom","Smart Contract",2022-10-13,d302f66820e7e6f6d747682435ab7a3390c3981d3a7a7ecbe3800dedb80a19e5
 Ease,Immunefi,100000,0,0,"Solidity","Insurance Aggregator","Defi","ETH","Smart Contract",2022-10-13,b4c9c8115aaaf958f5e00f31c80bcd3849ff06146946f4d27fe00572c68d4f49
-Summer.fi,Immunefi,100000,26000,2093,"Solidity","Perpetuals,Lending,Wallet,Options","Defi","ETH","Smart Contract,Websites and Applications",2023-06-26,efa46056ec8491f418136b9b5c5104d4a87bd7ba02be960223a7ca5fe29c2424
-Ocean Protocol,Immunefi,100000,666000,12699,"Solidity","DEX,Staking,Lending,Wallet,Currency","Blockchain,Defi,NFT","ETH,Polygon","Smart Contract",2023-05-04,2460a5aed592069968217d1c51da5df5f5f8c7b8d4344585d7ee2510b0777ccf
+Summer.fi,Immunefi,100000,26500,2094,"Solidity","Perpetuals,Lending,Wallet,Options","Defi","ETH","Smart Contract,Websites and Applications",2023-06-26,efa46056ec8491f418136b9b5c5104d4a87bd7ba02be960223a7ca5fe29c2424
+Ocean Protocol,Immunefi,100000,666000,12364,"Solidity","DEX,Staking,Lending,Wallet,Currency","Blockchain,Defi,NFT","ETH,Polygon","Smart Contract",2023-05-04,2460a5aed592069968217d1c51da5df5f5f8c7b8d4344585d7ee2510b0777ccf
 Sturdy,Immunefi,100000,0,0,"Solidity","Stablecoin,Lending","Defi","ETH,Fantom","Smart Contract,Websites and Applications",2022-11-01,545484e054aff9967aa6e24a9797318b9d0e7d92f66e92477b928b2cc68e4274
 Superfluid,Immunefi,100000,0,0,"Solidity","","Defi","Polygon","Smart Contract",2023-06-06,df13a3dbf1ad2a7ed31f61b285b352ee3931a625cfd941ef4e221c228feab8e1
 WePiggy,Immunefi,100000,0,0,"Solidity","Asset Management,Lending,L2","Defi,NFT","ETH,Polygon,Optimism,BSC,Heco","Smart Contract,Websites and Applications",2022-12-13,57220785d0edcd15e260455c7d5e55e1f751f0248e8ed0d638d225bfee09de17
@@ -121,7 +120,7 @@ WOOFi,Immunefi,100000,0,0,"Solidity","DEX,Staking,AMM,CEX","Defi","ETH","Smart C
 IDEX,Immunefi,100000,0,0,"Solidity","DEX,Staking,AMM","Defi","Polygon","Smart Contract,Websites and Applications",2022-10-13,b59c76eb8c6722751b0dd57a0bce798a3970adc3caaaa494fc41e54dd0587417
 Astroport,Immunefi,100000,0,0,"Rust","AMM","Defi","Terra","Smart Contract",2023-03-28,1b0566acf3b2fc5968c0cb220027f840dc408f5925fa19f81bac981d4047c6a8
 Rai,Immunefi,100000,0,0,"Solidity","Stablecoin","Defi","ETH","Smart Contract",2023-01-02,87f02f23d507a77e7ad009b2c4ef19f5e0353a6a55141897844f2a84c6625fa7
-Mars Ecosystem,Immunefi,60000,0,0,"Solidity","Stablecoin","Defi","ETH,BSC","Smart Contract,Websites and Applications",2022-10-13,9b9883de9ea1829a407de9f6a03f230a4d8859173c4f64080ac45ce03a599939
+BiFi,Immunefi,100000,250,1231,"Solidity","Perpetuals,Crosschain Liquidity,Wallet","Defi","ETH,Avalanche,BSC","Smart Contract",2023-07-18,e5cb2161664f80a226f1491e8664f8e28e442dd278764da3019d93ab65067024
 Paladin,Immunefi,60000,0,0,"Solidity","Lending","Defi","ETH","Smart Contract",2022-10-25,2c211acb55f06b540a0777c3df76811e1ae1bd46bd89cef7dabd0dc904e6db10
 CoW Protocol,Immunefi,54000,0,0,"Solidity","Wallet","Defi","ETH","Smart Contract",2023-01-25,ffc50e81fc45d7f4bd5623af8caec3e4f7ef7429aa46f8b30a6226bc0a174198
 MetaStreet,Immunefi,50000,0,0,"Solidity","Lending","Defi,NFT","ETH","Smart Contract",2023-08-02,f3e4b7d4d1dbd33f08b2a069248da507facc1a3438d73a1bf4d2ecc342aec137
@@ -130,7 +129,6 @@ Gala Games,Immunefi,50000,0,0,"Solidity","Wallet","Blockchain,Infrastructure,NFT
 Sommelier,Immunefi,50000,0,0,"Solidity,Rust","","Defi","ETH","Smart Contract,Websites and Applications,Blockchain/DLT",2023-05-24,4011e02ec1c4f8aa46407ba857e56d8d505efde1e78269a6fee3650631370e49
 Sense,Immunefi,50000,91000,6329,"Solidity","Lending,Yield Aggregator","Defi","ETH","Smart Contract,Websites and Applications",2023-02-17,b27f4d89f25e8b998b45e318787e0dee3f21f6631944c8f32abbd87b3f946908
 Vesper,Immunefi,100000,0,0,"Solidity","Yield Aggregator","Defi","ETH","Smart Contract",2023-04-21,b4b0ee4a8106d7c81cded7ca9856a48441e13e43ac0963a8b384ad1fb9b20b41
-Saddle,Immunefi,100000,0,0,"Solidity","AMM,Yield Aggregator","Defi","ETH","Smart Contract",2023-03-08,0cfb6916e722c269e2e94e65bfddace1af43aa422222b5306eb628a9f522cd51
 Idle Finance,Immunefi,100000,0,0,"Solidity","Yield Aggregator","Defi","ETH","Smart Contract",2023-03-29,18c9222d7dd6faca0985867169ee39220edadf02ec7ce0511651f8809f55dcb9
 Shell Protocol,Immunefi,100000,0,0,"Solidity","DEX,L2,AMM","Defi,NFT","ETH,Arbitrum","Smart Contract,Websites and Applications",2023-07-10,d7d9cfa6e7d4ab1e521723ced8b3d6e69d6f5d81a8255845742b6c4a339e2efa
 Synthetix,Immunefi,100000,0,0,"Solidity","Synthetic Assets,DEX","Defi","ETH,Optimism","Smart Contract",2023-03-08,abd6312a413a3687dc05770b267e013f5429c16d3cb02c278235b0a93f0f387e
@@ -140,8 +138,8 @@ Horizen (Gobi Testnet),Immunefi,75000,0,0,"Rust","Bug bounty,L2,L1","Blockchain"
 Bond Protocol,Immunefi,75000,0,0,"Solidity","","Defi","ETH","Smart Contract",2023-02-16,1b90676d150243cca15096478b2fe427efb2969dd40e914be5dc2fdee223b0a7
 Beefy Finance,Immunefi,75000,0,0,"Solidity","Yield Aggregator","Defi","Polygon","Smart Contract,Websites and Applications",2022-10-13,b6d03df5dad30c552d3c90be8cc5c3fe71d0628ddf7bc48be90aba81ccc9af77
 SORA,Immunefi,70000,0,0,"Solidity,Rust","DEX,Crosschain Liquidity,AMM","Defi","Polkadot","Websites and Applications,Blockchain/DLT",2023-01-29,5cb5617ae84a7bb96081249cd991722e957279e7ce1b43b66891e55b469ba99d
-Nexus Mutual,Immunefi,50000,0,0,"Solidity","Insurance","Defi","ETH","Smart Contract",2023-03-08,811493e70b189b1814e021f3312a40581d10793be09a59ceb6e6831c155e54eb
-Immunefi,Immunefi,50000,18736,1328,"Solidity","Bug bounty","Infrastructure","ETH,xDAI","Smart Contract,Websites and Applications",2023-06-16,079da6afc5ac821f46c533b81ad3f9d089942583a18311a399a5770d65c355cd
+Mars Ecosystem,Immunefi,60000,0,0,"Solidity","Stablecoin","Defi","ETH,BSC","Smart Contract,Websites and Applications",2022-10-13,9b9883de9ea1829a407de9f6a03f230a4d8859173c4f64080ac45ce03a599939
+Immunefi,Immunefi,50000,18736,1244,"Solidity","Bug bounty","Infrastructure","ETH,xDAI","Smart Contract,Websites and Applications",2023-06-16,079da6afc5ac821f46c533b81ad3f9d089942583a18311a399a5770d65c355cd
 Serai,Immunefi,30000,0,0,"Rust","DEX,Crosschain Liquidity,AMM,L1","Blockchain,Defi,Exchange","","Blockchain/DLT",2023-08-04,b94544f46715f0a6fcb19454ba110613d824e45c8fa7e5eb4b52a49ec37b3fd0
 Zenlink,Immunefi,30000,0,0,"Solidity","DEX,Crosschain Liquidity","Defi","Polkadot","Smart Contract,Websites and Applications",2023-05-03,a80a2847dd42fcc1270d46d554b0e56f2836b94f49cd1f96952270b3ad080f18
 Duet Finance,Immunefi,30000,0,0,"Solidity","AMM,Wallet,Yield Aggregator","Blockchain","ETH,Polygon,BSC","Smart Contract",2022-10-24,8b9c66563aa1a202111b01105759dd62533d1d394f495890eac24e17359d94be
@@ -160,7 +158,7 @@ Lyra,Immunefi,50000,0,0,"Solidity","AMM","Defi","Optimism","Smart Contract",2023
 Ichi,Immunefi,50000,0,0,"Solidity","Stablecoin","Defi","ETH","Smart Contract",2023-04-04,6f6338d40ed41c3e88c68740e8fd70b4d3e8efff4933e6f8cfa21f197a248a1f
 Foundation,Immunefi,50000,0,0,"Solidity","","NFT","ETH","Smart Contract",2022-10-13,fb0559fe2c94496aef4c0efdc3de645cd5bd483c0aee25ffbe04a0c43f738b75
 Integral,Immunefi,50000,0,0,"Solidity","DEX,AMM","Defi","ETH","Smart Contract",2023-08-04,f820361fb7209502baad2798974e1a83b5abbb08818d82833b2654bb225c0fb6
-WardenSwap,Immunefi,20000,0,0,"Solidity","DEX,L2","Blockchain,NFT","ETH,Polygon,BSC","Smart Contract",2023-03-20,3f943642d804a0b62b3f8a492d68d55bd662f9a7598656ea96fe08a99e15e1c2
+Nexus Mutual,Immunefi,50000,0,0,"Solidity","Insurance","Defi","ETH","Smart Contract",2023-03-08,811493e70b189b1814e021f3312a40581d10793be09a59ceb6e6831c155e54eb
 Charm,Immunefi,20000,0,0,"Solidity","AMM,Options","Defi","ETH","Smart Contract",2023-08-12,feb1e512e5de08be865764b5681cebc68747140343a1547c66c1b00e9c47ba91
 Enosys,Immunefi,15000,0,0,"Solidity","Crosschain Liquidity","Defi,Infrastructure","","Smart Contract",2023-06-28,b88aeb576503d65a39b01659b7b1e34d072d4beb6a05b8ef61febfa463b035f5
 Tapio,Immunefi,10000,0,0,"Solidity","Synthetic Assets","Defi","ETH","Smart Contract",2023-07-25,4a9c5b76a5c840c702ca9c9ea3547556a93c86a8235c22f9941c429f43d51dd7
@@ -169,11 +167,11 @@ JUSD,Immunefi,10000,0,0,"Solidity","Perpetuals","Defi","Arbitrum","Smart Contrac
 SPOT,Immunefi,10000,0,0,"Solidity","Derivatives","Defi","ETH","Smart Contract,Websites and Applications",2023-02-16,fe25ab2e7229c748be21d2e5afa79d6fef39169e1c16eb28b2ef2b241b1d7f01
 Moola,Immunefi,10000,0,0,"Solidity","Lending","Defi","Celo","Smart Contract,Websites and Applications",2023-02-03,a624a37006a91061202e6d79819bd0bf365bc24e0f9baf7655cf4c00b431eba0
 GYSR,Immunefi,10000,0,0,"Solidity","Staking","Defi,NFT","ETH","Smart Contract",2023-06-20,1f967a120142a2c80263aa5b2111bdf52e0ed9682d243a96aa2c15975df01bb4
-ApeSwap,Immunefi,10000,24773,3316,"Solidity","DEX,AMM","Defi","BSC","Smart Contract,Websites and Applications",2023-06-20,351b61b01dd2bbcb02820a23a3cac5f3dc874262e41630471cd63ad1f7282a99
+ApeSwap,Immunefi,10000,24773,3670,"Solidity","DEX,AMM","Defi","BSC","Smart Contract,Websites and Applications",2023-06-20,351b61b01dd2bbcb02820a23a3cac5f3dc874262e41630471cd63ad1f7282a99
 StaFi: rDEX,Immunefi,25000,0,0,"Rust","DEX,AMM","Defi","ETH","Smart Contract",2023-07-10,acc2beb1b162950957cd13bbe08b4779695151082280f5e09048b9d3f63bc699
 KogeFarm,Immunefi,25000,0,0,"Solidity","Yield Aggregator","Defi","Fantom,Polygon,BSC","Smart Contract",2022-10-24,42b433b438154e62bde6e94bd0ac261aae680e4b810731df9a156af53ba2419c
 Tidal,Immunefi,25000,0,0,"Solidity","Lending,Insurance","Blockchain,Defi","ETH,Polkadot","Smart Contract,Websites and Applications",2023-03-22,89e4bce707a81b65d15516b309188a16bfca20576ee2689313f76a603f5a4457
-Request Network,Immunefi,20000,0,0,"Solidity,Rust","","Defi","ETH,Avalanche,Fantom,Fuse,BSC","Smart Contract,Websites and Applications",2023-07-31,fb59bf2a59361f0e1753e431ae3a1b1c3ec6baf438028b73d45a2aad1af30a7b
+Request Network,Immunefi,20000,0,0,"Solidity,Rust","","Defi","ETH,Avalanche,Fantom,Fuse,BSC","Smart Contract,Websites and Applications",2023-08-16,fb59bf2a59361f0e1753e431ae3a1b1c3ec6baf438028b73d45a2aad1af30a7b
 Local Traders,Immunefi,20000,0,0,"Solidity","","Defi","BSC","Smart Contract",2023-06-22,d5fdc193e0d11af2262c51f0c1b083f3add6c78a950dfd338113de96e510d042
 Nodle,Immunefi,20000,0,240,"Rust","Staking,L1,Wallet","Defi,Infrastructure,NFT","Polkadot","Websites and Applications,Blockchain/DLT",2023-06-01,6b83da7e6bf60334c8cf745f365219e7b9678f4000d0d423fa2a661a585ff34e
 MetalSwap,Immunefi,20000,0,0,"Solidity","DEX","Defi","ETH","Smart Contract",2023-02-16,bc1d4435b45a70415f6aa17dcf7b9f5c84e414e0415be9dc22f53c560a81f68c
@@ -181,7 +179,7 @@ MYSO Finance,Immunefi,20000,0,0,"Solidity","Lending","Defi","ETH","Smart Contrac
 Unlockd,Immunefi,20000,0,0,"Solidity","Crosschain Liquidity,Lending","NFT","ETH","Smart Contract,Websites and Applications",2023-07-03,6d1a2d9d53d5b5afd58f6268cb98d0384f775d54e5384e63745dd36b83f3f5ef
 Predy Finance,Immunefi,20000,0,0,"Solidity","Perpetuals,Lending,AMM","Defi","Arbitrum","Smart Contract",2023-07-18,eb840ed0de4c7898df1f970a35a9007f924dd07cc820d0bd476d8be66e46d8ce
 Bifrost Finance,Immunefi,20000,0,0,"Rust","Staking,Crosschain Liquidity,Lending,Wallet","Defi","Polkadot","Websites and Applications,Blockchain/DLT",2022-10-13,10d4e753c0c995dd625f3062edce35ea1dc5f992eb7ff8ca1500d6099658674a
-Stader for ETH,Immunefi,1000000,0,0,"Solidity","Staking","Defi","ETH","Smart Contract",2023-07-10,b59d4c22d1d05a7cd6d1de111305cb4ed2055ec3c3433c2900577798d2ed3825
+WardenSwap,Immunefi,20000,0,0,"Solidity","DEX,L2","Blockchain,NFT","ETH,Polygon,BSC","Smart Contract",2023-03-20,3f943642d804a0b62b3f8a492d68d55bd662f9a7598656ea96fe08a99e15e1c2
 Raydium,Immunefi,505000,0,0,"Rust","AMM","Defi","Solana","Smart Contract",2023-04-25,f49b444107592d4af62ad4d7a1eb1e5c4fb7fdfcc5697959295bde13cf20dd51
 Badger DAO,Immunefi,500000,0,0,"Solidity","Yield Aggregator","Defi","ETH","Smart Contract",2022-10-18,d0435ae21168c8662f96d2831d4e0468f73ace01109865352bb2460f233f8c4f
 Timeless and Bunni,Immunefi,250000,0,0,"Solidity","Derivatives","Defi","ETH,Optimism","Smart Contract",2023-07-05,5e8e5f4b7b5b99c57910590dc00a3d0bd60b95bf7126bdfc5f9327dee7e85a75
@@ -196,15 +194,18 @@ StakeEasy,Immunefi,8000,1000,0,"Rust","Staking","Blockchain,Defi","","Smart Cont
 SuperBots,Immunefi,8000,1100,9065,"Solidity","DEX,Staking","Defi,NFT","BSC","Smart Contract,Websites and Applications",2023-04-18,0bb6fc79e08a4dc216fd0bde3a468a42fa22861fff06f0b2e3c3d266c3e26e51
 dForce AMM,Immunefi,5000,0,0,"Solidity","DEX","Defi","ETH","Smart Contract",2023-05-17,b99baae8fb584330f7d6b52bc26c373296c4bbe35446fe4873d3cab7776a1bca
 VersaGames,Immunefi,5000,0,0,"Solidity","Staking","Defi,NFT","Polygon,Cronos","Smart Contract,Websites and Applications",2023-03-14,80a50f9334b6b109e69639556e5bcf2cdadeca4cb57a4b4783cba4e0945c0b03
-Tender.fi,Immunefi,4000,0,0,"Solidity","Lending","Defi","Arbitrum","Smart Contract,Websites and Applications",2023-02-16,9b8f319b1e18503c89a83e19de18b63874c8a03b6f2aeab00730273b7b3cc774
+Tender.fi,Immunefi,4000,0,0,"Solidity","Lending","Defi","Arbitrum","Smart Contract,Websites and Applications",2023-08-16,9b8f319b1e18503c89a83e19de18b63874c8a03b6f2aeab00730273b7b3cc774
 Stack,Immunefi,2000,0,0,"Solidity","DEX,Lending","Defi","Polygon","Smart Contract,Websites and Applications",2023-06-08,ebd02e8e2366ee24542636654f8c8c916a781b5f877eab54ccb23ae362ca8f84
-Pillar,Immunefi,1250,100,11205,"Solidity","Wallet","Defi,NFT","ETH,Avalanche,Polygon,BSC,xDAI","Smart Contract",2023-04-18,bb6f46aee0d8c015453eb253bccc847841b1b0f7ced292b5509397c5b45410e8
+Pillar,Immunefi,1250,100,10376,"Solidity","Wallet","Defi,NFT","ETH,Avalanche,Polygon,BSC,xDAI","Smart Contract",2023-04-18,bb6f46aee0d8c015453eb253bccc847841b1b0f7ced292b5509397c5b45410e8
 RociFi,Immunefi,1000,15500,11657,"Solidity","Lending","Defi","Polygon","Smart Contract",2023-02-16,3ca2c9a082c1529931bdf74416622bbe6007d928539336ebe963b08e306d8d54
 LayerZero (The World's Largest Bounty),Immunefi,15000000,0,0,"Solidity","","Blockchain","","Smart Contract",2023-05-17,d29729919d2322eb768c40e2e45bc7bd5c543b1afcf1b38033790183a5d1135f
 Polygon,Immunefi,1100000,5740026,0,"Solidity","L2","Blockchain","ETH,Polygon","Smart Contract,Websites and Applications",2023-05-05,4fd5542fb653d2458005072af1d241b3f3414b488c3d9b7e5270eb79223a828a
-Lido,Immunefi,2000000,0,0,"Solidity","Staking","Defi","ETH","Smart Contract,Websites and Applications",2023-05-15,9dec6c9907e24bf373ecfd4fcf21c11ee029886775b56986ac83b80874a88d41
-Kyber Network,Immunefi,1000000,0,0,"Solidity,Rust","DEX","Defi,Exchange","ETH,Fantom,Polygon,Solana,Optimism","Smart Contract,Websites and Applications",2023-08-11,37fd102f0cf8c89420d5a53c56bfddf6df224735bf3ef0392f614fcca70663a8
+Stader for ETH,Immunefi,1000000,0,0,"Solidity","Staking","Defi","ETH","Smart Contract",2023-07-10,b59d4c22d1d05a7cd6d1de111305cb4ed2055ec3c3433c2900577798d2ed3825
+Kyber Network,Immunefi,1000000,0,0,"Solidity,Rust","DEX","Defi,Exchange","ETH,Fantom,Polygon,Solana,Optimism","Smart Contract,Websites and Applications",2023-08-13,37fd102f0cf8c89420d5a53c56bfddf6df224735bf3ef0392f614fcca70663a8
 Instadapp,Immunefi,250000,0,0,"Solidity","L2","Defi","Avalanche,Fantom,Polygon,Optimism","Smart Contract,Websites and Applications",2023-03-17,645fe360abc16fbe35fe5290223668e14b5c0fc2aaf4ef211adfda982bdd35ba
 Vyper,Immunefi,100000,0,0,"Vyper","","Defi,Infrastructure","Optimism,ETH,Arbitrum","Smart Contract",2023-08-11,d8c14056d4ec6822fa86267c12ad89bf22caedc91218a966282b6f20cefa3ddf
-BankX,Immunefi,10000,0,0,"Solidity","Staking,Stablecoin,AMM","Blockchain,Defi,Exchange","ETH","Smart Contract",2023-08-11,a09c69260681014b9c6c07f3d27884bc29f6bc0b59ad46002a15be3843a80f24
+BankX,Immunefi,10000,0,0,"Solidity","Staking,Stablecoin,AMM","Blockchain,Defi,Exchange","ETH","Smart Contract",2023-08-14,a09c69260681014b9c6c07f3d27884bc29f6bc0b59ad46002a15be3843a80f24
 Money on Chain,Immunefi,10000,0,0,"Solidity","Stablecoin,Lending","Defi","RSK","Smart Contract,Websites and Applications",2022-11-01,98fdfac470ab01b0886a2e27edfae9ad586e28227a28503d6ff640d93ac0ecc7
+Lido,Immunefi,2000000,0,0,"Solidity","Staking","Defi","ETH","Smart Contract,Websites and Applications",2023-05-15,9dec6c9907e24bf373ecfd4fcf21c11ee029886775b56986ac83b80874a88d41
+Aleph Zero,Immunefi,50000,0,0,"Rust","L1","Blockchain,Infrastructure","","Blockchain/DLT",2023-08-16,382a919878c72084e3d327c7520358efcc0dd0812873171c857373314503674d
+YoCash,Immunefi,2000,0,0,"Solidity","Currency","","ETH","Smart Contract,Websites and Applications",2023-08-14,a869b217968f1c326ba2602ea4daf05069cef9883eb5076231c5807146f48fee
