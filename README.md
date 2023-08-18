@@ -11,6 +11,19 @@ The legacy protocols are derived from [DefiLlama](https://defillama.com/forks).
 ## [Tags for Reports](./report_tags.md)
 Most of the initial tags have been manually appended by [Hans](https://github.com/hans-cyfrin).
 
+## Contribute Bug Bounty Info
+Solodit is not built to be a mere aggregation but a more collaberative space.
+We want the community share the resource and experience on public bug bounty listings.
+For now, we aggregated the listings from [Immunefi](https://immunefi.com/explore/) and [Hats Finance](https://app.hats.finance/bug-bounties).
+
+The bug bounty info are maintained in `bug_bounties` directory.
+We have added two additional columns that are editable via PR.
+- Source
+  Most of the bug bounties list the deployed assets and it is often time-consuming to prepare the workspace.
+  Users can share links to the latest source repo for bounty listings.
+- Reference
+  Links to useful references, e.g. post mortem writeup.
+
 ## [Contribute Add New Reports](./reports)
 
 ### To add a new audit firm, follow these steps:
