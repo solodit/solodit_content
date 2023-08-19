@@ -125,6 +125,7 @@
 | Min/Max Cap Validation | |
 | MinOut/MaxIn Validation | |
 | mint vs safeMint | |
+| Missing Check | |
 | Missing-Logic | Missing-logic vulnerabilities refer to cases where a smart contract does not have the necessary code in place to handle certain inputs or conditions properly. Essentially, it's like a gap in the program’s logic where a specific branch of code should have been implemented to address a particular scenario. While missing logic might not always be critical, it can sometimes lead to unintended consequences.|
 | msgSender | |
 | Needless receive() | |
