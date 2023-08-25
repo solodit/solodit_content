@@ -1,3 +1,15 @@
+**Lead Auditors**
+
+[Hans](https://twitter.com/hansfriese)
+
+**Assisting Auditors**
+
+[0kage](https://twitter.com/0kage_eth)
+
+
+---
+
+# Findings
 ## Medium Risk
 ### The off-chain mechanism must be ensured to work in a correct order strictly
 
@@ -213,11 +225,19 @@ File: PriorityPool.sol
 103:         token.safeApprove(_stakingPool, type(uint256).max);
 
 ```
+**Client:**
+Fixed in this [PR](https://github.com/stakedotlink/contracts/pull/32).
 
+**Cyfrin:** Verified.
 
 ## Informational
 ### Unnecessary event emissions
 `PriorityPool::setPoolStatusClosed` does not check if pool status is already `CLOSED` and emits `SetPoolStatus` event. Avoid event emission if the pool status is already closed. Avoid this. The same applies to the function `setPoolStatus` as well.
+
+**Client:**
+Fixed in this [PR](https://github.com/stakedotlink/contracts/pull/32).
+
+**Cyfrin:** Verified.
 
 ### Missing checks for `address(0)` when assigning values to address state variables
 
@@ -228,6 +248,11 @@ File: PriorityPool.sol
 
 ```
 
+**Client:**
+Acknowledged.
+
+**Cyfrin:** Acknowledged.
+
 ### Functions not used internally could be marked external
 ```solidity
 File: PriorityPool.sol
@@ -237,3 +262,8 @@ File: PriorityPool.sol
 278:     function depositQueuedTokens() public {
 
 ```
+
+**Client:**
+Acknowledged.
+
+**Cyfrin:** Acknowledged.
