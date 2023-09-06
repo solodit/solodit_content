@@ -112,7 +112,7 @@ But we also acknowledge that the fix in [405fa78](https://github.com/HyperGood/w
 For the current implementation, we verified that there is no reentrancy attack vector due to this issue. If the protocol intends any upgrades in the future related to the `deposits` state, we recommend using [OpenZeppelin's ReentrancyGuard](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/8a0b7bed82d6b8053872c3fd40703efd58f5699d/contracts/security/ReentrancyGuard.sol#L22) to prevent possible reentrancy attack.
 Please note that the lack of CEI pattern will still be problematic in the sense of [Read-only reentrancy](https://officercia.mirror.xyz/DBzFiDuxmDOTQEbfXhvLdK0DXVpKu1Nkurk0Cqk3QKc) if the states `deposits` are going to be utilized for any other purposes.
 
-## Informational Findings
+## Informational
 ### Nonstandard usage of nonce
 **Severity:** Informational
 
