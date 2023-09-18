@@ -2,222 +2,222 @@
 
 | Title  | Description |
 |----------|:-------------|
-| 0x | |
-| 1/64 Rule | |
+| 0x | 0x Protocol is the trusted open source settlement layer for the permissionless global exchange of value. |
+| 1/64 Rule | According to this rule, when a contract function makes a call to another function or contract, only 63/64 of the remaining gas can be forwarded in a message call |
 | 51% Attack | An attack on a cryptocurrency blockchain by a group of miners who control more than 50% of the network's mining hash rate. Owning 51% of the nodes on the network gives the controlling parties the power to alter the blockchain. |
 | Aave | Aave is a decentralized cryptocurrency platform that allows users to borrow and lend crypto. Aave uses smart contracts to automate the process, with preset rules on how funds are distributed, how collateral is handled, and how fees are assessed. |
-| ABI Encoding | |
+| ABI Encoding | Encoding functions can be used to craft data for external function calls without actually calling an external function. Furthermore, keccak256(abi.encodePacked(a, b)) is a way to compute the hash of structured data (although be aware that it is possible to craft a “hash collision” using different function parameter types). |
 | Access Control | Access control vulnerabilities are cases where a smart contract does not properly restrict the use of certain operations to authorized users. These vulnerabilities can arise from excessively permissive or overly restrictive access controls. They are critical because they may allow unauthorized users to manipulate contract data or operations. |
-| Account Abstraction | |
-| Add/Subtract Match | |
-| Admin | |
-| Airdrop | |
-| Allowance | |
+| Account Abstraction | Account Abstraction in Ethereum aims to enhance user interactions by allowing greater flexibility in how transactions and smart contracts are initiated. It proposes upgrading externally owned accounts (EOAs) to be controlled by smart contracts or enabling smart contracts to initiate transactions. |
+| Add/Subtract Match | Calculations involving addition and subtraction are not synchronized or consistent, leading to unexpected outcomes. |
+| Admin | Admin vulnerabilities typically involve scenarios where an administrator, who holds special permissions, could potentially misuse their authority to manipulate settings, parameters, or functionalities in a way that could be detrimental to the system's integrity or fairness. |
+| Airdrop | Airdrop vulnerabilities refers to a potential risk associated with the distribution of tokens or assets to multiple addresses. This vulnerability arises when the process lacks proper validation or authorization checks, potentially allowing unauthorized recipients to gain access to the airdropped tokens, leading to loss or misuse of resources. |
+| Allowance | Allowance vulnerability arises when a user grants excessive spending permissions to a third-party address, potentially allowing unauthorized access to their tokens and enabling malicious actions. Allowances are necessary in Ethereum to enable certain functionalities like decentralized exchanges or lending platforms, where smart contracts need limited access to a user's tokens for specific operations, but if not properly managed, it can lead to security risks. |
 | API Inconsistency | API inconsistency vulnerabilities are present when the functions within a smart contract have inconsistent calling patterns or semantics. Although the individual functions may be implemented correctly, the inconsistency in how they are used or interact with each other could confuse users or developers, potentially leading to mistakes or misuse of the contract. |
-| Approve | |
-| Approve Max | |
-| Arbitrum | |
-| Array | |
-| Array Bound | |
-| Array Reorder | |
-| Assembly | |
-| Auction | |
+| Approve | Approve refers to a function in Ethereum smart contracts that allows a token holder to grant spending permissions to another address. This action can become a vulnerability if not carefully managed, potentially leading to unauthorized access and misuse of the approved tokens by the designated address. |
+| Approve Max | Approve Max refers to a potential risk associated with setting the approval amount to the maximum possible value (often 2^256 - 1) when interacting with smart contracts. |
+| Arbitrum | Arbitrum is a technology suite designed to scale Ethereum. You can use Arbitrum chains to do all things you do on Ethereum — use Web3 apps, deploy smart contracts, etc., but your transactions will be cheaper and faster. |
+| Array | Array refers to a data structure that holds multiple elements under a single variable name. Vulnerabilities related to arrays can arise when developers do not properly handle array indices or fail to validate user inputs. |
+| Array Bound | Array Bound refers to the potential risk of accessing or modifying elements in an array outside the specified range of indices. This vulnerability can occur if proper checks and validations are not implemented. |
+| Array Reorder | Array Reorder refers to the risk associated with the manipulation of array elements' order, potentially leading to unintended consequences or exploitable conditions. |
+| Assembly | Assembly refers to a low-level programming language feature in Solidity that allows developers to directly interact with the Ethereum Virtual Machine (EVM). |
+| Auction | Auction refers to a system where goods or services are sold to the highest bidder. Vulnerabilities can arise in auctions when there are flaws in the bidding process, such as incorrect validation of bids, improper handling of time constraints, or lack of transparency, potentially leading to unfair practices or exploitation by malicious actors. |
 | Auditing and Logging | Auditing and logging vulnerabilities are characterized by insufficient or incorrect logging mechanisms within a smart contract. These vulnerabilities make it difficult to monitor and audit contract activities. |
 | Authentication | Authentication vulnerabilities are cases where the mechanism used to verify identity or authorization is flawed. This is different from access control issues; here, the logic regarding who can do what is correct, but the system fails in accurately determining the identity of participants. |
-| AutoRoll | |
-| Blacklisted | |
-| block.number vs block.timestamp | |
-| Block Period | |
-| Bond | |
-| Brick | |
-| Bridge | |
-| Broken Loop | |
+| AutoRoll | AutoRoll is an ERC4626 compliant vault that simplifies the process of managing liquidity pools by automatically migrating it from a matured series to a new one. It offers LPs a passive experience, where they can deposit their assets, receive LP shares, and have their holdings automatically transitioned to a new series with a starting market rate after a "cooldown" period following maturity. |
+| Blacklisted | Blacklisted mostly refer to cryptocurrency wallets that have been flagged or identified as associated with illicit activities or known scams. These wallets are typically subject to restrictions to prevent their involvement in fraudulent transactions or criminal operations within the cryptocurrency ecosystem. |
+| block.number vs block.timestamp | block.number refers to the unique identifier of a block within a blockchain, representing its position in the chain's chronological order. On the other hand, block.timestamp denotes the specific time at which a block is mined, recorded as a Unix timestamp, providing a reference point for time-based operations within a smart contract. |
+| Block Period | Block Period usually refers to a specific period of time measured in blocks. This term is crucial in understanding time-related functions and vulnerabilities in smart contracts, as it helps determine when certain actions or conditions can occur based on the passage of blocks. |
+| Bond | Bond Protocol is a permissionless product suite for optimizing DAO treasuries and token economics |
+| Brick | brick is a term used to describe a type of malicious contract or code that is intentionally designed to disrupt or harm the Ethereum network. This can include contracts with excessive gas consumption, causing network congestion, or those designed to exploit vulnerabilities in other contracts, potentially leading to financial losses for users. |
+| Bridge | Bridge refers to a smart contract or mechanism that facilitates the interoperability between different blockchain networks. While bridges are essential for cross-chain functionality, they can introduce security risks if not properly implemented, potentially allowing for exploits or vulnerabilities that could affect the integrity of assets transferred between blockchains. |
+| Broken Loop | Broken Loop refers to a loop lacks a proper exit condition, causing it to execute indefinitely. This can lead to excessive gas consumption, potentially resulting in a denial-of-service attack on the Ethereum network or causing a contract to become unresponsive. |
 | Business Logic | Logic vulnerabilities involve flaws in the business logic or protocols of a smart contract, where the implementation matches the developer's intention, but the underlying logic is inherently flawed.|
-| Bypass limit | |
-| Calldata | |
-| call vs transfer | |
-| Can't Remove Access Control | |
+| Bypass limit | Bypass limit refers to a scenario where a smart contract or function lacks proper checks and allows users to exceed predefined limits or constraints. |
+| Calldata | Calldata refers to the area where function arguments and data are stored when a contract is called from an external source. It is a read-only area, meaning that the data stored here cannot be modified by the contract itself |
+| call vs transfer | Use 'call' instead of 'transfer' due to gas cost considerations, and make sure to implement the CEI pattern to prevent reentrancy vulnerabilities when utilizing 'call'. |
+| Can't Remove Access Control | Refers to a situation where a smart contract lacks a mechanism to revoke or modify access permissions once they have been granted. |
 | CEI | Checks effects interactions patterns is an effective way to prevent reentrancy attacks in a smart contract code. The first step in using this pattern is to perform some checks and verifications in the contract flow. |
-| Chain ID | |
-| Chainlink | |
-| Chain Reorganization Attack | |
-| Change Validation | |
-| CheckPoint | |
-| Check Return Value | |
+| Chain ID | Chain ID refers to a unique identifier assigned to a specific blockchain network. It is a critical parameter for ensuring secure interactions between different chains, helping prevent attacks that attempt to manipulate transactions meant for a particular chain. |
+| Chainlink | Chainlink is a decentralized blockchain oracle network. The network is intended to be used to facilitate the transfer of tamper-proof data from off-chain sources to on-chain smart contracts. |
+| Chain Reorganization Attack | Chain Reorganization Attack occurs when a malicious actor gains control over a significant portion of a blockchain's mining power, allowing them to create an alternate version of the blockchain that replaces the existing one. |
+| Change Validation | Change Validation refers to the process of verifying and validating modifications to critical parameters or functionalities within a smart contract. It is essential for ensuring that alterations are made securely and in compliance with the contract's intended behavior. |
+| CheckPoint | CheckPoint is a specific point in a blockchain's history that is recorded and used as a reference for security and validation purposes. It serves as a snapshot of the blockchain's state at a particular moment. |
+| Check Return Value | Check Return Value refers to the practice of validating and handling the result or return value of external function calls. |
 | Code Quality | Code quality issues pertain to the readability and maintainability of the smart contract code. These are not directly related to the functionality of the contract but can have long-term impacts on the ability to understand, maintain, and securely update the code. Code quality is considered to be a non-functional requirement but is essential for the sustainability and reliability of a smart contract.|
 | Coding-Bug | Coding-bug is a broad category that covers simple mistakes in the code, akin to typos, which can lead to unintended behavior. These are usually unintended errors rather than deliberate logic errors.|
-| Collateral Factor | |
+| Collateral Factor | Collateral Factor pertains to the ratio determining the amount of collateral required to back a specific asset in decentralized finance (DeFi) protocols. |
 | Configuration | Configuration vulnerabilities arise from improper configuration of a smart contract which, despite having correct code, leads to unintended behavior. This is common in cases where financial parameters or market settings are misconfigured.|
-| Constructor | |
-| Cooldown | |
-| CREATE2 | |
-| Cross Chain | |
-| Cross Chain Message | |
+| Constructor | Constructor is a special function within a smart contract that is executed only once when the contract is deployed. It is responsible for initializing the contract's state variables and can play a crucial role in ensuring the secure and intended behavior of the contract upon deployment. |
+| Cooldown | Cooldown refers to a mechanism implemented in smart contracts to introduce a delay or waiting period before certain actions can be performed. |
+| CREATE2 | CREATE2 is an opcode that allows for the creation of smart contracts with a deterministic address based on the contract's bytecode and initialization parameters. |
+| Cross Chain | Cross Chain refers to interactions or transactions that occur between different blockchain networks. This introduces a unique set of security considerations, as smart contracts must implement measures to validate and handle cross-chain interactions securely. |
+| Cross Chain Message | Cross Chain Message refers to a communication or transaction initiated on one blockchain network that is intended to interact with or trigger actions on a different blockchain. |
 | Cryptography | Cryptography vulnerabilities occur when a smart contract employs flawed or insufficient cryptographic practices. In the context of blockchain and smart contracts, this often involves the use of weak or inappropriate algorithms for tasks such as generating random numbers. The use of improper cryptography can compromise the security and integrity of a smart contract.|
-| CryptoPunks | |
+| CryptoPunks | CryptoPunks is a non-fungible token collection on the Ethereum blockchain，launched as a fixed set of 10,000 items in mid-2017 and became one of the inspirations for the ERC-721 standard. |
 | Data Exposure | Data exposure vulnerabilities occur when sensitive data that should remain private is inadvertently made public by the smart contract, often through transactions or blockchain state.|
 | Data Validation | Data validation vulnerabilities arise when a smart contract does not adequately verify or sanitize inputs, especially those from untrusted sources. This lack of validation can lead to unintended and potentially harmful consequences within the contract’s operations.|
 | DAO | A decentralized autonomous organization (DAO) is an emerging form of legal structure that has no central governing body and whose members share a common goal to act in the best interest of the entity. Popularized through cryptocurrency enthusiasts and blockchain technology, DAOs are used to make decisions in a bottom-up management approach. |
-| Deadline | |
-| Decimals | |
-| Delegate | |
+| Deadline | Deadline refers to a specified timestamp or block number by which a certain action or transaction must be completed. It serves as a critical security measure to enforce time-sensitive operations within a smart contract. |
+| Decimals | Decimals refers to the level of precision used to represent fractional values of tokens within a smart contract. Incorrectly setting or manipulating decimal values can lead to miscalculations in token amounts. |
+| Delegate | Delegate typically refers to the practice of delegating or forwarding certain functions or permissions to another smart contract or external address. |
 | Denial-Of-Service | Denial of Service (DoS) vulnerabilities occur when an attacker can exploit a contract in a way that makes it unresponsive or significantly less efficient. This category includes cases that are not well described by another class and where the primary consequence is contract shut-down or operational inefficiency.|
-| Deposit/Reward tokens | |
-| Diamond | |
+| Deposit/Reward tokens | Deposit/Reward tokens pertain to the process of placing assets into a smart contract, often as part of a staking or yield farming mechanism, in order to earn rewards or benefits. |
+| Diamond | Diamond refers to a design pattern that allows for the efficient and upgradeable deployment of multiple functionalities within a smart contract system.  |
 | Documentation | Documentation vulnerabilities aren't issues in the smart contract code itself, but rather in the accompanying documentation. This category includes cases where the documentation is incorrect, unclear, or incomplete. While documentation issues generally don’t affect the execution of the contract, they can lead to misuse or misunderstanding of how the contract should be used, which can indirectly contribute to security issues.|
-| Domain Separator | |
-| Don't update state | |
-| DOS | |
-| Dust | |
+| Domain Separator | The domain separator, in the context of EIP-712, is a cryptographic value that uniquely identifies a specific domain or dapps. It is used to prevent replay attacks and ensure that structured data is signed within the correct context. |
+| Don't update state | Don't update state refers to a guideline that advises against modifying the contract's state or storage within certain functions, as doing so may lead to unintended consequences for users and other contracts interacting with it. |
+| DOS | DOS stands for Denial-of-Service, which refers to a malicious attack aimed at disrupting or preventing the normal functioning of a smart contract or blockchain network. |
+| Dust | Dust refers to very small or negligible amounts of cryptocurrency, often below the precision threshold of a token's decimals. These tiny balances can accumulate in wallets or contracts and, if not managed properly, may lead to inefficiencies, increased gas costs, or even potential vulnerabilities in smart contracts. |
 | ECDSA | ECDSA stands for Elliptic Curve Digital Signature Algorithm. It is a combination of the Digital Signature Algorithm (DSA) and Elliptic Curve Cryptography (ECC). The DSA uses the keys derived from the ECC and is a very efficient equation based on Public Key Cryptography (PKC). |
-| ecrecover | |
-| EIP-1271 | |
-| EIP-150 | |
-| EIP-165 | |
-| EIP-2981 | |
-| EIP-4337 | |
-| EIP-4524 | |
-| EIP-4626 | |
-| EIP-4758 | |
-| EIP-712 | |
-| Emergency | |
-| EOA | |
-| ERC1155 | |
+| ecrecover | ecrecover is a crucial Ethereum Solidity function that allows a smart contract to verify digital signatures. It takes a message, a signature, and the signer's public key, and returns the address that corresponds to the private key used for signing, providing a means to authenticate external messages in a smart contract. |
+| EIP-1271 | EIP-1271, also known as the "Standardized Contract Signatures," is an Ethereum Improvement Proposal that defines a standard way for smart contracts to validate the authenticity of a message or transaction. It allows contracts to implement a specific function, isValidSignature, which can be used to verify signatures. |
+| EIP-150 | EIP-150, also known as the "Gas cost changes for IO-heavy operations", aimed to make certain computational operations more expensive in terms of gas, discouraging potential attackers from exploiting vulnerabilities related to excessive gas consumption. |
+| EIP-165 | EIP-165, known as the "Standard Interface Detection", outlines a standardized way for smart contracts to declare which interfaces they support. This allows other contracts and applications to interact with them more securely by verifying their capabilities before attempting any transactions. |
+| EIP-2981 | EIP-2981, titled "NFT Royalty Standard", provides a standardized way for non-fungible tokens (NFTs) to handle royalty payments to creators when they are resold. |
+| EIP-4337 | EIP-4337 is an account abstraction proposal which completely avoids consensus-layer protocol changes, instead relying on higher-layer infrastructure. |
+| EIP-4524 | EIP-4524 "Safer ERC-20" standard extends ERC-20 tokens with EIP-165, and adds familiar functions from ERC-721 and ERC-1155 ensuring receiving contracts have implemented proper functionality. |
+| EIP-4626 | EIP-4626 "Tokenized Vaults" allows for the implementation of a standard API for tokenized Vaults representing shares of a single underlying EIP-20 token. This standard is an extension on the EIP-20 token that provides basic functionality for depositing and withdrawing tokens and reading balances. |
+| EIP-4758 | EIP-4758, titled "Deactivate SELFDESTRUCT", renames the SELFDESTRUCT opcode to SENDALL, and replaces its functionality. The new functionality will be only to send all Ether in the account to the caller. |
+| EIP-712 | EIP-712, also known as "Typed Structured Data," introduces a standardized way to create and validate messages that need to be signed by external accounts or contracts. |
+| Emergency | Emergency refers to a situation within a smart contract that enables users to forcefully withdraw their funds in critical situations. This function is usually designed to bypass specific checks or restrictions, providing a fail-safe mechanism to ensure users can recover their assets even in abnormal circumstances. |
+| EOA | An EOA refers to a standard Ethereum account controlled by a private key and is not associated with any smart contract code. It is primarily used for transactions on the Ethereum network and does not possess the ability to execute complex code logic like a smart contract account. |
+| ERC1155 | ERC1155 refers to a widely-used Ethereum token standard that allows for the creation of multi-fungible tokens. Unlike traditional ERC20 or ERC721 tokens, ERC1155 tokens can represent multiple types of assets within a single contract |
 | ERC20 | ERC-20 is the technical standard for fungible tokens created using the Ethereum blockchain. A fungible token is interchangeable with another token—where the well-known non-fungible tokens (NFTs) are not interchangeable. |
-| ERC2981 | |
-| ERC4626 | |
-| ERC721 | |
+| ERC2981 | ERC2981 known as "NFT Royalty Standard." It introduces a standardized way to handle royalty payments for non-fungible tokens (NFTs) on the Ethereum blockchain, providing a mechanism to ensure creators receive a share of the proceeds when their NFTs are resold. |
+| ERC4626 | ERC-4626 "Tokenized Vaults" allows for the implementation of a standard API for tokenized Vaults representing shares of a single underlying EIP-20 token. |
+| ERC721 | "ERC721" refers to a widely adopted Ethereum token standard for non-fungible tokens (NFTs). Unlike fungible tokens, each ERC721 token is unique and indivisible, making it well-suited for representing ownership of distinct digital assets. |
 | ERC721Checkpointable | |
-| ERC777 | |
+| ERC777 | ERC777 enhance the functionality of tokens compared to the earlier ERC20 and ERC223 standards. It introduces features like "hooks" that allow token holders to receive notifications and interact with the contract during transfers.  |
 | Error Reporting | Error reporting vulnerabilities are cases where a contract fails to properly report or handle error conditions. This category involves contracts not providing sufficient information or feedback about internal errors or issues.|
-| Event | |
-| External Call | |
-| External Contract | |
-| Fee On Transfer | |
-| First Depositor Issue | |
-| Flashbot | |
+| Event | Event refers to a crucial feature in smart contracts that enables the emission of notifications about specific occurrences on the blockchain. |
+| External Call | External Call refers to a mechanism in smart contracts that allows them to interact with other contracts or external accounts on the Ethereum blockchain. |
+| External Contract | External Contract refers to a separate smart contract deployed on the blockchain that can be interacted with by other contracts or external accounts. |
+| Fee On Transfer | Fee on Transfer refers to a mechanism in token contracts where a fee is automatically deducted from the transferred amount during a transaction. |
+| First Depositor Issue | The First Depositor Issue is a potential vulnerability in smart contracts, where the first user to interact with a contract, typically to deposit funds, may exploit specific conditions or logic to gain an advantage. Alternatively, it can be front-run by a malicious actor, resulting in a loss. |
+| Flashbot | Flashbots refers to a research and development organization that focuses on mitigating the risks associated with transaction ordering and priority in Ethereum's decentralized environment. |
 | Flash Loan | A flash loan is a type of uncollateralized loan that lets a user borrow assets with no upfront collateral as long as the borrowed assets are paid back within the same blockchain transaction. |
-| from=to | |
+| from=to | from=to refers to a potential exploit where a transaction sender (the 'from' address) is the same as the transaction receiver (the 'to' address).  |
 | Front-Running | Front-running vulnerabilities occur when a smart contract exposes information about future state changes, and an adversary can place transactions that exploit this knowledge for their gain.|
-| Fund Lock | |
-| Gas Limit | |
-| Gas Price | |
+| Fund Lock | Fund Lock refers to a scenario where funds become inaccessible or locked within a smart contract due to improper handling of withdrawal or transfer functions |
+| Gas Limit | Gas Limit refers to the maximum amount of computational work a transaction is allowed to perform on the network. Setting an incorrect or insufficient gas limit can lead to transaction failures or vulnerabilities, as it may prevent complex operations from being executed. |
+| Gas Price | Gas Price refers to the amount of cryptocurrency a user is willing to pay per unit of computational work when submitting a transaction on the Ethereum network.  |
 | Grief Attack | A gas griefing attack happens when a user sends the amount of gas required to execute the target smart contract, but not its sub calls. In most cases, this results in uncontrolled behavior that could have a dangerous impact on the business logic. |
-| Hardcoded Address | |
-| Hardcoded Setting | |
-| Hash Collision | |
-| Immediate Hash | |
-| Immutable | |
-| Inheritance | |
-| Initial Deposit | |
-| Initialization | |
-| Initializer | |
-| initializer modifier | |
-| L2 Sequencer | |
-| LayerZero | |
-| Lending Pool | |
-| Liquidation | |
-| Liquidity Provider Racing | |
-| Mapping | |
-| Memory Pointer | |
-| Merkle Tree | |
-| Migration Loss | |
-| Min/Max Cap Validation | |
-| MinOut/MaxIn Validation | |
-| mint vs safeMint | |
-| Missing Check | |
+| Hardcoded Address | Hardcoded Address refers to the practice of embedding specific addresses directly into the source code of a smart contract. This can introduce a security risk if the address is meant to be dynamic or changeable. |
+| Hardcoded Setting | Hardcoded Setting refers to the practice of embedding fixed values or parameters directly into the source code of a smart contract. This can pose a security risk if the setting needs to be dynamic or adaptable. |
+| Hash Collision | Hash Collision occurs when two different inputs produce the same cryptographic hash output, notably during ABI Encoding. |
+| Immediate Hash | Immediate Hash refers to a situation where a malicious actor can submit a payload that is a direct or immediate result of a hash operation, rather than one of the expected token IDs. This manipulation leads to unintended losses for the offerer, as they receive a token ID that doesn't match their specified criteria. |
+| Immutable | Immutable refers to a characteristic of smart contracts that signifies that once deployed on the blockchain, their code and state cannot be altered. |
+| Inheritance | Inheritance refers to the mechanism by which a smart contract can inherit properties and functions from another contract. |
+| Initial Deposit | Initial Deposit refers to the first instance where a user places assets into a smart contract, often as part of a deposit or investment process. |
+| Initialization | Initialization pertains to the process of setting up and initializing variables or states within a smart contract when it is deployed on the blockchain.  |
+| Initializer | Initializer is a special function used to set up the initial state and configuration of an upgradeable smart contract when it is first deployed. This function is essential for ensuring that the contract's upgradeable features are properly initialized, and it often includes tasks like setting initial parameters and permissions for the contract's functions. |
+| initializer modifier | initializer modifier is a special kind of function modifier used to restrict certain functions so that they can only be called during the initialization phase of a smart contract. |
+| L2 Sequencer | L2 Sequencer refers to a component or actor responsible for orchestrating and sequencing transactions on Layer 2 solutions of the Ethereum network. It plays a crucial role in ensuring the correct order and execution of transactions. |
+| LayerZero | LayerZero is a cross-chain communication protocol that enables direct, trustless communication between blockchains. |
+| Lending Pool | Lending Pool is a smart contract designed to facilitate the lending and borrowing of assets within decentralized finance (DeFi) platforms. |
+| Liquidation | Liquidation refers to the process of selling collateral assets held in a smart contract to repay outstanding debts or loans. |
+| Liquidity Provider Racing | Liquidity Provider Racing refers to a situation where multiple liquidity providers compete to be the first to provide liquidity to a pool in a decentralized finance (DeFi) platform. |
+| Mapping | Mapping refers to a data structure that associates a value (or set of values) with a unique key. |
+| Memory Pointer | Memory Pointer refers to a reference used to access data stored in a contract's memory. This highlights a high-risk issue where assigning a bytes memory variable to a new variable resulted in both variables pointing to the same memory location, leading to unintended changes in one variable affecting the other. |
+| Merkle Tree | Merkle Tree is a cryptographic data structure used to efficiently prove the membership of an element within a set. |
+| Migration Loss | Migration Loss refers to potential risks and losses that can occur during the process of migrating from one smart contract version to another. |
+| Min/Max Cap Validation | Min/Max Cap Validation refers to the practice of setting an lower or upper limit on certain parameters within a smart contract to ensure they do not exceed a specified threshold |
+| MinOut/MaxIn Validation | MinOut/MaxIn Validation pertains to the practice of enforcing specific conditions on the outputs or inputs of a smart contract function, ensuring they meet predefined minimum or maximum thresholds. |
+| mint vs safeMint | "mint" and "safeMint" refer to functions commonly used in token contracts for creating new tokens. While "mint" typically adds new tokens directly to an address, "safeMint" incorporates additional checks if the receiver is a smart contract and implements the ERC721Receivable interface. |
+| Missing Check | Missing Check refers to a critical oversight in a smart contract's code where a necessary condition or validation is not properly implemented. |
 | Missing-Logic | Missing-logic vulnerabilities refer to cases where a smart contract does not have the necessary code in place to handle certain inputs or conditions properly. Essentially, it's like a gap in the program’s logic where a specific branch of code should have been implemented to address a particular scenario. While missing logic might not always be critical, it can sometimes lead to unintended consequences.|
-| msgSender | |
-| Needless receive() | |
+| msgSender | msgSender is a term used to represent the address that triggered the current function call in a smart contract. |
+| Needless receive() | Needless receive() refers to the implementation of a receive() function in a smart contract when it is unnecessary for the contract's intended functionality. |
 | NFT | NFT stands for ‘non-fungible token’. Non-fungible means that something is unique and can’t be replaced. |
-| Nonce | |
+| Nonce | Nonce is a value associated with an Ethereum address that ensures the uniqueness of transactions originating from that address. |
 | Numerics | Numerics vulnerabilities involve issues related to arithmetic operations in smart contracts, such as overflows, underflows, or precision losses. This category also includes issues where the use of “safe math” libraries prevents an arithmetic error but results in unexpected reverts.|
-| onlyInitializing modifier | |
-| Optimism | |
-| Optimizer Memory Side Effect | |
-| Oracle | |
-| Overflow/Underflow | |
-| Ownable | |
-| Ownership | |
-| OZ Version | |
-| Parameter Setter | |
+| onlyInitializing modifier | onlyInitializing modifier refers to a custom modifier in a smart contract designed to restrict certain functions to be callable only during the initialization phase of the contract. |
+| Optimism | Optimism is an Ethereum layer-2 scaling solution that uses Optimistic Rollups to process many transactions off-chain while retaining the L1 security guarantees of Ethereum. |
+| Optimizer Memory Side Effect | Optimizer Memory Side Effect refers to a specific issue that arises when using the Solidity optimizer. It occurs when certain operations on memory are not explicitly cleared. |
+| Oracle | Oracle refers to an external service or smart contract that provides real-world data to a blockchain. |
+| Overflow/Underflow | "Overflow" and "Underflow" are arithmetic errors that occur when a numerical value exceeds its maximum representable size (overflow) or falls below its minimum representable size (underflow). |
+| Ownable | Ownable typically refers to a smart contract design pattern where a specific address, known as the owner, has special privileges and control over the contract. |
+| Ownership | Ownership refers to the concept of identifying a specific address, known as the owner, with special privileges and control over a smart contract. |
+| OZ Version | OZ Version refers to the version of the OpenZeppelin library, and users should always ensure they are using the latest, most secure version to mitigate potential vulnerabilities associated with outdated versions. |
+| Parameter Setter | Parameter Setter refers to a function in a smart contract that allows users to modify certain parameters or configurations within the contract's operation. |
 | Patching | Patching vulnerabilities pertain to issues in the mechanisms used to upgrade or modify smart contract behavior. Since smart contracts are immutable once deployed, they often use complex methods to allow updates. Vulnerabilities in this area can be due to flaws in these update mechanisms.|
-| Pause | |
-| Payable | |
-| Pegged | |
-| Precision Loss | |
-| Pre/Post Balance | |
-| Protocol Reserve | |
-| Quorum | |
+| Pause | Pause refers to a mechanism in a smart contract that allows certain operations or functions to be temporarily halted. |
+| Payable | Payable is a modifier in a smart contract that allows the contract to receive and handle incoming Ether (cryptocurrency). |
+| Pegged | Pegged typically refers to a token or asset that is designed to have a stable value, often mirroring the value of another asset like a fiat currency. |
+| Precision Loss | Precision Loss refers to the potential loss of decimal precision when performing arithmetic operations involving fractional values, particularly in the context of financial calculations.  |
+| Pre/Post Balance | Pre/Post Balance refers to the comparison of an address's token balance before and after a transaction or operation. |
+| Protocol Reserve | Protocol Reserve typically refers to a pool or reserve of assets maintained by a protocol to cover potential losses or ensure liquidity. |
+| Quorum | Quorum refers to the minimum number of votes or approvals required for a specific action or decision to be valid within a decentralized governance system. |
 | Race Condition | Race condition vulnerabilities occur when the behavior of a smart contract is inadvertently dependent on the order of transactions. These vulnerabilities can result in unexpected and often harmful outcomes, especially when the contract does not properly manage the sequence of operations or events.|
-| Read-only Reentrancy | |
-| Rebasing Tokens | |
+| Read-only Reentrancy | The read-only reentrancy is a reentrancy scenario where a view function is reentered, which in most cases is unguarded as it does not modify the contract's state. However, if the state is inconsistent, wrong values could be reported. |
+| Rebasing Tokens | Rebase tokens are a type of cryptocurrency that adjusts their supply to maintain price stability. This is in contrast to traditional cryptocurrencies, which have a fixed supply determined at the time of their creation. |
 | Reentrancy | Reentrancy vulnerabilities happen when external contract calls are made before internal state updates, allowing an adversary to recursively call back into the contract, exploiting the inconsistent state.|
-| Refund Ether | |
+| Refund Ether | Refund Ether typically refers to a function in a smart contract that allows users to refund their Ether holdings from the contract. |
 | Replay Attack | A replay attack is an exploit that can occur when two forked crypto-currencies allow transactions to be valid across both chains. |
-| Revert By Sending Dust | |
-| Revert Inside Hook | |
-| Revert On 0 Transfer | |
-| Rounding | |
-| Royalty | |
-| SafeApprove | |
-| SafeTransfer | |
-| safeTransfer - code size check | |
-| Same Block Issue | |
-| Sandwich Attack | |
-| Selfdestruct | |
-| send vs call | |
-| Sense | |
-| Share Inflation | |
-| Signature Malleability | |
-| Signed/Unsigned | |
+| Revert By Sending Dust | Revert By Sending Dust refers to a technique where an attacker tries to invoke a function in a smart contract, deliberately sending a negligible amount of Ether (dust) along with the transaction. |
+| Revert Inside Hook | Revert Inside Hook refers to a situation where a smart contract's hook function, which is designed to execute custom logic during certain operations, intentionally triggers a revert operation. |
+| Revert On 0 Transfer | Revert On 0 Transfer is a vulnerability that occurs when a contract mistakenly assumes that a token transfer operation will always succeed, even when transferring zero tokens. |
+| Rounding | Rounding refers to the process of approximating a numerical value to a specific precision or number of decimal places.  |
+| Royalty | Royalty typically refers to a fee or percentage of revenue paid to the original creator or owner of a digital asset, such as an NFT, each time it is resold.  |
+| SafeApprove | Due to the vulnerability of the approve() method in ERC20 contracts to front-running attacks, the safeApprove() method guarantees that if the current allowance is non-zero, it must be reset to zero before granting a new allowance. This precautionary check helps safeguard the contract from unintended behaviors. |
+| SafeTransfer | SafeTransfer is part of SafeERC20, a helper designed to secure interactions with someone else's ERC20 tokens. |
+| safeTransfer - code size check | safeTransfer with a code size check is a security mechanism that verifies the recipient contract's code size before executing a token transfer, preventing funds from being sent to non-existent contracts. |
+| Same Block Issue | Same Block Issue pertains to a situation where updates to a variable occur multiple times within the same block. However, due to an oversight in the code, only the first updated value is retained in persistent storage, potentially leading to incorrect or incomplete recording of state variables. |
+| Sandwich Attack | Sandwich Attack is a type of front-running attack where a malicious actor exploits a transaction by inserting their own transaction both before and after the victim it in the blockchain.  |
+| Selfdestruct | Selfdestruct refers to a function in a smart contract that allows the contract owner to intentionally destroy the contract and release its remaining funds to a designated address. |
+| send vs call | Similar to transfer, Use 'call' instead of 'send' due to gas cost considerations, and make sure to implement the CEI pattern to prevent reentrancy vulnerabilities when utilizing 'call'. |
+| Sense | Sense is decentralized permissionless infrastructure, where teams can build and develop new yield primitives for DeFi. |
+| Share Inflation | Share Inflation refers to a potential exploit where a malicious actor manipulates the supply or distribution of tokens in a decentralized application (DApp) to gain an unfair advantage. |
+| Signature Malleability | Signature Malleability refers to a weakness where the digital signature of a transaction can be altered without invalidating it.  |
+| Signed/Unsigned | Signed/Unsigned refers to the differentiation between signed and unsigned integers. Unsigned integers do not allow negative values, while signed integers can represent both positive and negative values. |
 | Slippage | Slippage is the difference between the average purchase or sale price for a trade and the initial selling or market price. Slippage refers to the changes in the presiding price of an asset in the course of the execution of a trade request. |
-| SOLC Version | |
-| Solidity 0.8.13/14 | |
-| SOLMate | |
-| Stability | |
-| Stale Price | |
-| Storage Collision | |
-| Storage Gap | |
-| supportsInterface | |
-| Swap | |
-| Sybil Attack | |
-| Teller | |
-| TimelockController Issue | |
-| Time Rounding | |
+| SOLC Version | SOLC Version refers to the specific compiler version of Solidity used to compile a smart contract. Using an outdated or unpatched version of the Solidity compiler can expose a smart contract to known vulnerabilities or bugs that have been addressed in newer releases. |
+| Solidity 0.8.13/14 | Solidity versions 0.8.13 and 0.8.14 are vulnerable to a recently reported optimizer bug related to inline assembly. Solidity 0.8.15 has been released with a fix. |
+| SOLMate | A Transmissions11-hosted repository of solidity smart contract writing tools and libraries for authentication, token, utility, and vault building blocks. |
+| Stability | Stability" refers to the robustness and reliability of a smart contract or blockchain system under various conditions and potential attacks. |
+| Stale Price | Stale Price refers to an outdated or incorrect value used for determining the exchange rate of assets in a decentralized application (DApp) or smart contract. |
+| Storage Collision | Storage Collision occurs when multiple contracts attempt to write data to the same storage slot within the blockchain. |
+| Storage Gap | Storage Gap" is a deliberate space left unused between state variables in upgradeable contracts. It serves as a protective measure to prevent unintended consequences that may arise from the addition of new variables in parent contracts, which could potentially overwrite existing variables in child contracts during upgrades. |
+| supportsInterface | supportsInterface is a function commonly used in smart contracts to check if a contract adheres to a specific standard or interface. |
+| Swap | Swap typically refers to the process of exchanging one token or asset for another on decentralized exchanges (DEXs) or automated market makers (AMMs). |
+| Sybil Attack | Sybil Attack refers to a potential vulnerability where an attacker could exploit the absence of a mechanism to detect fake or malicious actor. |
+| Tellor | Tellor is a transparent and permissionless oracle protocol for your smart contract to easily get any data whenever it needs it. |
+| TimelockController Issue | TimelockController Issue typically refers to a potential weakness in a smart contract that manages time-based operations or functions. It denotes a situation where a delay mechanism, often implemented to secure critical actions, may inadvertently allow for unforeseen or unauthorized actions to occur due to improper configuration or exploitation, potentially leading to unintended consequences or security breaches. |
+| Time Rounding | Time Rounding pertains to the potential issue where calculations involving time may lead to imprecise results due to the discrete nature of blockchain timestamps. |
 | Timing | Timing vulnerabilities arise when the behavior of a smart contract is dependent on certain time frames or intervals, which if manipulated, can have adverse effects.|
-| Token Existence | |
-| Token Order | |
-| totalSupply() = 0 | |
-| Tranfer Result Check | |
-| transferFrom vs safeTransferFrom | |
-| transferFrom vs transfer | |
-| Truncation | |
-| TWAP | |
-| Two-address token | |
-| Two-Step Pattern | |
-| Type casting | |
-| Typo / CopyPaste | |
+| Token Existence | Token Existence refers to a potential issue where a smart contract may not adequately verify the existence or validity of a token before performing operations with it. |
+| Token Order | Token Order typically refers to a potential weakness in smart contracts where the sequence of token operations is not properly validated or controlled. |
+| totalSupply() = 0 | totalSupply() = 0 refers to a vulnerability where an attacker manipulates the deposit process, causing the total supply of shares to remain at zero. This effectively prevents the protocol from functioning properly. |
+| Transfer Result Check | Transfer Result Check arises from the limited support for tokens that do not consistently return a boolean value upon success or failure, potentially leading to undetected transfer errors or erroneous treatment of successful transfers. |
+| transferFrom vs safeTransferFrom | transferFrom vs safeTransferFrom refers to a critical distinction in how tokens are handled in case of failure. While transferFrom is utilized, it may present a vulnerability as some tokens return 'false' instead of reverting on failure, potentially enabling a malicious actor to exploit the system. The recommendation is to consistently employ the safer alternative, safeTransferFrom, to mitigate this risk and ensure secure token transfers. |
+| transferFrom vs transfer | transferFrom vs transfer denotes a crucial distinction in how tokens are moved between addresses. While transferFrom allows for a third-party to initiate the transfer, it requires approval beforehand, whereas transfer directly moves tokens from the sender's account without this additional approval step, potentially exposing vulnerabilities if not used judiciously. |
+| Truncation | Truncation refers to the potential issue where numeric values, particularly those involving large or precise numbers, are truncated or rounded off, leading to unintended consequences or loss of precision in calculations. |
+| TWAP | TWAP stands for Time-Weighted Average Price. This metric is used to calculate the average price of an asset over a specified time period. |
+| Two-address token | Two-address token refers to a type of blockchain-based token, exemplified by Synthetix's ProxyERC20 contract, which allows for the designation of two distinct addresses for specific token. |
+| Two-Step Pattern | Two-Step Pattern involves a vulnerability in the ownership transfer process where the current owner directly initiates ownership transfer without adequate checks, potentially enabling unintentional transfers to invalid or uncontrolled accounts and compromising functions restricted to the owner. |
+| Type casting | Type casting refers to the practice of converting a variable from one data type to another. Improper or unchecked type casting can lead to vulnerabilities. |
+| Typo / CopyPaste | Typo / CopyPaste" refers to a potential issue where mistakes in code arise from typing errors or inadvertently copying and pasting code segments. |
 | Undefined Behavior | Undefined behavior vulnerabilities occur when a smart contract relies on aspects of the Solidity language or the EVM that are not clearly defined or specified. This can cause the behavior of the contract to be unpredictable or unstable.|
 | Uniswap | Uniswap is an automated liquidity protocol powered by a constant product formula and implemented in a system of non-upgradeable smart contracts on the Ethereum blockchain. It obviates the need for trusted intermediaries, prioritizing decentralization, censorship resistance, and security. |
-| Update State After Admin Action | |
-| Upgradable | |
-| USDC | |
-| USDT | |
-| Validation | |
-| Vault | |
+| Update State After Admin Action | Update State After Admin Action pertains to a potential issue where the state of a smart contract is not appropriately updated following an administrative action. |
+| Upgradable | Upgradable refers to a design pattern where smart contracts are structured to allow for future updates or modifications. |
+| USDC | USDC refers to a type of stablecoin known as USD Coin. |
+| USDT | USDT refers to Tether, a widely used stablecoin. |
+| Validation | Validation refers to the process of verifying input data or conditions to ensure they meet specific criteria or requirements within a smart contract. |
+| Vault | Vault typically refers to a secure storage mechanism within a smart contract designed to hold and manage assets. |
 | veCRV | veCRV is a non-standard ERC20 implementation, used within the Aragon DAO to determine each account's voting power. |
-| Vesting | |
-| Veto | |
-| Vote | |
-| VRF | |
-| Weird ERC20 | |
-| WETH | |
-| Whitelist/Blacklist Match | |
-| Withdraw 0 | |
-| Withdraw Pattern | |
-| Wormhole | |
-| Wrong Comment | |
-| Wrong Math | |
-| Wrong Time | |
-| ZkSync | |
+| Vesting | Vesting pertains to a time-based release mechanism for tokens or assets held in a smart contract. |
+| Veto | Veto typically refers to a mechanism that allows a single entity or a select group to override decisions or actions within a smart contract or blockchain system. |
+| Vote | Vote refers to the action of expressing one's preference or decision in a decentralized governance system. |
+| VRF | VRF stands for Verifiable Random Function. It is a cryptographic function used to generate random numbers in a way that can be independently verified. |
+| Weird ERC20 | Weird ERC20 typically refers to non-standard implementations of the ERC20 token standard. These non-standard implementations may deviate from the expected behavior of ERC20 tokens. |
+| WETH | WETH refers to Wrapped Ether, which is a tokenized version of Ethereum's native cryptocurrency, ETH. |
+| Whitelist/Blacklist Match | Whitelist/Blacklist Match refers to a potential vulnerability where a smart contract improperly handles addresses based on predefined lists. |
+| Withdraw 0 | Withdraw 0 pertains to a potential weakness in a smart contract's withdrawal mechanism where a user might be able to initiate a withdrawal of zero tokens or funds. |
+| Withdraw Pattern | Withdraw Pattern refers to a potential issue where a smart contract allows users to withdraw funds or tokens without adequate checks or safeguards in place. |
+| Wormhole | Wormhole is a generic message passing protocol that enables communication between blockchains. |
+| Wrong Comment | Wrong Comment refers to a potential issue where the comments in the smart contract's code do not accurately reflect the actual functionality or logic implemented. |
+| Wrong Math | Wrong Math refers to a potential issue where mathematical operations within a smart contract are implemented incorrectly, leading to inaccurate calculations.  |
+| Wrong Time | Wrong Time refers to a potential vulnerability where the handling of time-related functions or conditions in a smart contract is not accurate or properly validated. This can lead to incorrect outcomes or exploitable scenarios, potentially compromising the contract's intended functionality and security. |
+| ZkSync | ZkSync refers to a layer-2 scaling solution for Ethereum that aims to improve transaction throughput and reduce gas fees. |
