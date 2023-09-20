@@ -204,7 +204,7 @@ SwapExchange.sol
 
 **Cyfrin:** Verified.
 
-## Informational Findings
+## Informational
 
 ### Not proper variable naming
 
