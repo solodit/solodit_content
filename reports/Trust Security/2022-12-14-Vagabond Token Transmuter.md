@@ -15,23 +15,23 @@ TokenTransmuter supports two types of transmutations, linear and instant. In lin
 allocated amount is released across time until fully vested, while in instant the entire 
 amount is released immediately. **transmuteLinear()** checks that there is enough output 
 tokens left in the contract before accepting transfer of input tokens.
-```solidity
-require(IERC20(outputTokenAddress).balanceOf(address(this)) >= 
-(totalAllocatedOutputToken - totalReleasedOutputToken), 
-"INSUFFICIENT_OUTPUT_TOKEN");
-IERC20(inputTokenAddress).transferFrom(msg.sender, address(0), 
-_inputTokenAmount);
-```
-However, transmuteInstant() lacks any remaining balance checks, and will operate as long 
+ ```solidity
+        require(IERC20(outputTokenAddress).balanceOf(address(this)) >= 
+            (totalAllocatedOutputToken - totalReleasedOutputToken), 
+        "INSUFFICIENT_OUTPUT_TOKEN");
+             IERC20(inputTokenAddress).transferFrom(msg.sender, address(0), 
+        _inputTokenAmount);
+ ```
+However, `transmuteInstant()` lacks any remaining balance checks, and will operate as long 
 as the function has enough output tokens to satisfy the request.
 
 ```solidity
-IERC20(inputTokenAddress).transferFrom(msg.sender, address(0), 
-_inputTokenAmount);
-SafeERC20.safeTransfer(IERC20(outputTokenAddress), msg.sender, 
-allocation);
-emit OutputTokenInstantReleased(msg.sender, allocation, 
-outputTokenAddress);
+        IERC20(inputTokenAddress).transferFrom(msg.sender, address(0), 
+             _inputTokenAmount);
+        SafeERC20.safeTransfer(IERC20(outputTokenAddress), msg.sender, 
+             allocation);
+        emit OutputTokenInstantReleased(msg.sender, allocation, 
+             outputTokenAddress);
 ```
 As a result, it is not ensured that tokens that have been reserved for linear distribution will 
 be available when users request to claim them. An attacker may empty the output balance 
@@ -74,15 +74,15 @@ Timestamp checks implemented successfully.
 **Description:**
 linearVestingDuration is used as the total period from start to end of vesting in linear 
 transmutation. It is set in the constructor and is fixed. There is no validation in construction 
-that the variable is not set to zero. When users call releaseTransmutedLinear() to claim 
-released tokens, _vestingSchedule() is called which divides by linearVestingDuration in one 
+that the variable is not set to zero. When users call `releaseTransmutedLinear()` to claim 
+released tokens, `_vestingSchedule()` is called which divides by linearVestingDuration in one 
 flow. 
-```solidity
-} else {
- return (totalAllocation * (timestamp - start(_vester))) / 
-duration();
-}
-```
+  ```solidity
+     } else {
+        return (totalAllocation * (timestamp - start(_vester))) / 
+         duration();
+        }
+ ```
 This flow has no chance of completing as the function will revert with divide-by-zero 
 exception. 
 **Recommended Mitigation:**
@@ -114,15 +114,15 @@ Issue was fixed.
 **Mitigation review:**
 Both functions now support linear and instant vesting. However, 
 vestedAmountAtTimestamp may still return incorrect results for timestamp < time of vesting
-for instant vesting. Function does not take into account timestamp of transmute() call.
+for instant vesting. Function does not take into account timestamp of `transmute()` call.
 ```solidity
-if (addressToVestingCode[_vester] == 1) {
- return addressToTotalAllocatedOutputToken[_vester];
-} else if (addressToVestingCode[_vester] == 2) {
- return 
-_vestingSchedule(addressToTotalAllocatedOutputToken[_vester],
-uint64(_timestamp), _vester);
-}
+        if (addressToVestingCode[_vester] == 1) {
+                 return addressToTotalAllocatedOutputToken[_vester];
+                    } else if (addressToVestingCode[_vester] == 2) {
+                        return 
+                    _vestingSchedule(addressToTotalAllocatedOutputToken[_vester],
+            uint64(_timestamp), _vester);
+         }
 ```
 
 ### TRST-L-3 Multiplier implementation causes limited functionality
@@ -130,11 +130,11 @@ uint64(_timestamp), _vester);
 linearMultiplier and instantMultiplier are used to calculate output token amount from input 
 token amount in transmute functions. 
 ```solidity
-uint256 allocation = (_inputTokenAmount * linearMultiplier) / 
-tokenDecimalDivider;
-…
-uint256 allocation = (_inputTokenAmount * instantMultiplier) / 
-tokenDecimalDivider;
+    uint256 allocation = (_inputTokenAmount * linearMultiplier) / 
+        tokenDecimalDivider;
+    …
+    uint256 allocation = (_inputTokenAmount * instantMultiplier) / 
+        tokenDecimalDivider;
 ```
 The issue is that they are uint256 variables and can only multiply _inputTokenAmount, not 
 divide it. It results in limited functionality of the protocol as vesting pairs where output 
@@ -153,9 +153,9 @@ Acknowledged, but will not be fixed at this time as use case does not require di
 tokenDecimalDivider stores the decimals difference between input token and output token. 
 However, this value assumes input decimals is always larger or equal to output decimals. As 
 a result, the contract cannot be used for many input/output token pairs.
-```solidity
-uint256 allocation = (_inputTokenAmount * linearMultiplier) / 
-tokenDecimalDivider;
+ ```solidity
+         uint256 allocation = (_inputTokenAmount * linearMultiplier) / 
+             tokenDecimalDivider;
 ```
 
 **Mitgation review:**
@@ -169,21 +169,21 @@ Acknowledged, but will not be fixed at this time as use case does not require di
 
 ### TRST-L-5 transmute functions may charge input tokens but not allocate any output tokens
 **Description:** 
-transmuteInstant() calculates and distributes allocation like so:
+`transmuteInstant()` calculates and distributes allocation like so:
 ```solidity
-uint256 allocation = (_inputTokenAmount * instantMultiplier) / 
-tokenDecimalDivider;
-…
-IERC20(inputTokenAddress).transferFrom(msg.sender, address(0), 
-_inputTokenAmount);
-SafeERC20.safeTransfer(IERC20(outputTokenAddress), msg.sender, 
-allocation);
+        uint256 allocation = (_inputTokenAmount * instantMultiplier) / 
+             tokenDecimalDivider;
+        …
+        IERC20(inputTokenAddress).transferFrom(msg.sender, address(0), 
+                _inputTokenAmount);
+        SafeERC20.safeTransfer(IERC20(outputTokenAddress), msg.sender, 
+        allocation);
 ```
 The issue is that allocation result could be zero due to division by tokenDecimalDivider
 which trims many decimal points. If user does not provide a sufficient input amount, 
 allocation will be zero but the function won't revert. Therefore, function will charge user the 
 input amount but not give in return any output amount. The issue repeats in 
-transmuteLinear(). It is not severe because if allocation is zero, input amount was probably 
+`transmuteLinear()`. It is not severe because if allocation is zero, input amount was probably 
 quite small, but still important to address for user experience.
 
 **Recommended mitigation:**
@@ -198,7 +198,7 @@ Successful fix
 ### TRST-L-6 emergencyPull introduces substantial risks
 The **emergencyPull()** function is only callable by owner, and transfers the entire output 
 token balance to a controlled destination. Use of **emergencyPull()** will make any linear 
-vesting be cancelled without refund to the user. It is recommended that only the nonallocated output tokens can be transferred out, as done in **outputTokenPull()**. Additionally, 
+vesting be cancelled without refund to the user. It is recommended that only the non allocated output tokens can be transferred out, as done in **outputTokenPull()**. Additionally, 
 project should make sure the multisig address has a timelock in order to further protect 
 users from compromised owner scenarios.
 
@@ -207,15 +207,15 @@ The fix adds a check that remaining balance is greater than the required balance
 actually transfers the entire output token balance. It should transfer out only the delta.
 Therefore, the previous issue still exists.
 ```solidity
-uint256 outputTokenBalance = 
-IERC20(outputTokenAddress).balanceOf(address(this));
-uint256 vestingRequiredBalance = totalAllocatedOutputToken -
-totalReleasedOutputToken;
-require(outputTokenBalance > vestingRequiredBalance, 
-"NO_UNALLOCATED_TOKENS");
-SafeERC20.safeTransfer(IERC20(outputTokenAddress), 
-_emergencyOutputDestination, 
-IERC20(outputTokenAddress).balanceOf(address(this)));
+        uint256 outputTokenBalance = 
+             IERC20(outputTokenAddress).balanceOf(address(this));
+                uint256 vestingRequiredBalance = totalAllocatedOutputToken -
+        totalReleasedOutputToken;
+        require(outputTokenBalance > vestingRequiredBalance, 
+            "NO_UNALLOCATED_TOKENS");
+        SafeERC20.safeTransfer(IERC20(outputTokenAddress), 
+             _emergencyOutputDestination, 
+        IERC20(outputTokenAddress).balanceOf(address(this)));
 ```
 ### TRST-L-7 Owner can pause withdrawals of vested amount
 Owner can use **setEmergencyPause()** to set the isPaused flag. The flag is checked in both 
