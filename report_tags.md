@@ -221,3 +221,4 @@
 | Wrong Math | Wrong Math refers to a potential issue where mathematical operations within a smart contract are implemented incorrectly, leading to inaccurate calculations.  |
 | Wrong Time | Wrong Time refers to a potential vulnerability where the handling of time-related functions or conditions in a smart contract is not accurate or properly validated. This can lead to incorrect outcomes or exploitable scenarios, potentially compromising the contract's intended functionality and security. |
 | ZkSync | ZkSync refers to a layer-2 scaling solution for Ethereum that aims to improve transaction throughput and reduce gas fees. |
+| Back-Running | Back-running vulnerabilities are exploited by malicious actors who capitalise on information visible in pending transactions by placing transactions which will execute after the pending transaction and take advantage of ensuing state changes. |
