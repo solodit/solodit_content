@@ -319,7 +319,7 @@ File: contracts\OperatorTokenomics\OperatorPolicies\StakeModule.sol
 
 **Cyfrin:** Acknowledged.
 
-## Informational Findings
+## Informational
 
 ### Redundant requirement
 The first requirement is redundant because the second one is enough.
