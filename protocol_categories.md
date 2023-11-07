@@ -22,7 +22,6 @@
 | NFT Lending | Protocols that allow you to collateralize your NFT for a loan |
 | Algo-Stables | Protocols that provide algorithmic coins to stablecoins |
 | Privacy | Protocols that have the intention of hiding information about transactions |
-| Infrastructure | |
 | Payments | Protocols that offer the ability to pay/send/receive cryptocurrency |
 | NFT Marketplace | Protocols where users can buy/sell/rent NFTs |
 | Options | Protocols that give you the right to buy an asset at a fixed price |
@@ -33,7 +32,6 @@
 | Prediction Market | Protocols that allow you to wager/bet/buy in future results |
 | Decentralized Stablecoin | Coins pegged to USD through decentralized mechanisms |
 | Uncollateralized Lending | Protocol that allows you to lend against known parties that can borrow without collaterall |
-| Decentralized Stablecoin | Coins pegged to USD through decentralized mechanisms |
 | Reserve Currency | OHM forks: Protocols that uses a reserve of valuable assets acquired through bonding and staking to issue and back its native token |
 | RWA Lending | Protocols that bridge traditional finance and blockchain ecosystems by tokenizing real-world assets for use as collateral or credit assessment, enabling decentralized lending and borrowing opportunities. |
 | Gaming | Protocols that have gaming components |
