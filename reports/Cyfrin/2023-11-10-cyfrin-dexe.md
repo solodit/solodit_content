@@ -8,7 +8,7 @@
 ---
 
 # Findings
-## Critical Risk
+## High Risk
 
 
 ### `TokenSaleProposal::buy` implicitly assumes that buy token has 18 decimals resulting in a potential total loss scenario for Dao Pool
@@ -464,7 +464,6 @@ Fixed in [PR174](https://github.com/dexe-network/DeXe-Protocol/commit/8c52fe4264
 **Cyfrin:** Verified.
 
 \clearpage
-## High Risk
 
 
 ### Under-funded eth distribution proposals can be created causing claiming rewards to revert
