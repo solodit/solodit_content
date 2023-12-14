@@ -12,7 +12,7 @@
 ---
 
 # Findings
-## Critical Risk
+## High Risk
 
 
 ### Polygon chain reorgs will change mystery box tiers which can be gamed by validators
@@ -43,9 +43,6 @@ Fixed in commit [85b2012](https://github.com/Earnft/smart-contracts/commit/85b20
 Fixed in commit [a65a50c](https://github.com/Earnft/smart-contracts/commit/a65a50ca8af4d6abc58d3c429785bcd82182c04e) by overriding `ERC1155::_beforeTokenTransfer()` to prevent mystery boxes from being transferred.
 
 **Cyfrin:** Verified.
-
-\clearpage
-## High Risk
 
 
 ### Broken check in `MysteryBox::fulfillRandomWords()` fails to prevent same request being fulfilled multiple times
@@ -236,7 +233,7 @@ We acknowledge that the chosen design was driven by the intent to facilitate the
 Acknowledged.
 
 \clearpage
-## Gas Optimization
+## Gas Optimizations
 
 
 ### Remove from storage `baseMetadataURI` as already stored in `ERC1155` and `name` as never used
