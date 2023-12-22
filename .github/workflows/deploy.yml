@@ -44,3 +44,15 @@ jobs:
       run: |
         echo ${{ steps.importReportRequest.outputs.response }}
         echo ${{ steps.myRequest.outputs.headers }}
+    - name: Refresh bug bounties
+      id: refreshBugBounties
+      uses: fjogeleit/http-request-action@v1.14.0
+      with:
+        url: https://solodit.xyz/api/general/refresh_bug_bounties/
+        method: POST
+        customHeaders: '{"Content-Type": "application/x-www-form-urlencoded"}'
+        data: '{"email": "${{ secrets.SOLODIT_USER }}", "password": "${{ secrets.SOLODIT_PASSWORD }}"}'
+    - name: Show Response of Refreshing Bug bounties
+      run: |
+        echo ${{ steps.refreshBugBounties.outputs.response }}
+        echo ${{ steps.myRequest.outputs.headers }}
