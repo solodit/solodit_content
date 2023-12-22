@@ -5,7 +5,6 @@
 | SOL-3 | [Aptos Foundation](https://github.com/aptos-labs/aptos-core/blob/main/SECURITY.md#aptos-core-bug-bounty) | | 2250000 | | | | | | | | |
 | SOL-4 | [0x Protocol](https://docs.0xprotocol.org/en/latest/additional/bounties.html#id1) | | 1000000 | | | | | | | | |
 | SOL-5 | [Convex Finance](https://docs.convexfinance.com/convexfinance/faq/bug-bounties) | | 250000 | | | | | | | | |
-| SOL-6 | [AAVE](https://github.com/aave/bug-bounty#bug-bounty) | | 250000 | | | | | | | | |
 | SOL-7 | [Ethereum Foundation](https://ethereum.org/en/bug-bounty/) | | 250000 | | | | | | | | |
 | SOL-8 | [Compound](https://docs.compound.finance/v2/security/#bug-bounty-program) | | 250000 | | | | | | | | |
 | SOL-9 | [Pool Together](https://docs.pooltogether.com/security/bug-bounties) | | 25000 | | | | | | | | |
