@@ -7,3 +7,5 @@
 | SOL-5 | [Convex Finance](https://docs.convexfinance.com/convexfinance/faq/bug-bounties) | | 250000 | | | | | | | | |
 | SOL-6 | [AAVE](https://github.com/aave/bug-bounty#bug-bounty) | | 250000 | | | | | | | | |
 | SOL-7 | [Ethereum Foundation](https://ethereum.org/en/bug-bounty/) | | 250000 | | | | | | | | |
+| SOL-8 | [Compound](https://docs.compound.finance/v2/security/#bug-bounty-program) | | 250000 | | | | | | | | |
+| SOL-9 | [Pool Together](https://docs.pooltogether.com/security/bug-bounties) | | 25000 | | | | | | | | |
