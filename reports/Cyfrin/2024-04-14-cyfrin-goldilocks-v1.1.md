@@ -638,7 +638,7 @@ File: Goldiswap.sol
 150:     SafeTransferLib.safeTransferFrom(honey, msg.sender, multisig, tax);
 ```
 
-## Gas Optimization
+## Gas Optimizations
 
 
 ### Constructors can be marked as `payable`.
