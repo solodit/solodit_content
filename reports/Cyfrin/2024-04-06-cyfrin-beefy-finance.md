@@ -11,7 +11,7 @@
 ---
 
 # Findings
-## Critical Risk
+## High Risk
 
 
 ### Attacker can drain protocol tokens by sandwich attacking owner call to `setPositionWidth` and `unpause` to force redeployment of Beefy's liquidity into an unfavorable range
@@ -306,8 +306,6 @@ Fixed in commit [2c5f4cb](https://github.com/beefyfinance/experiments/commit/2c5
 **Cyfrin:** Verified.
 
 \clearpage
-## High Risk
-
 
 ### No slippage parameter on UniswapV3 swaps can be exploited by MEV to return fewer output tokens
 
@@ -610,6 +608,7 @@ This ensures that pending LP rewards are collected and have the correct fees cha
 Acknowledged.
 
 \clearpage
+
 ## Low Risk
 
 
@@ -1436,7 +1435,8 @@ Fixed in commit [139c3f9](https://github.com/beefyfinance/experiments/commit/139
 **Cyfrin:** Verified.
 
 \clearpage
-## Gas Optimization
+
+## Gas Optimizations
 
 
 ### Cache storage variables in memory when read multiple times without being changed
