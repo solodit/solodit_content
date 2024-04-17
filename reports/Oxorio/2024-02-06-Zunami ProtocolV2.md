@@ -6,7 +6,7 @@
 
 ## High Risk
 
-#### [FIXED] No access control for `deposit` function call in `VaultStrat`
+### [FIXED] No access control for `deposit` function call in `VaultStrat`
 ##### Location
 File | Location | Line
 --- | --- | ---
@@ -76,7 +76,7 @@ We recommend adding access control for the `deposit` function.
 ##### Update
 Fixed in commit [`9ffa8e1b6128d1ade8459a4e492cee669ed241a1`](https://github.com/ZunamiProtocol/ZunamiProtocolV2/tree/9ffa8e1b6128d1ade8459a4e492cee669ed241a1/).
 
-#### [FIXED] Blocking execution of `inflate` and `deflate` functions in `ConvexCurveStratBase`
+### [FIXED] Blocking execution of `inflate` and `deflate` functions in `ConvexCurveStratBase`
 ##### Location
 File | Location | Line
 --- | --- | ---
@@ -97,7 +97,7 @@ We recommend considering the replacement of the `depositAll` function call with 
 ##### Update
 Fixed in commit [`9ffa8e1b6128d1ade8459a4e492cee669ed241a1`](https://github.com/ZunamiProtocol/ZunamiProtocolV2/tree/9ffa8e1b6128d1ade8459a4e492cee669ed241a1/).
 
-#### [FIXED] Elevated price in USD in the `getLiquidityTokenPrice` function leads to money theft from the pool in `ZunamiStratBase`
+### [FIXED] Elevated price in USD in the `getLiquidityTokenPrice` function leads to money theft from the pool in `ZunamiStratBase`
 ##### Location
 File | Location | Line
 --- | --- | ---
@@ -215,7 +215,7 @@ Fixed in commit [`79892fe12bec407d3d9706c19cd421d458263c0c`](https://github.com/
 
 In the current architecture, a protocol has capital stored in strategies. Essentially, investing capital through the pool, the protocol mint own zun stablecoins in return. The capital the protocol held earns the rewards and the yield in the base scenario. Currently, the DAO explicitly withdraws the rewards and converts capital growth into `zun` stablecoins for withdrawal as well. In other words, it's the normal operation mode of the protocol where it constantly gains capital growth. However, in the event of a force majeure and if the protocol has an unsuccessful strategy where the token in which the capital is stored in an external protocol drops in price (for example, Curve LP token), the `DAO` initiate a recapitalization procedure to restore 100% backing selling stacked `zun` stablecoin and collected rewards. In the protocol, the period between losing full backing of own stablecoin with capital and its restoration is a standard procedure that cannot be fixed algorithmically because the problem lies in the external protocol, which has become imbalanced. And yes, users take on the risk that in the event of exiting the zunami pool (omni or APS), they may lose funds if capital is lost in an external project before the recapitalization happens.
 
-#### [FIXED] Price-feed returns ETH price in `FrxETHOracle`
+### [FIXED] Price-feed returns ETH price in `FrxETHOracle`
 ##### Location
 File | Location | Line
 --- | --- | ---
@@ -231,7 +231,7 @@ Fixed in commit [`9ffa8e1b6128d1ade8459a4e492cee669ed241a1`](https://github.com/
 
 ## Medium Risk
 
-#### [FIXED] Latency of APS logic in `CrvUsdApsConvexCurveStratBase`, `FraxApsConvexCurveStratBase`
+### [FIXED] Latency of APS logic in `CrvUsdApsConvexCurveStratBase`, `FraxApsConvexCurveStratBase`
 ##### Location
 File | Location | Line
 --- | --- | ---
@@ -249,7 +249,7 @@ We recommend implementing an emergency APS mechanism that can be activated witho
 ##### Update
 Fixed in commit [`9ffa8e1b6128d1ade8459a4e492cee669ed241a1`](https://github.com/ZunamiProtocol/ZunamiProtocolV2/tree/9ffa8e1b6128d1ade8459a4e492cee669ed241a1/).
 
-#### [FIXED] Array out of bounds in `_setTokens` when deleting tokens in `ZunamiPool`
+### [FIXED] Array out of bounds in `_setTokens` when deleting tokens in `ZunamiPool`
 ##### Location
 File | Location | Line
 --- | --- | ---
@@ -271,7 +271,7 @@ Fixed in commit [`9ffa8e1b6128d1ade8459a4e492cee669ed241a1`](https://github.com/
 
 ## Low Risk
 
-#### [ACKNOWLEDGED] High slippage in `CrvUsdApsConvexCurveStratBase`, `FraxApsConvexCurveStratBase`
+### [ACKNOWLEDGED] High slippage in `CrvUsdApsConvexCurveStratBase`, `FraxApsConvexCurveStratBase`
 ##### Location
 File | Location | Line
 --- | --- | ---
@@ -306,7 +306,7 @@ As a result, the acceptable slippage in the current implementation is `1.3%`, wh
 In the `deflate` and `inflate` methods, two parameters are used: a percentage of the managed capital strategy in the external protocol and a minimum number of tokens. In the case of inflation, the second parameter determines the minimum number of stables that were obtained when withdrawing the tokens from the external pool and depositting the `Zunami Pool` to mint `zun` stables and return them back to the external protocol, thereby expanding the emission of zun stables. In the case of deflation, it determines the minimum number of stables that were obtained when converting `zun` stables before being deposited into the external protocol. Since the first parameter is initially specified in percentages, the minimum expected number of tokens after all conversions is specified in units, not percentages, to minimize the attack vector at the time of withdrawal and conversion. Therefore, specifying the second parameter as a percentage of slippage is considered a riskier scenario than specifying an explicit minimum number of tokens withdrawn.
 
 
-#### [FIXED] Underflow in case of `depositedValue` is lower than `MINIMUM_LIQUIDITY` on the first deposit to the strategy in `ZunamiPool`
+### [FIXED] Underflow in case of `depositedValue` is lower than `MINIMUM_LIQUIDITY` on the first deposit to the strategy in `ZunamiPool`
 ##### Location
 File | Location | Line
 --- | --- | ---
