@@ -78,7 +78,7 @@ Add the `onlyOwner` modifier to the `setCluster()` function:
     }
 ```
 
-# [C-03] Approvals can be exploited due to insufficient checks in `_exitPositionAndRemoveCollateral`
+### [C-03] Approvals can be exploited due to insufficient checks in `_exitPositionAndRemoveCollateral`
 
 **Severity**
 
@@ -147,7 +147,6 @@ address ownerOfTapTokenId = IERC721(oTapAddress).ownerOf(
                 revert NotValid();
 ```
 
-## High Risk
 
 ### [H-01] `StargateLbpHelper.participate()` will send tokens to the wrong address
 
@@ -828,7 +827,7 @@ As `MagnetarMarketModule._withdrawToChain()` allows withdrawal to another chain,
 
 I have determined 4 different cases of how `_withdrawToChain()` can be called, and the following shows that cases 2/3/4 are incorrect.
 
-### Case 1: Direct call
+#### Case 1: Direct call
 
 `gas == msg.value` and `refundAddress` will be from parameter
 This is correct, assuming no user error.
@@ -838,7 +837,7 @@ EOA -> MagnetarV2.withdrawToChain()
 	-> MagnetarMarketModule._withdrawToChain() // delegatecall
 ```
 
-### Case 2: Cross-chain direct call
+#### Case 2: Cross-chain direct call
 
 `gas == msg.value` and `refundAddress` will be `payable(to)` due to BaseTOFTMarketDestinationModule.sol#L247
 This is incorrect as `refundAddress` should a user provided address on the source chain.
@@ -850,7 +849,7 @@ LZ (dest) -> BaseTOFT._nonblockingLzReceive()
 				-> MagnetarMarketModule._withdrawToChain() // delegatecall
 ```
 
-### Case 3: Cross-chain indirect call
+#### Case 3: Cross-chain indirect call
 
 `gas == msg.value` and `refundAddress` will be `payable(this)` due to MagnetarMarketModule.sol#L858
 This is incorrect as `refundAddress` should be a user provided address on the source chain.
@@ -864,7 +863,7 @@ LZ (dest) -> BaseTOFT._nonblockingLzReceive()
 						-> MagnetarMarketModule._withdrawToChain()
 ```
 
-### Case: 4. Multicall using burst()
+#### Case: 4. Multicall using burst()
 
 `gas == _action.value` and `refundAddress` will be `payable(this)` due to MagnetarMarketModule.sol#L800
 This is incorrect as `refundAddress` should be `msg.sender`.
