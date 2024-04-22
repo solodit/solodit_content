@@ -52,7 +52,6 @@ Refactor check to:
 +          if (block.timestamp - cooldownStartTimestamp - COOLDOWN_SECONDS > UNSTAKE_WINDOW) {
 ```
 
-## High Risk
 
 ### [H-01] `StakedToken` is vulnerable to share inflation attack via donation
 
