@@ -189,7 +189,7 @@ Fixed in commit 6208dd1.
 **Cyfrin:** Verified.
 
 \clearpage
-## Gas Optimization
+## Gas Optimizations
 
 
 ### Fail fast in `_completeTransfer` by checking for incorrect address/chainId immediately after calling `TOKENBRIDGE.parseTransferWithPayload`
