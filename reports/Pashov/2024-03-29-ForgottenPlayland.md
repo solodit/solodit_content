@@ -63,7 +63,6 @@ As a result, users signing approvals via permit will receive a different price.
 
 Replace `price` with `saleStruct.price`, as in `customSale()`.
 
-## High Risk
 
 ### [H-01] Bypassing `saleUserCap` and whitelist
 
