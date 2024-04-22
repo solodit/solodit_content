@@ -519,7 +519,7 @@ Fixed in commit [fc1c8fb](https://github.com/ondoprotocol/rwa-internal/commit/fc
 **Cyfrin:** Verified.
 
 \clearpage
-## Gas Optimization
+## Gas Optimizations
 
 
 ### Cache array length outside of loops and consider unchecked loop incrementing
