@@ -1219,7 +1219,7 @@ If it is decided to make the Wormhole chain ID the canonical chain ID, different
 **Cyfrin:** Acknowledged.
 
 \clearpage
-## Gas Optimization
+## Gas Optimizations
 
 
 ### Unnecessary type casts of proxied storage slots from `bytes32` to `uint256`
