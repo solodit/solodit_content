@@ -123,7 +123,7 @@ Another note is that currently `payloadSize` is not used in fee calculation, but
 
 Remove argument `socketPayloadSize` and use 0 instead
 
-# [C-03] Decimals are incorrectly handled in DivReducerNode
+### [C-03] Decimals are incorrectly handled in DivReducerNode
 
 **Severity**
 
@@ -162,7 +162,6 @@ Here you can see the default decimals is 8:
 
 Normalize the price from RedstoneOracle by decimals of that oracle. Only after using it in internal calculations
 
-## High Risk
 
 ### [H-01] User can lose tokens during deposit fallback bridging
 
