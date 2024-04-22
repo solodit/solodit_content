@@ -490,7 +490,7 @@ Fixed in commit [6481747](https://github.com/SolidlyV3/v3-rewards/commit/6481747
 Verified.
 
 \clearpage
-## Gas Optimization
+## Gas Optimizations
 
 
 ### Cache array length outside of loop
