@@ -1034,7 +1034,7 @@ while ((i < stems.length) && (a.tokensRemoved < maxTokens)) {
 
 
 \clearpage
-## Gas Optimization
+## Gas Optimizations
 
 
 ### Break out of `LibWhitelist ` loops early once the condition is met
