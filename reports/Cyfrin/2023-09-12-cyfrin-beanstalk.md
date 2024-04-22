@@ -1100,7 +1100,7 @@ The purpose of the `LibConvertData::ConvertKind` enum type [`LAMBDA_LAMBDA`](htt
 Given that `msg.value` is persisted through `delegatecall`, it is important that future contract upgrades consider the possibility of this behavior being weaponized within loops that may make unsafe use of this value. While this does not appear to be immediately exploitable, there have previously been other variants [discovered in the wild](https://samczsun.com/two-rights-might-make-a-wrong/). To reiterate, special attention must be paid to the implications of additions in any future upgrades that may introduce unsafe use of `msg.value` within loops, especially considering usage with low-level calls in the `DepotFacet`, `FarmFacet`, `Pipeline`, and `LibETH`/`LibWETH`.
 
 \clearpage
-## Gas Optimization
+## Gas Optimizations
 
 
 ### Avoid unnecessary use of `SafeMath` operations
