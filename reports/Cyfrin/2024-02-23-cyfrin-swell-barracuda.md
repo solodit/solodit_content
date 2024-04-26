@@ -701,7 +701,7 @@ Hence the code can be simplified to:
 Verified.
 
 \clearpage
-## Gas Optimization
+## Gas Optimizations
 
 
 ### Cache storage variables in memory when read multiple times without being changed
