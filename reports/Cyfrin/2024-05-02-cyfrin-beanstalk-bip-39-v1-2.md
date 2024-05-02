@@ -1034,7 +1034,7 @@ while ((i < stems.length) && (a.tokensRemoved < maxTokens)) {
 
 
 \clearpage
-## Gas Optimization
+## Gas Optimizations
 
 
 ### Break out of `LibWhitelist ` loops early once the condition is met
@@ -1197,4 +1197,3 @@ function testRemaining2() public {
 
 `LibFertilizer::remainingRecapitalization` should cache `s.recapitalized` then use the cached stack variable in [L166-167](https://github.com/BeanstalkFarms/Beanstalk/blob/dfb418d185cd93eef08168ccaffe9de86bc1f062/protocol/contracts/libraries/LibFertilizer.sol#L166-L167) to prevent reading the same value a second twice from storage.
 
-\clearpage
