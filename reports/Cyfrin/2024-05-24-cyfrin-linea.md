@@ -514,7 +514,7 @@ if(blobhash(blobSubmissionLength) != EMPTY_HASH) {
 Acknowledged; will be resolved in a future release focused on decentralization. Currently the Operator Service is written in such a way this cannot happen, and there is always a 1:1 mapping of data:blob.
 
 \clearpage
-## Gas Optimization
+## Gas Optimizations
 
 
 ### `TokenBridge::deployBridgedToken` can use named return variable to avoid additional local variable
