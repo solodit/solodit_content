@@ -9,7 +9,7 @@
 ---
 
 # Findings
-## Critical Risk
+## High Risk
 
 
 ### Math error in creator payment calculation
