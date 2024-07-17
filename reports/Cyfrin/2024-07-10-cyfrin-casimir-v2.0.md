@@ -11,7 +11,7 @@
 ---
 
 # Findings
-## Critical Risk
+## High Risk
 
 
 ### Attacker can cause a DOS during unstaking by intentionally reverting the transaction when receiving ETH
@@ -283,10 +283,6 @@ When tips are claimed by owner, the `withdrawnEffectiveBalance` which was increm
 Fixed in [4adef64](https://github.com/casimirlabs/casimir-contracts/commit/4adef6482238c3d0926f72ffdff04e7a49886045)
 
 **Cyfrin:** Verified.
-
-\clearpage
-## High Risk
-
 
 ### Function `getTotalStake()` fails to account for pending validators, leading to inaccurate accounting
 
