@@ -120,7 +120,7 @@ Confirm that the logic in the `_pendingRewardsForStake` function is true to the 
 
 The logic of the function was fixed thus comment and logic in the loop correspond to each other.
 
-## Medium
+## Medium Risk
 
 ### Potential Performance Issue with Unbounded Loops.
 
@@ -163,7 +163,7 @@ Remove SafeMath library.
 
 SafeMath was removed.
 
-## Informational Risk
+## Informational
 
 ### Inaccurate version pragma.
 
