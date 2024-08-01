@@ -4,7 +4,7 @@
 
 # Findings
 
-## Informational Risk
+## Informational
 
 ### Unused imports
 
