@@ -482,7 +482,7 @@ The contract owner could withdraw tokens or funds unexpectedly, change discount 
 Implement a multi-signature wallet or a decentralized autonomous organization (DAO) mechanism for critical functions, requiring consensus among multiple stakeholders.
 
 
-## Informational Risk
+## Informational
 
 ### Optimizing Gas Usage in Smart Contracts with Caching Techniques
 
