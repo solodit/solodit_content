@@ -175,7 +175,7 @@ Externalize the implementation and call a separate function from the given ones.
 **Client comment**:  there's nothing we can do about that. Variables are already used for any strings that are needed in two or more places.
 
 
-## Informational Risk
+## Informational
 
 ### Constant could be used
 

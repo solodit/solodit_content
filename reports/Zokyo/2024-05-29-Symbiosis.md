@@ -168,7 +168,7 @@ function changeBridgeChainId(uint256 _newBridgeChainId) external onlyOwner {
 
 Use a multisig account for owner’s account.
 
-## Informational Risk
+## Informational
 
 ### PUBLIC FUNCTIONS CONSUME MORE GAS THAN EXTERNAL ONES
 

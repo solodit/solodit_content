@@ -211,7 +211,7 @@ Contract `PreMarketEscrow.sol` implements the `initialize(...)` method with the 
 
 Disable the initializers for the implementation method as suggested by OpenZeppelin here[https://docs.openzeppelin.com/upgrades-plugins/1.x/writing-upgradeable#initializing_the_implementation_contract].
 
-## Informational Risk
+## Informational
 
 ### Unnecessary Safe Math is being utilized
 

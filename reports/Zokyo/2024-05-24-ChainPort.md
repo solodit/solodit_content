@@ -294,7 +294,7 @@ the function)
 The Chainport team verified, that the deployment procedure include checksum scripts which
 ensure the signatory was properly updated. Though the check was added into the initialized.
 
-## Informational Risk
+## Informational
 
 ### Lack of events for settings changes
 
