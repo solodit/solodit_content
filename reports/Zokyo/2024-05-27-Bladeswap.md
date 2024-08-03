@@ -208,7 +208,7 @@ Consider using `lastTradeTimestamp` instead of `lastWithdrawTimestamp` is it the
 
 **Client comment**: `lastWithdrawTimestamp` is the desired behavior, and we acknowledge it is not being set. This however does not cause a serious problem.
 
-## Informational Risk
+## Informational
 
 ###  Missing Event Emission at `setFeeToZero()`
 

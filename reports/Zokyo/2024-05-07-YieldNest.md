@@ -67,7 +67,7 @@ There exists no checks to prevent adding duplicate assets when attempting to ini
 It’s recommended that the ynLSD contract checks for its corresponding EigenLayer Strategy contract in order to prove existence when reinitializing or check if the asset exists in the assets array although the latter could be quite gas intensive.
 Client comment: The decision is to acknowledge and leave this as is. The initialization is performed by the YieldNest DAO at launch time and presence of duplicates would be assumed to be avoided. If the ynLSD contract has duplicate assets it's immediately obvious at initialization time and is considered forfeit.
 
-## Informational Risk
+## Informational
 
 ### Unused Custom Errors
 

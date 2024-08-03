@@ -53,7 +53,7 @@ Ensure the owner is a multisig with a timelock with each key residing on a diffe
 
 The client mitigates centralization risks by using multi-signature (multisig) accounts, ensuring that no single user has complete control.
 
-## Informational Risk
+## Informational
 
 ### Paused Interval Does Not Account For The `withdrawMaxPeriod`
 

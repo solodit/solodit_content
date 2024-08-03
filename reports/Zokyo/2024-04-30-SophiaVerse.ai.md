@@ -26,7 +26,7 @@ So the `ModuleCanceled` event will always emit 0 for the timer parameter.
 Add a local variable for `densityModule_timer[_densityModule][_moduleId]` and emit the local
 variable instead of `densityModule_timer[_densityModule][_moduleId]`.
 
-## Informational Risk
+## Informational
 
 ### could be set immutable.
 
