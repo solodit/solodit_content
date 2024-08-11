@@ -52,7 +52,6 @@ There are several issues with this implementation :
 
 Considering that this is now a non-rebasing token, `_transfer` should accept the normalized amount as the `amount` input and directly transfer the `_normalizedBalances` of users.
 
-## High Risk
 ### [H-01] Triggering the vault's `_accrueFee` while the `IonPool` is paused
 
 **Severity**
@@ -199,7 +198,6 @@ We are aware of this behavior. It is true that the admin can change the IRM with
 
 Acknowledged, but will not fix.
 
-## Medium Risk
 ### [M-02] Allocator can bypass supply cap
 
 **Severity**
@@ -216,7 +214,6 @@ The owner of the Vault specifies a supply cap for the pool list of the vault and
 
 Update `currentIdleDeposits` when deposit/withdraw happens inside the loop.
 
-## Medium Risk
 ### [M-03] Inflation attack in Vault
 
 **Severity**
@@ -300,7 +297,6 @@ It can be observed that the attacker can lock `1 ETH` of Alice's assets at the c
 
 Set the value of `_decimalsOffset` to 6 or consider mitigating this with an initial deposit of a small amount
 
-## Medium Risk
 ### [M-04] New pool can be temporarily blocked
 
 **Severity**
@@ -373,7 +369,6 @@ Consider updating the check in `calculateInterestRate`
         }
 ```
 
-## Medium Risk
 ### [M-05] Non-whitelisted addresses can be lenders
 
 **Severity**
@@ -412,7 +407,6 @@ In addition, the `Whitelist` was only meant to serve as a safeguard for the prot
 
 Will not fix.
 
-## Medium Risk
 ### [M-06] The borrower can be instantly liquidated
 
 **Severity**
@@ -522,7 +516,6 @@ This does depend on the `liquidationThreshold` and the `LTV` (max LTV upon posit
 
 Acknowledged that this depends on correct parameters, will not fix.
 
-## Medium Risk
 ### [M-07] `_depositable` and `_withdrawable` return if paused
 
 **Severity**
@@ -573,7 +566,6 @@ In addition, transfers emit two Transfer events, one for the underlying amount a
 
 [link2](https://github.com/Ion-Protocol/ion-protocol/blob/0f78d89a16850cb880f0348bcc3d272aa0c2ee77/src/token/RewardToken.sol#L337)
 
-## Low Risk
 ### [L-02] No slippage protection
 
 Users would interact with IonPool by calling `supply()`, `withdraw()`, `borrow()` and `repay()` functions. The issue is that the amount users would receive or pay would depend on blockchain status and may differ between when the user signed their tx and tx is mined and this function doesn't have a slippage check and users can't specify slippage for their txs so the user may lose funds. Especially for `borrow()` and `repay()` functions the user specifies the `amountOfNormalizedDebt` value and the real transferred token amount would depend on `rate` value which can change.
@@ -585,7 +577,6 @@ Acknowledged, but will not fix.
 - Slippage protection can be implemented in the periphery. For example, in the flash leverage contracts, there are max resulting debt slippage thresholds.
 - We do not see any issues with implementing a slippage threshold, but we're not looking to make this change in the core at this moment.
 
-## Low Risk
 ### [L-03] The newly minted amount not considered for the treasury
 
 When `getTotalUnderlyingClaims` is called, it will first call `alculateRewardAndDebtDistribution` to get `totalSupplyFactorIncrease` and calculate the total underlying amount considering this new `totalSupplyFactorIncrease`.
@@ -637,7 +628,6 @@ Consider fixing the functions by considering the `totalTreasuryMintAmount`.
     }
 ```
 
-## Low Risk
 ### [L-04] Changing `feePercentage` will affect past interest
 
 When changing the `feePercentage` by calling `updateFeePercentage`, it doesn't trigger `_accrueFee`.
@@ -653,7 +643,6 @@ This means updating the `feePercentage` could potentially affect past interest a
 
 We recommend triggering `_accrueFee` before updating `feePercentage`.
 
-## Low Risk
 ### [L-05] Previous `feeRecipient` could lose the deserved fee
 
 When `updateFeeRecipient` is called and `feeRecipient` is changed, it doesn't trigger `_accrueFee`.
@@ -677,7 +666,6 @@ Not enforcing the fee accrual inside this function allows the flexbility for the
 
 Will not fix.
 
-## Low Risk
 ### [L-06] `addOperator` security risk for the user's funds
 
 The current implementation of the `allowList` allows an operator to:
@@ -706,12 +694,10 @@ Adding an operator is an action taken willingly by the user to allow control of 
 
 - While the suggested method does allow for more granularity in delegating power, we don't believe this change is necessary.
 
-## Low Risk
 ### [L-07] No max limit for supported market list
 
 There are multiple operations in the Vault that loops through supported markets. The issue is that there is no max limit for supported market length and if admin adds lots of markets by calling `addSupportedMarkets()` then other function like `removeSupportedMarkets()`, `reallocate()`, `deposit()` and `withdraw()` may encounter OOG as their logics are more complex than `addSupportedMarkets()` and market would stuck in dead lock state.
 
-## Low Risk
 ### [L-08] `timestampIncrease` is incorrectly set to 0
 
 When `_calculateRewardAndDebtDistributionForIlk` is called to calculate accrued interest, it will invoke `interestRateModule.calculateInterestRate` to obtain `borrowRate` and `reserveFactor` for determining the new increased debt and supply rate. However, if the returned `borrowRate` is 0, it will incorrectly set `timestampIncrease` to 0.
@@ -752,7 +738,6 @@ When `_calculateRewardAndDebtDistributionForIlk` is called to calculate accrued 
 
 If `_totalNormalizedDebt` is non-zero but the returned `borrowRate` is 0, the mentioned scenario can occur. Consider also setting `timestampIncrease` to `uint48(block.timestamp - ilk.lastRateUpdate)` when `borrowRate` is 0.
 
-## Low Risk
 ### [L-09] `maxWithdraw` and `maxRedeem` could return the wrong value
 
 `maxWithdraw` and `maxRedeem` are ERC4626 standard functions that are required for the vault's interaction.
