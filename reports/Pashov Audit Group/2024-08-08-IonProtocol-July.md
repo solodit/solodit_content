@@ -95,7 +95,6 @@ To rectify this issue, it is recommended to integrate a check in the `depositAnd
     }
 ```
 
-## Medium Risk
 ### [M-02] Not checking `allowMessagesFrom` on the destination chain
 
 **Severity**
@@ -168,17 +167,14 @@ Check `allowMessagesFrom` when receiving a message from the other chain.
 
 When a user deposits via Teller, it will update their `shareUnlockTime`, preventing them from transferring their shares until `shareUnlockTime` has passed. However, this design will also impact their existing shares, which should not be affected by the `shareUnlockTime`, potentially disrupting the user experience. Consider redesigning the unlock implementation to only impact the deposited shares instead of affecting all of the user's shares.
 
-## Low Risk
 ### [L-02] `bridge` does not check if the provided `msg.value` is enough for the fee
 
 `CrossChainLayerZeroTellerWithMultiAssetSupport` has `_quote`, which can be used to calculate the fee required for the operation using best practices from LayerZero. However, when `_bridge` is called, it doesn't check if the provided `msg.value` is at least equal to the `_quote` estimation. Consider adding an additional check to ensure that the provided `msg.value` is enough to cover the fee.
 
-## Low Risk
 ### [L-03] Lack of `requiresAuth` modifier
 
 While this function is meant to be publicly callable, it is not consistent with the deposit implementation inside `TellerWithMultiAssetSupport`, where all functions still have `requiresAuth`. Consider adding the modifier inside the `bridge` function as well.
 
-## Low Risk
 ### [L-04] Vault is incompatible with tokens exhibiting "weird" traits
 
 Some tokens that adhere to the ERC-20 standard exhibit unusual characteristics, such as rebasing or fee-on-transfer mechanisms. Integrating such tokens into the Vault can disrupt its accounting system and lead to financial losses for its users.
@@ -187,7 +183,6 @@ For instance, integrating a rebasing token like `stETH` could compromise the Vau
 
 To prevent accounting issues, it is advisable not to integrate tokens with these complex traits into the Vault. This approach will help maintain the integrity and accuracy of the Vault's accounting system.
 
-## Low Risk
 ### [L-05] `beforeTransfer` is checked inside the bridge
 
 When users call `depositAndBridge`, they will immediately deposit the token to the vault, and the shares minted will be immediately provided to the bridge function to bridge the shares to the destination chain.
@@ -232,7 +227,6 @@ This check could cause an unexpected revert if previous users deposit assets via
 
 Consider updating the bridge function, if it is called from `depositAndBridge`, skip the `beforeTransfer` check.
 
-## Low Risk
 ### [L-06] Lack of minimum gas sent on bridging leads to a loss of shares
 
 In cross-chain operations, it's crucial to send an adequate amount of gas to ensure the success of transactions on the destination chain. The `CrossChainTellerBase` contract currently validates that the gas amount does not exceed the maximum set by protocol administrators. However, it lacks a check for the minimum required gas.
@@ -272,7 +266,6 @@ To mitigate this issue, it is recommended that a minimumMessageGas variable be i
 
 Moreover, the [LayerZero documentation](https://docs.layerzero.network/v2/developers/evm/oapp/overview#optional-enforced-options) recommends setting the "Enforced Options" to guarantee that the message sent from a source has sufficient gas to be executed on the destination chain, effectively preventing failures due to gas-related issues.
 
-## Low Risk
 ### [L-07] Extra and enforced options for `lzReceive` gas limit not handled properly
 
 `BoringVaultCrossChainDepositor.deposit()` receives `gasLimit` as a parameter. This value represents the amount of gas to be used in the `lzReceive` call by the Executor on the destination chain and is passed in `extraOptions` of the `SendParam` struct sent to `BoringVaultOFTAdapter.send`.
@@ -332,7 +325,6 @@ This is the scenario that seems more likely, as neither the deployment scripts, 
 
 Remove the `gasLimit` parameter from `BoringVaultCrossChainDepositor.deposit` and use the enforced options to set the gas limit for the executor on the destination chain.
 
-## Low Risk
 ### [L-08] No way to revoke approval for unsupported assets
 
 In `BoringVaultCrossChainDepositor` anyone can set max approvals if the token is supported on Teller:
@@ -346,7 +338,6 @@ In `BoringVaultCrossChainDepositor` anyone can set max approvals if the token is
 
 But Teller can either add supported assets or remove them. For removed, assets consider revoking approvals.
 
-## Low Risk
 ### [L-09] Bridge does not work if minting with native assets
 
 **Description**
