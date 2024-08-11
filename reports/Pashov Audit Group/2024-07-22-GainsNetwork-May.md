@@ -81,7 +81,6 @@ Now when `handleTradePnl()` handle it,
 
 When reducing position by leverage, send the closing fees from vault to diamond, instead of sending to the trader.
 
-## High Risk
 ### [H-01] `FeeTierPoints` is incorrectly increased twice
 
 **Severity**
@@ -136,7 +135,6 @@ That means the trader fee tier points are incorrectly updated twice, causing the
 
 This can be resolved by removing the redundant update of fee tier points.
 
-## High Risk
 ### [H-02] `newLeverage` wrongly calculated inside `requestIncreasePositionSize`
 
 **Severity**
@@ -195,7 +193,6 @@ Update the `newLeverage` calculation :
 +            : (existingPositionSizeCollateral + positionSizeCollateralDelta) * 1e3 / newCollateralAmount;
 ```
 
-## High Risk
 ### [H-03] Overcharging of closing and trigger fees
 
 **Severity**
@@ -240,7 +237,6 @@ Currently, the calculation for closing and trigger fees applies a fixed `5%` fee
 
 Revise the fee calculation logic to apply the pair close fee percentage and pair trigger order fee percentage specifically for `TP_CLOSE` and `SL_CLOSE` orders, while retaining the 5% fee for `LIQ_CLOSE` orders.
 
-## High Risk
 ### [H-04] Price impact cannot properly be removed
 
 **Severity**
@@ -410,7 +406,6 @@ To calculate the liquidation price, the current borrowing fee amount needs to be
 
 Pass the current borrowing fee to calculate the new liquidation price instead of recalculating the borrowing fee with `newCollateralAmount` and `newLeverage`.
 
-## Medium Risk
 ### [M-02] Double counting of existing open interest
 
 **Severity**
@@ -476,7 +471,6 @@ Only account for the additional position size when checking if the trade stays w
 - If `collateralDelta` > 0 and `leverageDelta` > 0, use `collateralDelta` and `leverageDelta`.
 - If `collateralDelta` = 0, use `collateralAmount` and `leverageDelta`.
 
-## Medium Risk
 ### [M-03] Open interest calculation is incorrect
 
 **Severity**
@@ -511,7 +505,6 @@ For example, if a position is opened when the collateral price is $100 and then 
 
 Track the total open interest of a position and adjust the open interest based on the maximum total open interest when the position is closed.
 
-## Medium Risk
 ### [M-04] `updateTradePosition()` fails to limit TP/SL distance
 
 **Severity**
@@ -565,7 +558,6 @@ Traders could abuse this to set a TP that exceeds the max profit of 900%.
 
 Modify `updateTradePosition()` to adjust the TP/SL using `_limitTpDistance()` and `_limitSlDistance()` .
 
-## Medium Risk
 ### [M-05] `removePriceImpactOpenInterest()` fails to account for expired OI
 
 **Severity**
@@ -633,7 +625,6 @@ Now if the trader reduces position size while the latest OI is still active,
 
 The correct OI to remove should be `min(deltaOiUsd, positionSizeUsd - expiredOiUsd)`.
 
-## Medium Risk
 ### [M-06] `addPriceImpactOpenInterest()` fails to scale `expiredOiUsd`
 
 **Severity**
@@ -696,7 +687,6 @@ However, the result of this formula is effectively `_trade.collateralAmount`, wh
     }
 ```
 
-## Low Risk
 ### [L-02] `requestIncreasePositionSize` could fail
 
 When users increase their position size, they can set `_input.collateralDelta` to 0 if they only want to increase the leverage.
@@ -740,7 +730,6 @@ But if the used collateral token reverts on 0 transfer, the update will always f
 
 Skip the transfer if `_input.collateralDelta` is 0.
 
-## Low Risk
 ### [L-03] Bypassing max and min leverage limits
 
 When a request is made to increase position size, the new leverage is checked to ensure it is within the minimum and maximum leverage limits.
@@ -811,7 +800,6 @@ However, during the callback validation, the new leverage is assumed to be withi
 
 Validate the new leverage during the callback to ensure it remains within the min and max leverage limits, even if the limits have been updated between the initial request and the callback.
 
-## Low Risk
 ### [L-04] `__placeholder` is not set to 0 inside the Trade data
 
 When a trade is opened, users need to provide `Trade` data that will be stored. Inside the `Trade` struct data, there is a `__placeholder` reserved for future usage. However, open trade operations currently allow users to provide arbitrary values to `__placeholder`. If in the future this field will be used, malicious users can input values to `__placeholder` before an upgrade is executed, avoiding input validation and potentially causing issues. Consider setting `_trade.__placeholder` to 0 inside the `_openTrade` operation.
