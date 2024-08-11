@@ -124,7 +124,6 @@ To mitigate this vulnerability, ensure the validation of the singleton's authent
   }
 ```
 
-## High Risk
 ### [H-01] Broken mint if market pre-mint less than `p`
 
 **Severity**
@@ -295,7 +294,6 @@ function getTokensNeededToAddEthValue(uint256 supply, uint256 ethAmount, bytes32
 }
 ```
 
-## Medium Risk
 ### [M-02] Donating without transferring contribution
 
 **Severity**
@@ -405,7 +403,6 @@ It can be observed that the received contribution for the same amount of token w
 
 Inside `_update`, consider making sure that transferred contributions should not equal 0 when `contributions` value is non-0.
 
-## Medium Risk
 ### [M-03] 10% maximum pre-mint check can be bypassed
 
 **Severity**
@@ -529,7 +526,6 @@ When the negotition is failed, the beneficiary can call `negotiationFailed` func
   }
 ```
 
-## Low Risk
 ### [L-02] Dust amount left after all refund is made
 
 When the market is expired, the `refund` function calculates the refund amount based on the user's contribution to the funding goal. The refund amount is calculated by dividing the user's contribution by the accrued capital and multiplying it by the claimable capital. The result is rounded down, which may result in dust amount being left in the contract after all refund is made.
