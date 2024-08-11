@@ -36,7 +36,6 @@ Consider adding the following function to the Staking contract:
     }
 ```
 
-## High Risk
 ### [H-01] Wrong `_prevRatios` index could be used
 
 **Severity**
@@ -178,7 +177,6 @@ Use `t` index instead of `_j` :
 // ...
 ```
 
-## High Risk
 ### [H-02] The wrong amplification value is used to calculate the new supply
 
 **Severity**
@@ -347,7 +345,6 @@ It can be observed that alice can lock `1 ETH` of bob's asset at the cost of `~ 
 
 Consider mitigating this with an initial deposit of a small amount
 
-## Medium Risk
 ### [M-02] Owner can `rescue()` pool tokens in certain cases
 
 **Severity**
@@ -378,7 +375,6 @@ When the owner attempts to rescue a pool token, the function throws a `Pool__Can
 
 While there is no direct fix for this issue, it is important to document that the owner can withdraw all tokens in cases where tokens have multiple entry points.
 
-## Medium Risk
 ### [M-03] Staking contract is not EIP-4626 compliant
 
 **Severity**
@@ -414,7 +410,6 @@ However, the current staking implementation (i.e. OpenZeppelin impl) does not ac
 
 Consider overriding the `previewDeposit()` and `previewMint()` functions to include fees.
 
-## Medium Risk
 ### [M-04] Not using `SafeTransferLib`
 
 **Severity**
@@ -451,7 +446,6 @@ if (!(ERC20(tokens[t]).transfer(receiver_, amount))) revert Pool__TransferFailed
 
 Consider using `SafeTransferLib.safeTransfer()` to handle such tokens.
 
-## Medium Risk
 ### [M-05] Unintended token minting to staking address when fee rate is 0
 
 **Severity**
@@ -529,7 +523,6 @@ Liquidity providers experience a minor but continuous loss of value, as a portio
 
 Check if the `swapFeeRate` is 0, and skip the calculation and minting of mint fees.
 
-## Medium Risk
 ### [M-06] Rate and weight not updated during liquidity removal
 
 **Severity**
@@ -602,7 +595,6 @@ However, it can be observed that weights and rates are not updated first. This c
 
 Consider updating rates and weights inside remove liquidity operation, before calculating the virtualBalanceProd.
 
-## Medium Risk
 ### [M-07] Certain stablecoins cannot be added to Pool
 
 **Severity**
@@ -645,7 +637,6 @@ The `removeLiquidity` function uses <= operator instead of <. Not much serious i
             if (t == _numTokens) break;
 ```
 
-## Low Risk
 ### [L-02] `_nameHash` is not initialized upon deployment.
 
 I believe this is worth pointing out as it depends on the solc that will be used to compile the contracts upon deployment.
@@ -668,7 +659,6 @@ However, solc versions <= 0.8.20 will not allow deployment without initializatio
 
 I'd recommend just removing it since the permit function will create a `nameHash` anyway. If the protocol plans to use this instead, in the permit function, then it can be declared, and the [`_constantNameHash`](https://github.com/Vectorized/solady/blob/7659ab19f1224e398b406f591e53af68dd1dddcd/src/tokens/ERC20.sol#L285) function created to return the it when queried.
 
-## Low Risk
 ### [L-03] Risks due to centralization
 
 A number of functions are protected by the `onlyOwner` modifier and are all vulnerable to the actions of a malicious or compromised admin. Some functions are however worth taking a look at and having protections in place to protect users from the potential ramifications.
@@ -692,7 +682,6 @@ A number of functions are protected by the `onlyOwner` modifier and are all vuln
     }
 ```
 
-## Low Risk
 ### [L-04] Fees from the first set of liquidity providers can be lost
 
 When users call the `addLiquidity` function, fees are minted to the `stakingAddress`. The staking address is not set in the constructor unlike other parameters, therefore within the period between deployment and admin calling the `setStaking` function, calls to the `addLiquidity` function risk minting fees to zero address.
@@ -716,7 +705,6 @@ When users call the `addLiquidity` function, fees are minted to the `stakingAddr
 
 The recommendation is to call the `setStaking` function in the constructor or skip minting if stakingAddress is 0.
 
-## Low Risk
 ### [L-05] Missing sanity checks when setting `tokenAddress_`
 
 The constructor of the Pool contract lacks sanity checks to ensure that the tokenAddress\_ provided is valid. For reference, Yearn Finance includes such validation:
@@ -731,7 +719,6 @@ To prevent errors during deployment, consider adding similar checks:
         if (tokenAddress_ == address(0)) revert Pool__InvalidParams();
 ```
 
-## Low Risk
 ### [L-06] Users can bypass fees by depositing in chunks
 
 When users deposit tokens into the Staking contract, a fee is taken and minted to the `protocolFeeAddress`:
@@ -753,7 +740,6 @@ Users can exploit this calculation by making small, fragmented deposits, causing
     }
 ```
 
-## Low Risk
 ### [L-07] No deadline parameters when executing swaps
 
 Functions `addLiquidity`, `swap`, `removeLiquiditySingle`, and `removeLiquidity` are missing deadline check.
@@ -764,7 +750,6 @@ However, it's not a big problem, since the functions have `minAmountOut` paramet
 
 Consider introducing a `deadline` parameter in all the pointed-out functions.
 
-## Low Risk
 ### [L-08] Staker can sandwich large `Pool` operations to get immediate profit
 
 `Staking` is ERC4626 that tracks shares and uses the underlying token balance to determine deposit and withdrawal amounts. When `Pool` operations result in a fee that is minted to the `Staking` contract, it immediately impacts the calculation of deposit and withdrawal token amounts.
