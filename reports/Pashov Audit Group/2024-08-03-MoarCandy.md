@@ -114,7 +114,6 @@ Exploit:
 +        }
 ```
 
-## High Risk
 ### [C-02] Creating a token with a poisoned router
 
 **Severity**
@@ -181,7 +180,6 @@ Consider checking the router address with the values from the DEXes official doc
 https://support.traderjoexyz.com/en/articles/6807983-contracts-api
 https://docs.uniswap.org/contracts/v2/reference/smart-contracts/v2-deployments
 
-## High Risk
 ### [C-03] Blocking the initial liquidity seed with a 1 wei donation
 
 **Severity**
@@ -274,7 +272,6 @@ To address this issue, it is suggested to interact directly with the Uniswap pai
 +           uint256 liquidity = IPair(pair).mint(address(this));
 ```
 
-## High Risk
 ### [H-01] The bonding curve implementation can not be fully changed
 
 **Severity**
@@ -310,7 +307,6 @@ This can cause an incorrect token price calculation at the end of the curve wher
 
 Consider implementing the `getOutputPrice` function in the `AMMFormula` contract instead of the `ContinuosBondingERC20Token` contract.
 
-## High Risk
 ### [H-02] Bonding token transfers DOS after the pair was created
 
 **Severity**
@@ -409,7 +405,6 @@ Consider checking `isLpCreated` variable in `buyTokens` and `sellTokens`
         if (liquidityGoalReached() || isLpCreated) revert LiquidityGoalReached();
 ```
 
-## Medium Risk
 ### [M-02] Incorrect fee calculation
 
 **Severity**
@@ -490,7 +485,6 @@ Consider adding a sanity check to ensure it will never revert because of insuffi
 +       currentEth = currentEth > address(this).balance ? address(this).balance : currentEth;
 ```
 
-## Low Risk
 ### [L-02] No sanity checks on setters
 
 Currently, there are no safe bounds for new values, consider adding them to catch early admin mistakes:
@@ -529,7 +523,6 @@ Currently, there are no safe bounds for new values, consider adding them to catc
 
 Describe the finding and your recommendation here
 
-## Low Risk
 ### [L-03] Incorrect check in the `sellTokens`
 
 The ETH balance sufficiency check in the `ContinuosBondingERC20Token.sellTokens` does not count the `treasuryClaimableEth` variable but should.
@@ -567,7 +560,6 @@ The ETH balance sufficiency check in the `ContinuosBondingERC20Token.sellTokens`
     }
 ```
 
-## Low Risk
 ### [L-04] Incorrect slippage check placement in `buyTokens`
 
 The bonding token sale includes a slippage check that allows users to specify the minimum amount of tokens they expect to receive in a buy transaction. If this condition is not met, the transaction will revert:
@@ -611,7 +603,6 @@ Consider the following fix:
         _transfer(address(this), msg.sender, tokensToReceive);
 ```
 
-## Low Risk
 ### [L-05] Lack of checking `_availableTokenBalance` parameter
 
 The `availableTokenBalance` variable has a significant meaning for the token starting price on DEXes which should correspond with the price of the token at the end of the bonding curve to prevent arbitrage.
