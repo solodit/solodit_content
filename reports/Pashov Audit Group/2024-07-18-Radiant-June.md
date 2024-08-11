@@ -32,7 +32,6 @@ The money flow goes through LockZap to `UniV3PoolHelper.zapETH()` or to `UniV3Po
 
 Consider giving approvals from `UniV3PoolHelper` to `UniV3TokenizedLp`.
 
-## High Risk
 ### [H-01] `UniV3TokenizedLp` can be attacked by an initial donation
 
 **Severity**
@@ -196,7 +195,6 @@ Warning: All subsequent Upgrades warnings will be silenced.
 
 ```
 
-## High Risk
 ### [H-02] Griefing attack via continuous deposit and withdrawal
 
 **Severity**
@@ -215,7 +213,6 @@ This repeated withdrawal of liquidity leaves the funds uninvested in the contrac
 
 Consider fulfilling the withdrawals from the contract's balance first before opting for a liquidity removal from the pool if the contract's funds are not enough.
 
-## High Risk
 ### [H-03] `withdraw()` does not take into account the pending fee
 
 **Severity**
@@ -411,7 +408,6 @@ For example, if the current `affiliate` is Alice, the pending fee is 100. After 
 
 Before adjusting the fee, the pending fee should be settled first.
 
-## Medium Risk
 ### [M-02] `rebalance` uses the wrong balance
 
 **Severity**
@@ -461,7 +457,6 @@ This will lead to two results:
 
 After the swap, the new balance should be passed into `_liquidityForAmounts`
 
-## Medium Risk
 ### [M-03] DoS in `initializePool`by creating a uniswap pool and initializing the price
 
 **Severity**
@@ -635,7 +630,6 @@ attacker cost 2 wei WETH
 
 ```
 
-## Medium Risk
 ### [M-04] Attacker can exploit oracle price differences to arbitrage
 
 **Severity**
@@ -797,7 +791,6 @@ Warning: All subsequent Upgrades warnings will be silenced.
 
 ```
 
-## Medium Risk
 ### [M-05] Depositing `UniV3PoolHelper` only once per block for all users
 
 **Severity**
@@ -824,7 +817,6 @@ This condition may be too strict resulting in reverts for users in the block if 
 
 One of the solutions could be tracking actions for LockZap + UniV3PoolHelper end users separately, in a separate modifier, or with the special condition in checkLastBlockAction modifier (that could e.g. check `to` input, not `msg.sender`)
 
-## Medium Risk
 ### [M-06] Use `latestRoundData` instead of `latestAnswer`
 
 **Severity**
@@ -854,7 +846,6 @@ Consider using latestRoundData() with the following additional checks:
         require(answeredInRound >= roundId, "Stale price");
 ```
 
-## Medium Risk
 ### [M-07] Lack of slippage check in `rebalance` Function
 
 **Severity**
@@ -890,7 +881,6 @@ The absence of a slippage check means that the function does not verify the pric
 
 To address this issue, implement slippage protection by adding a slippage check to the `rebalance` function. This can be achieved by specifying acceptable price limits for the swap and reverting the transaction if these limits are breached.
 
-## Medium Risk
 ### [M-08] Bypassable `checkLastBlockAction` Modifier
 
 **Severity**
@@ -946,14 +936,12 @@ They will both call `_checkHysteresis`, which does not allow token swaps in the 
 
 It is recommended to check only when there is a significant price deviation from the oracle or to provide `getTotalAmountsUnSafe` and `getBasePositionUnSafe`.
 
-## Low Risk
 ### [L-02] No pending income in functions
 
 `getTotalAmounts` and `getBasePosition` are `external view` functions and may be externally dependent. Neither of them calculates the pending income in the uniswap pool, which may lead to incorrect calculations in external logic that relies on these two functions.
 
 It is recommended to provide two non-view functions, `getTotalAmountsFeeAccumulated` and `getBasePositionFeeAccumulated`. These functions should first call `IUniswapV3Pool(pool).burn(baseLower, baseUpper, 0)` before returning the corresponding values.
 
-## Low Risk
 ### [L-03] Admin may lose tokens on `initializePool`
 
 The `initializePool` function is used to deploy and initialize the `UniV3TokenizedLp` contract. In addition, `initializePool` function will deposit some initial tokens into the uniswap pool.
@@ -964,7 +952,6 @@ The `initializePool` function is used to deploy and initialize the `UniV3Tokeniz
 
 However, `pool.mint` may not consume both tokens in exact proportion, so there may be some tokens left in the contract. For RDNT tokens, they will be stuck in the contract forever. For WETH tokens, users can call `swapWethToRdnt` to steal it.
 
-## Low Risk
 ### [L-04] Not used approvals
 
 `UniswapV3PoolHelper.initializePool()` gives approvals to mint initial LP tokens.
@@ -994,7 +981,6 @@ But in fact, tokens are transferred directly via `uniswapV3MintCallback()`.
 
 As a result, this initial approval was not necessary and can be removed.
 
-## Low Risk
 ### [L-05] Missing oracle decimal normalization
 
 The `fetchOracle` function assumes that the oracles used for price feeds have the same decimals, which is not always the case. To ensure accurate price calculations, the function should normalize the decimals of the oracles similarly to how it handles token0 and token1 decimals.
@@ -1037,7 +1023,6 @@ function _getTokenFromUsdValue(
 
 To handle the varying decimals of oracles, introduce decimal normalization in the `fetchOracle` function.
 
-## Low Risk
 ### [L-06] LP pricing is exposed to manipulation
 
 **Severity**
