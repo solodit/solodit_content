@@ -54,7 +54,6 @@ function test_priceManipulation() public {
 
 Use Chainlink oracles to get the price of the assets.
 
-## High Risk
 ### [C-02] Option NFTs can be exercised by any account
 
 **Severity**
@@ -96,7 +95,6 @@ function test_exerciseByNotOwner() public {
         marginAccount.exercise(marginAccountID, token, BASE_TOKEN, collateralTokenID, msg.sender);
 ```
 
-## High Risk
 ### [C-03] Users can borrow tokens without generating debt shares
 
 **Severity**
@@ -194,7 +192,6 @@ contract LiquidityPool is ERC20, ERC20Burnable, AccessControl, ILiquidityPool, R
             : (amount * 10 ** decimals()) / 10 ** poolToken.decimals();
 ```
 
-## High Risk
 ### [C-04] Users could avoid liquidation by providing a large number of position NFTs
 
 **Severity**
@@ -254,7 +251,6 @@ This gives users a way to avoid liquidations by proving a large number of positi
 
 Consider restricting max number of position NFTs per one margin account that would prevent out-of-gas during liquidation.
 
-## High Risk
 ### [H-01] Swaps are available for `MarginAccounts` undergoing liquidation
 
 **Severity**
@@ -298,7 +294,6 @@ It is recommended to restrict the `swap` function only to `MarginAccounts` that 
     }
 ```
 
-## High Risk
 ### [H-02] Potential swap failure in `UniswapModule`
 
 **Severity**
@@ -387,7 +382,6 @@ It is advisable to adjust the `amountInMaximum` in the `UniswapModule::swapOutpu
     }
 ```
 
-## High Risk
 ### [H-03] Debt-free margin accounts can be liquidated
 
 **Severity**
@@ -477,7 +471,6 @@ function liquidate(uint marginAccountID) external {
 }
 ```
 
-## High Risk
 ### [H-04] Accrued interest is not accounted for when withdrawing
 
 **Severity**
@@ -562,7 +555,6 @@ function test_missingAccruedInterestInWithdrawal() public {
         uint amountWithdraw = (amount * totalLiquidity) / depositShare;
 ```
 
-## High Risk
 ### [H-05] Swap of option profit to base token is not handled correctly
 
 **Severity**
@@ -717,7 +709,6 @@ File: MarginAccount.sol
 
 It is advisable to prevent the removal of tokens from the `MarginAccount.availableErc20` list within the `MarginAccount::setAvailableErc20` function. Ensuring that all tokens originally considered as assets remain accountable throughout the lifecycle of the account can prevent unexpected burdens on the Insurance Pool.
 
-## Medium Risk
 ### [M-02] Lack of incentives for Liquidation calls
 
 **Severity**
@@ -744,7 +735,6 @@ The problem is that there is no incentive for calling the `MarginTrading::liquid
 
 It is advisable to implement incentives for liquidators. This could involve adjusting the liquidation process to offer a percentage of the liquidated assets to the caller, ensuring debts are covered while also providing a reward for managing systemic risk effectively.
 
-## Medium Risk
 ### [M-03] Potential avoidance of liquidation
 
 **Severity**
@@ -870,7 +860,6 @@ File: MarginTrading.sol
     }
 ```
 
-## Medium Risk
 ### [M-04] Liquidity pool interest accrual can be manipulated
 
 **Severity**
@@ -975,7 +964,6 @@ This test case is intended to fail in order to reveal the resulting reduction of
 
 It is suggested to `require` non-zero amounts in the `borrow` method to reduce the economical feasibility of the preset attack vector.
 
-## Medium Risk
 ### [M-05] Borrowers can be left with debt shares after full repayment
 
 **Severity**
@@ -1036,7 +1024,6 @@ function test_borrowerKeepsDebtSharesAfterRepay() public {
 
 It is recommended to reevaluate the need for tracking both individual debt amounts and individual debt shares, as they can create discrepancies in valuations and lead to unexpected behavior.
 
-## Medium Risk
 ### [M-06] Borrowers can leave unpaid dust
 
 **Severity**
@@ -1118,7 +1105,6 @@ function test_borrowerLeavesUnpaidDust() public {
 
 A possible solution is checking that the pending debt valued in the debt token is also zero before allowing the user to withdraw all the collateral.
 
-## Medium Risk
 ### [M-07] New liquidity providers are unfairly charged
 
 **Severity**
@@ -1224,7 +1210,6 @@ function test_newLpIsChargedForInsuranceFee() public {
 
 Exclude the fee sent to the insurance pool from the calculation of the total liquidity in the `provide` and `withdraw` functions.
 
-## Medium Risk
 ### [M-08] Option NFTs that go in the money after liquidation can be locked
 
 **Severity**
@@ -1328,7 +1313,6 @@ There are different approaches depending on the desired behavior.
 
 3. Transfer the NFT to the account's owner only if all the debts have been cleared without pooling funds from the insurance pool and transfer the NFT to the insurance pool address otherwise.
 
-## Medium Risk
 ### [M-09] Positions with very low portfolio ratio cannot be liquidated
 
 **Severity**
@@ -1389,7 +1373,6 @@ File: MarginTrading.sol
     }
 ```
 
-## Medium Risk
 ### [M-10] User could potentially avoid liquidation
 
 **Severity**
@@ -1447,7 +1430,6 @@ However, these functions would be DOSed in two cases:
 
 Consider adding a check that the module address is not a zero value. Also, consider moving the approval call into the `liquidate` and `exercise` functions to ensure that the token would be approved even if the module address was updated after the initial deposit.
 
-## Medium Risk
 ### [M-11] Debt calculation should be rounded up during repayment
 
 **Severity**
@@ -1500,7 +1482,6 @@ However, this calculation is rounded down, which means that users could repay le
 
 Consider rounding up the `tempDebt` variable in the `LiquidityPool#repay` function.
 
-## Medium Risk
 ### [M-12] Potential asset loss during liquidation
 
 **Severity**
@@ -1542,7 +1523,6 @@ The problem is that the parameter `amountOutMinimum` is set to zero. This implie
 
 It is recommended to calculate the `amountOutMinimum` based on current market conditions using the Uniswap quote.
 
-## Medium Risk
 ### [M-13] Free flashloans due to the lack of fee or interest charges
 
 **Severity**
@@ -1657,7 +1637,6 @@ Borrow of 2_000 ether to marginAccountID=2
 
 To mitigate this risk, it is advised to impose a minimal fee or interest charge for borrowing activities, even if repaid within the same transaction. This fee could help deter abuse of the flash loan mechanism and ensure that the protocol generates revenue from these operations.
 
-## Medium Risk
 ### [M-14] Uniswap V3 quoter contract should not be called on-chain
 
 **Severity**
@@ -1702,7 +1681,6 @@ To mitigate this issue it would be required a redesign in the protocol in the fo
 - Use an oracle for token valuations.
 - Use the output of the real swaps instead of quoting the expected amount.
 
-## Medium Risk
 ### [M-15] Partial repayment is not possible in liquidation if no funds on the insurance pool
 
 **Severity**
@@ -1758,7 +1736,6 @@ Another option is to skip the clearing of the debt just for the liquidity pool w
         modularSwapRouter.swapInput(baseToken, availableTokenToLiquidityPool[i], userUSDCbalance, 0);
 ```
 
-## Medium Risk
 ### [M-16] Donations to `LiquidityPool` contract can manipulate share calculation
 
 **Severity**
@@ -1901,7 +1878,6 @@ Consider the next scenario:
 
 It is recommended to replace `transferFrom` with `safeTransferFrom` in the `MarginAccount::withdrawERC721` function. This change ensures a safer mechanism, particularly in scenarios involving multiple operators or approved addresses.
 
-## Low Risk
 ### [L-02] Inconsistency in `isAvailableErc20` checks
 
 The `MarginAccount.isAvailableErc20` variable plays a crucial role in ensuring that only supported ERC20 tokens are used in operations like providing tokens, swapping, or exercising options within the protocol. This check is enforced to restrict access to these functionalities if a token is not active or available within the protocol. Example `MarginAccount#L171`:
@@ -1944,7 +1920,6 @@ It is advisable to extend the `isAvailableErc20` check to the `MarginAccount::bo
     }
 ```
 
-## Low Risk
 ### [L-03] Centralization risk in Insurance Pool management
 
 The function `LiquidityPool::repay` is designed to handle repayments to the liquidity pool. If there is a profit, it is transferred to the `insurancePool`:
@@ -1978,7 +1953,6 @@ By setting the `insurancePool` to `address(0)`, the `manager` could cause the `L
 
 To mitigate this risk, it is recommended that the `insurancePool` address be set only during the contract initialization phase, similar to the approach taken in `MarginAccount`, where `insurancePool` is established at the time of contract creation. This change would prevent the `manager` from arbitrarily changing the `insurancePool` to an invalid address post-deployment.
 
-## Low Risk
 ### [L-04] Missing slippage checks
 
 Lack of slippage / output amount checks was uncovered in the following instances:
@@ -1988,7 +1962,6 @@ Lack of slippage / output amount checks was uncovered in the following instances
 2. In the `liquidate` & `exercise` methods of the `HegicModule` contract, the `amountOutMinimum` parameter of the `swapInput` call is explicitly set to zero.
 3. In the `_clearDebtsWithPools` method of the `MarginAccount` contract, the `amountOutMinimum` parameter of the `swapInput` call is explicitly set to zero.
 
-## Low Risk
 ### [L-05] Missing ERC721 existence check
 
 The `_deleteERC721TokenFromContractList` method of the `MarginAccount` contract does not revert if the given `tokenID` does not exist in the `userTokesByContract` array.  
@@ -2008,7 +1981,6 @@ function _deleteERC721TokenFromContractList(uint marginAccountID, address token,
 }
 ```
 
-## Low Risk
 ### [L-06] Unfavorable placement of require check
 
 In the `repay` method the `MarginAccount` contract, the `amount` is checked before it is potentially modified again a few lines below. In the case of initially `amount == 0`, the transaction could revert due to an arithmetic underflow error instead of failing with an error message.  
@@ -2033,14 +2005,12 @@ function repay(uint marginAccountID, address token, uint amount) external onlyRo
 }
 ```
 
-## Low Risk
 ### [L-07] Changing core coefficients during runtime
 
 Everyone who has the `MANAGER_ROLE` can change the protocol's `yellowCoeff` (healthy portfolio ratio) and `redCoeff` (liquidation ratio) during runtime. However, changing any of those coefficients once the protocol is live can have detrimental impacts on its users. Withdrawals and borrows could unexpectedly fail on an increased `yellowCoeff`, while an increased `redCoeff` could make margin accounts unexpectedly liquidate.
 
 It is recommended to make these two coefficients `immutable`.
 
-## Low Risk
 ### [L-08] Option NFTs cannot be withdrawn
 
 The `withdrawERC721` function in `MarginTrading.sol` requires that the NFT can be exercised for it to be withdrawn. There seems to be a valid justification for allowing users to withdraw options that are in the money but not those that are out of the money. Users may want to withdraw options that are not yet in the money to sell them on the secondary market, use them in another protocol, or for other purposes.
@@ -2066,7 +2036,6 @@ File: HegicModule.sol
 
 Consider removing the second `require` statement in `MarginTrading.sol` to allow users to withdraw NFTs that cannot be exercised.
 
-## Low Risk
 ### [L-09] DoS due to check for ERC721 token ID associated with a margin account
 
 `MarginAccount:checkERC721tokenID` function checks if a specific ERC721 token ID is associated with a margin account. This is done by looping over all the ERC721 token IDs associated with the margin account and checking if the provided token ID is present.
