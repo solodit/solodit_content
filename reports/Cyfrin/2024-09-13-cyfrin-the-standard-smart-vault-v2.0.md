@@ -8,7 +8,7 @@
 ---
 
 # Findings
-## Critical Risk
+## High Risk
 
 
 ### USDs stability can be compromised as collateral deposited to Gamma vaults is not considered during liquidation
@@ -184,10 +184,6 @@ If considering adding the Hypervisor tokens as collateral in the `TokenManager`,
 **The Standard DAO:** Fixed by commit [`d761d48`](https://github.com/the-standard/smart-vault/commit/d761d48e957d45c5d61eb494d41b7362f7001155).
 
 **Cyfrin:** Verified, `SmartVaultV4::removeCollateralNative` can no longer be used to re-enter in an undercollateralised state.
-
-\clearpage
-## High Risk
-
 
 ### `USDs` self-backing breaks assumptions around economic peg-maintenance incentives
 
