@@ -2611,7 +2611,7 @@ Stork's documentation does not have publicly available information on what decim
 Acknowledged - yes all prices from Stork Oracle are in 18 decimals.
 
 \clearpage
-## Gas Optimization
+## Gas Optimizations
 
 
 ### Don't initialize to default values
