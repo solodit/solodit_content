@@ -10,7 +10,7 @@
 ---
 
 # Findings
-## Critical Risk
+## High Risk
 
 
 ### Impossible to reveal any drop boxes linked to codes once enough codes have been associated such that `remainingBoxesAmount == 0`
@@ -408,7 +408,7 @@ Fixed in commit [8f6a168](https://github.com/Earnft/dropbox-smart-contracts/comm
 **Cyfrin:** Verified.
 
 \clearpage
-## Gas Optimization
+## Gas Optimizations
 
 
 ### Don't initialize to default values
