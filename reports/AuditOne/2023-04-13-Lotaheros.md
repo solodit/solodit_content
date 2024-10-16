@@ -10,7 +10,7 @@
 
 **Description:** In the smart contract, the ReentrancyGuard from OpenZeppelin is imported to prevent reentrancy attacks. However, the functions setTradeOer and cancelTradeOer are not utilizing the ReentrancyGuard, making them vulnerable to reentrancy attacks. Both the setTradeOer function and the cancelTradeOer transfers tokens and Ether to a contract address, If an attacker can create a recursive call and re-enter either of these functions before they finish executing, they can potentially manipulate the state of the contract and exploit it to their advantage.
 
-**Recommendations:** To prevent this type of attack,it is important to use the ReentrancyGuard or other similar methods to ensure that the functions are executed atomically and not re-entered until the previous invocation has been completed.
+**Recommendations:** To prevent this type of attack, it is important to use the ReentrancyGuard or other similar methods to ensure that the functions are executed atomically and not re-entered until the previous invocation has been completed.
 
 
 
@@ -20,11 +20,11 @@
 
 User can call the setT[radeOer and pl](https://github.com/Crelde/IOTA-Heroes-Contracts/blob/3e345747f723637c0a1ce884d1ae0e1584015e98/contracts/TradingPost.sol#L86)ace the trade.
 
-For this,the contract will receive the fund msg.value to the contract.
+For this, the contract will receive the fund msg.value to the contract.
 
-Later if the user wants to cancel the trade order,they can call the cancelTr[adeOer and the use](https://github.com/Crelde/IOTA-Heroes-Contracts/blob/3e345747f723637c0a1ce884d1ae0e1584015e98/contracts/TradingPost.sol#L154)r would get the refund.
+Later if the user wants to cancel the trade order, they can call the cancelTr[adeOer and the use](https://github.com/Crelde/IOTA-Heroes-Contracts/blob/3e345747f723637c0a1ce884d1ae0e1584015e98/contracts/TradingPost.sol#L154)r would get the refund.
 
-The issue here is,the cancelTradeOer makes external call to transfer the msg.value to the user.
+The issue here is, the cancelTradeOer makes external call to transfer the msg.value to the user.
 
 this external call opens the route for reentrancy. The user can re-enter again and withdraw the funds. This can be repeated till all the contract funds are drained.
 
@@ -55,7 +55,7 @@ The issue is,if the buyer wants to buy the token by placing the makeBuyOer. ,new
 
 after calling the makeBuyOer and overwriting the existing activeBuyOers,the malicious buyer could call the withdrawBuyOer to withdraw.
 
-So there will not be any activeBuyOers for the the token.
+So there will not be any activeBuyOers for the token.
 
 **Recommendations:** 
 
@@ -69,7 +69,7 @@ have some time delay to call the withdrawBuyOer once the makeBuyOer is called an
 
 non-token owner can place the buy order using the function makeBuy[Oer.](https://github.com/Crelde/IOTA-Heroes-Contracts/blob/3e345747f723637c0a1ce884d1ae0e1584015e98/contracts/HeroMarketplace.sol#L197-L240)
 
-The function checks that the the existing active activeSellOers and activeBuyOers as shown below,
+The function checks that the existing active activeSellOers and activeBuyOers as shown below,
 
 But it does not check whether the msg.value is greater than 0.
 
@@ -105,8 +105,8 @@ _initiateAdventure function is called,rather than before. This can be achieved b
 It is also recommended to use the ReentrancyGuard library from OpenZeppelin
 
 
+### calling mintFounderHero() may accidentally lock user funds
 
-### calling mintFounderHero() may accidently lock user funds
 
 **Description:** 
 
@@ -245,11 +245,11 @@ Add a function to update the percentage of fee collected protected by Owner.
 
 ## Low Risk
 
-### Missing or insucient Natspec comments
+### Missing or insufficient Natspec comments
 
 **Description:** 
 
-The issue of missing/insucient Natspec in Solidity code is one that can have a significant impact on the quality of the code,and ultimately,the functionality of the smart contract. Natspec is a tool that allows developers to add human-readable comments to their code,providing context,and explanations of the code's purpose and functionality. When Natspec is missing from Solidity code,other developers who read the code may struggle to understand what the code is doing,making it harder to modify,maintain,and reuse the code. 
+The issue of missing/insufficient Natspec in Solidity code is one that can have a significant impact on the quality of the code,and ultimately,the functionality of the smart contract. Natspec is a tool that allows developers to add human-readable comments to their code,providing context,and explanations of the code's purpose and functionality. When Natspec is missing from Solidity code,other developers who read the code may struggle to understand what the code is doing,making it harder to modify,maintain,and reuse the code. 
 
 **Recommendations:**
 
@@ -337,7 +337,7 @@ The research()function has multiple for loops that could cause gas limits to be 
 
 **Recommendations:**
 
-Apotential fix could be to limit the maximum number of rewards that can be added to a token identifier,reducing the number of iterations needed to calculate the reward probability.
+A potential fix could be to limit the maximum number of rewards that can be added to a token identifier,reducing the number of iterations needed to calculate the reward probability.
 
 
 
@@ -361,7 +361,7 @@ Remove unused variables and functions
 
 Locking the pragma helps to ensure that contracts do not accidentally get deployed
 
-using,for example,an outdated compiler version that might introduce bugs that aect the contract system negatively.
+using,for example,an outdated compiler version that might introduce bugs that affect the contract system negatively.
 
 **Recommendations:**
 
