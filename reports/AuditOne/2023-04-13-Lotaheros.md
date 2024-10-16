@@ -10,7 +10,7 @@
 
 **Description:** In the smart contract, the ReentrancyGuard from OpenZeppelin is imported to prevent reentrancy attacks. However, the functions setTradeOer and cancelTradeOer are not utilizing the ReentrancyGuard, making them vulnerable to reentrancy attacks. Both the setTradeOer function and the cancelTradeOer transfers tokens and Ether to a contract address, If an attacker can create a recursive call and re-enter either of these functions before they finish executing, they can potentially manipulate the state of the contract and exploit it to their advantage.
 
-**Recommendations:** To prevent this type of attack, it is important to use the ReentrancyGuard or other similar methods to ensure that the functions are executed atomically and not re-entered until the previous invocation has completed.
+**Recommendations:** To prevent this type of attack, it is important to use the ReentrancyGuard or other similar methods to ensure that the functions are executed atomically and not re-entered until the previous invocation has been completed.
 
 
 
@@ -51,7 +51,7 @@ There are two ways,the token owner can sell the tokens.
 
 if there are no user to call the Purchase ,then the token owner can use the acceptBuyOer route to sell the token.
 
-The issue is,if the buyer wants to buy the token by placing the makeBuyOer. ,new user can overwrite this makeBuyOer by slightly paying extra amount. as see in the below line of codes, [https://github.com/Crelde/IOTA-Heroes-Contracts/blob/3e345747f723637c0a1ce884d1ae0e1584015 e98/contracts/HeroMarketplace.sol#L209-L214.](https://github.com/Crelde/IOTA-Heroes-Contracts/blob/3e345747f723637c0a1ce884d1ae0e1584015e98/contracts/HeroMarketplace.sol#L209-L214)
+The issue is,if the buyer wants to buy the token by placing the makeBuyOer. ,new user can overwrite this makeBuyOer by slightly paying extra amount. as seen in the below line of codes, [https://github.com/Crelde/IOTA-Heroes-Contracts/blob/3e345747f723637c0a1ce884d1ae0e1584015 e98/contracts/HeroMarketplace.sol#L209-L214.](https://github.com/Crelde/IOTA-Heroes-Contracts/blob/3e345747f723637c0a1ce884d1ae0e1584015e98/contracts/HeroMarketplace.sol#L209-L214)
 
 after calling the makeBuyOer and overwriting the existing activeBuyOers,the malicious buyer could call the withdrawBuyOer to withdraw.
 
@@ -105,8 +105,8 @@ _initiateAdventure function is called,rather than before. This can be achieved b
 It is also recommended to use the ReentrancyGuard library from OpenZeppelin
 
 
-
 ### calling mintFounderHero() may accidentally lock user funds
+
 
 **Description:** 
 
