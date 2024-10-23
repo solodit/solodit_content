@@ -1,6 +1,6 @@
 | Id | Name(with link) | Funds Reserved($) | Max Bounty($) | Total Paid($) | Turnaround(Mins) | Languages | Categories | Registered (yyyy-mm-dd) | Last Updated (yyyy-mm-dd) | Sources(links) | References(links) |
 | -- | ---- | ----------------- | ------------- | ------------- | ---------------- | --------- | ------------- | ---------- | ------------ | ------- | ---------- |
-| SOL-1 | [Frax Finance](https://docs.frax.finance/smart-contracts/miscellaneous#frax-bug-bounty) | | 10000000 | | 7200 | | | | | | |
+| SOL-1 | [Frax Finance](https://docs.frax.finance/smart-contracts/bug-bounty) | | 10000000 | | 7200 | | | | | | |
 | SOL-2 | [Uniswap](https://uniswap.org/bug-bounty) | | 2250000 | | | | | | | | |
 | SOL-3 | [Aptos Foundation](https://github.com/aptos-labs/aptos-core/blob/main/SECURITY.md#aptos-core-bug-bounty) | | 2250000 | | | | | | | | |
 | SOL-4 | [0x Protocol](https://docs.0xprotocol.org/en/latest/additional/bounties.html#id1) | | 1000000 | | | | | | | | |
