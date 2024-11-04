@@ -11,7 +11,7 @@
 ---
 
 # Findings
-## Critical Risk
+## High Risk
 
 
 ### `MembershipERC1155` profit tokens can be drained due to missing `lastProfit` synchronization when minting and claiming profit
@@ -179,9 +179,6 @@ it("can give OWP_FACTORY_ROLE to an address and abuse priviliges", async functio
 **One World Project:** Given a separate role to the creator in [`a6b9d82`](https://github.com/OneWpOrg/smart-contracts-blockchain-1wp/commit/a6b9d82796c2d87a3924e8e80c3732474bf22506).
 
 **Cyfrin:** Verified. `creator` now has a separate role `DAO_CREATOR ` that can only change URI.
-
-\clearpage
-## High Risk
 
 
 ### `MembershipERC1155::sendProfit` can be front-run by calls to `MembershipFactory::joinDAO` to steal profit from existing DAO members
@@ -1024,7 +1021,7 @@ Here, the actual number of tokens received by `owpWallet` and `daoMembershipAddr
 **Cyfrin:** Verified. However only the suggested changes in `MembershipFactory` were implemented, not in `MembershipERC1155`.
 
 \clearpage
-## Gas Optimization
+## Gas Optimizations
 
 
 ### The `savedProfit` mapping will always return zero
