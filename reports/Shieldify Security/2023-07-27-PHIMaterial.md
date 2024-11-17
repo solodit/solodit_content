@@ -144,7 +144,6 @@ Consider adding a deadline check in the `claimMaterialObject()` function and an 
 
 Acknowledged and fixed by setting expiration period `expiresIn` to `Coupon` and added/modified tests for it.
 
-## Medium Risk
 
 ### [M-02] Insecure Generation of Randomness Used for Token Determination Logic
 
@@ -179,7 +178,6 @@ Shieldify recommends setting the `requestConfirmations` value to at least 5, so 
 
 Acknowledged, but currently will not be mitigated as the team does not have plans to implement Chainlink functionality yet.
 
-## Medium Risk
 
 ### [M-03] Centralization Risk in Multiple Places
 
@@ -249,7 +247,6 @@ Use the `recover()` function from OpenZeppelin’s ECDSA library to verify the u
 
 Acknowledged and fixed by using `ECDSA` library.
 
-## Low Risk
 
 ### [L-02] Lack of Consistency and Misleading Naming in Checks
 
