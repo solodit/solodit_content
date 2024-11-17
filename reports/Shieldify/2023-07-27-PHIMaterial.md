@@ -1,6 +1,8 @@
-**Auditors**
+** Auditors**
 
 [Shieldify Security](https://x.com/ShieldifySec)
+
+---
 
 # Findings
 
