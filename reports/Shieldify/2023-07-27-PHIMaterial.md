@@ -1,4 +1,4 @@
-**Auditor**
+**Auditors**
 
 [Shieldify Security](https://x.com/ShieldifySec)
 
