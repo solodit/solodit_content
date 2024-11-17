@@ -72,7 +72,7 @@ Note:
 
 If you implement our second suggestion, consider calling the `burnBatchObject` function in the `CraftLogic/UGCCraftLogic` contracts as it is currently only called externally because if a modifier is added to call this function only from the `CraftLogic/UGCCraftLogic` contracts there will be no other option to call it.
 
-Оr remove `burnBatchObject` function from the three contracts `CraftObject.sol`, `MaterialObject.sol` and `UGCObject.sol`, if you are not going to call this function in `CraftLogic/UGCCraftLogic` contracts.
+Or remove `burnBatchObject` function from the three contracts `CraftObject.sol`, `MaterialObject.sol` and `UGCObject.sol`, if you are not going to call this function in `CraftLogic/UGCCraftLogic` contracts.
 
 **Team Response**
 
@@ -241,7 +241,7 @@ address signer = ecrecover(digest, coupon.v, coupon.r, coupon.s);
 
 **Recommendation**
 
-Use the `recover()` function from OpenZeppelin’s ECDSA library to verify the uniqueness of the signature. Using this library implements a check on the value of the `s` variable to ensure that only one of its possible inputs is valid. Ensure that you are using a version `> 4.7.3` for there was a critical bug `>= 4.1.0` `< 4.7.3`.
+Use the `recover()` function from OpenZeppelin's ECDSA library to verify the uniqueness of the signature. Using this library implements a check on the value of the `s` variable to ensure that only one of its possible inputs is valid. Ensure that you are using a version `> 4.7.3` for there was a critical bug `>= 4.1.0` `< 4.7.3`.
 
 **Team Response**
 
