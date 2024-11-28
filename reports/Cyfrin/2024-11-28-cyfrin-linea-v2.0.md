@@ -204,7 +204,7 @@ For consistency `L2MessageService::reinitializePauseTypesAndPermissions` should 
 **Cyfrin:** Verified.
 
 \clearpage
-## Gas Optimization
+## Gas Optimizations
 
 
 ### Remove redundant `L2MessageManagerV1::__L2MessageManager_init` and associated constant
