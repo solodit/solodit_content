@@ -134,7 +134,7 @@ Add a sanity check to ensure that ceilingPrice is different from floorPrice or t
 
 
 
-### Low Risk
+## Low Risk
 
 ### No sanity checks when adding a new coin
 
