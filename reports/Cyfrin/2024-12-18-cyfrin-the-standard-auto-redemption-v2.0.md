@@ -5,7 +5,7 @@
 ---
 
 # Findings
-## Critical Risk
+## High Risk
 
 
 ### Hypervisor collateral redemption can cause vaults to become undercollateralized due to slippage
@@ -147,9 +147,6 @@ Given that `USDC` is not a valid collateral token, this will result in the vault
 **The Standard DAO:** Fixed by commits [3c5e136](https://github.com/the-standard/smart-vault/commit/3c5e136cdab97d88e7aa79c23ee18e50d46d6276), [821bb26](https://github.com/the-standard/smart-vault/commit/132a0138e3e586493dcd25bfb1b56e1c761f95c2#diff-821bb262cfd79a7edc00f920efc390d9572957844594bc42733fc6e70f749e9a), and [132a013](https://github.com/the-standard/smart-vault/commit/132a0138e3e586493dcd25bfb1b56e1c761f95c2). Since we are storing both input and output swap paths, we use that to more efficiently calculate the required amount to swap.
 
 **Cyfrin:** Verified. With the introduction of the `SwapPath` struct containing both input and output paths along with the relevant swap path and target amount variables renamed to correctly reference `USDs` instead of `USDC`, this now appears to be correct so long as paths are configured as communicated (e.g. input: `WETH -> USDC -> USDs`, output: `USDs -> USDC -> WETH`).
-
-\clearpage
-## High Risk
 
 
 ### `AutoRedemption` mappings are not and can never be populated
