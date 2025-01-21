@@ -9,7 +9,7 @@
 ---
 
 # Findings
-## Critical Risk
+## High Risk
 
 
 ### Instant withdrawals in priority pool can result in loss of funds for StakingProxy contract
