@@ -355,7 +355,7 @@ import "../../gov/ERC721/ERC721Power.sol";
 import "hardhat/console.sol";
 
 contract ERC721PowerAttack {
-    // this attack can decrease ERC721Power::totalPower by the the true max power of all
+    // this attack can decrease ERC721Power::totalPower by the true max power of all
     // the power nfts that exist (to zero), regardless of who owns them, and sets the current
     // power of all nfts to zero, totally bricking the ERC721Power contract.
     //
