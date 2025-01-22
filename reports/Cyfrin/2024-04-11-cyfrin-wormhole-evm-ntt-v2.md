@@ -1085,7 +1085,7 @@ function __PausedOwnable_init(address initialPauser, address owner) internal onl
 }
 ```
 
-**Wormhole Foundation:** This has been reviewed and has to impact on the current contracts. Any contract changes in the the future will be reviewed, including changes to libraries.
+**Wormhole Foundation:** This has been reviewed and has to impact on the current contracts. Any contract changes in the future will be reviewed, including changes to libraries.
 
 **Cyfrin:** Acknowledged.
 
