@@ -194,7 +194,7 @@ In Contract Trading.sol, the method initialize(...) transfers ownership to addre
 
 **Recommendation**: 
 
-Add a check to validate if the the given parameter is address(0) or not.
+Add a check to validate if the given parameter is address(0) or not.
 
 
 
