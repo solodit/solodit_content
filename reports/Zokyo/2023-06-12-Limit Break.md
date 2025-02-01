@@ -105,7 +105,7 @@ Scenario #2 ( chain re-organisation happens):
 		2. Alice, Carol & David execute different nft  transactions using PaymentProcessor over Bob collection, creating tx #2, #3 & #4 that will also get indexed in block #1. 
 		3. Bob setup his pricing bound by calling the function “setTokenPricingBoundaries” in tx#5 block #1. 
 
-Because the the transaction got re-organisat inside the latest block and then between the enabling of enforcing price constrain transactions  and the setting of floor price & ceiling price we’re putted other transactions that we’re executing order on PaymentProcessor, those transactions that got between them have been reverted as they are not matching the ceilingPrice value, which will now be 0 by default.	
+Because the transaction got re-organisat inside the latest block and then between the enabling of enforcing price constrain transactions  and the setting of floor price & ceiling price we’re putted other transactions that we’re executing order on PaymentProcessor, those transactions that got between them have been reverted as they are not matching the ceilingPrice value, which will now be 0 by default.	
 
 
 
