@@ -1,3 +1,17 @@
+**Lead Auditors**
+
+[Giovanni Di Siena](https://twitter.com/giovannidisiena)
+
+[Hans](https://twitter.com/hansfriese)
+
+**Assisting Auditors**
+
+[Alex Roan](https://twitter.com/alexroan)
+
+---
+
+# Findings
+
 ## Medium Risk
 
 
@@ -536,7 +550,7 @@ Whilst there does not appear to be any direct benefit to an attacker, it is poss
 **Cyfrin:** Acknowledged.
 
 \clearpage
-## Gas Optimization
+## Gas Optimizations
 
 
 ### Use stack variables rather than making repeated external calls
