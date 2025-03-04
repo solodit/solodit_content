@@ -53,7 +53,7 @@ Consider adding events to these functions to provide a clear on-chain record of 
 **Cyfrin:** Acknowledged.
 
 \clearpage
-## Gas Optimization
+## Gas Optimizations
 
 
 ### Unnecessary token transfer when withdrawing reward tokens
