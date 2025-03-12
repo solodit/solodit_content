@@ -1,7 +1,9 @@
 **Auditors**
----
+
 [Hexens](https://hexens.io/)
-- - -
+
+---
+
 # Findings
 ## High Risk
 
