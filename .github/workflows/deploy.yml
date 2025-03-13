@@ -12,7 +12,7 @@ jobs:
       id: refreshRequest
       uses: fjogeleit/http-request-action@v1.14.0
       with:
-        url: https://solodit.xyz/api/general/refresh_tag_category/
+        url: https://a20c657b8f42246639f6b06fff6ee64e-ebe8f97aeec0dd3f.elb.us-west-1.amazonaws.com/api/general/refresh_tag_category/
         method: POST
         customHeaders: '{"Content-Type": "application/x-www-form-urlencoded"}'
         data: '{"email": "${{ secrets.SOLODIT_USER }}", "password": "${{ secrets.SOLODIT_PASSWORD }}"}'
@@ -24,7 +24,7 @@ jobs:
       id: refreshForkInfoRequest
       uses: fjogeleit/http-request-action@v1.14.0
       with:
-        url: https://solodit.xyz/api/general/refresh_forked_protocol/
+        url: https://a20c657b8f42246639f6b06fff6ee64e-ebe8f97aeec0dd3f.elb.us-west-1.amazonaws.com/api/general/refresh_forked_protocol/
         method: POST
         customHeaders: '{"Content-Type": "application/x-www-form-urlencoded"}'
         data: '{"email": "${{ secrets.SOLODIT_USER }}", "password": "${{ secrets.SOLODIT_PASSWORD }}"}'
@@ -36,7 +36,7 @@ jobs:
       id: importReportRequest
       uses: fjogeleit/http-request-action@v1.14.0
       with:
-        url: https://solodit.xyz/api/general/import_reports/
+        url: https://a20c657b8f42246639f6b06fff6ee64e-ebe8f97aeec0dd3f.elb.us-west-1.amazonaws.com/api/general/import_reports/
         method: POST
         customHeaders: '{"Content-Type": "application/x-www-form-urlencoded"}'
         data: '{"email": "${{ secrets.SOLODIT_USER }}", "password": "${{ secrets.SOLODIT_PASSWORD }}"}'
@@ -48,7 +48,7 @@ jobs:
       id: refreshBugBounties
       uses: fjogeleit/http-request-action@v1.14.0
       with:
-        url: https://solodit.xyz/api/general/refresh_bug_bounties/
+        url: https://a20c657b8f42246639f6b06fff6ee64e-ebe8f97aeec0dd3f.elb.us-west-1.amazonaws.com/api/general/refresh_bug_bounties/
         method: POST
         customHeaders: '{"Content-Type": "application/x-www-form-urlencoded"}'
         data: '{"email": "${{ secrets.SOLODIT_USER }}", "password": "${{ secrets.SOLODIT_PASSWORD }}"}'
