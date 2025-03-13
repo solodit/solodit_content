@@ -9,15 +9,6 @@
         - size: 256px * 256px
         - background: transparent
 
-    - logo_450_225.png
-        This logo will be displayed on the Solodit landing page.
-        - type: png
-        - size: 450px * 225px
-        - Put the brand name at the right side of the logo.
-        - background color: #292634
-        - logo color: #BBBABD
-        - name text color: #BBBABD
-
 ### To add a report from an existing audit firm, please follow these steps:
 - Properly name the report file (`{Date}-{Protocol}.md`) and place it in the appropriate folder.
 - Add the auditor information at the beginning.
@@ -74,7 +65,6 @@ Please refer to the chart below regarding the path structure.
     ├── reports                                # Reports folder
     │   ├── Audit firm name                    # Root folder of your reports.
     │        ├── logo_256_256.png              # Square logo image
-    │        ├── logo_450_225.png              # Horizontal logo image
     │        ├── {Date}-{Protocol}.md          # Report file.(e.g. `2023-06-01-sudoswap.md`)
     │        └── ...
     │   └── ...
