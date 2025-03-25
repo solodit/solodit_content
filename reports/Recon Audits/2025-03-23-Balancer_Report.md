@@ -155,9 +155,4 @@ Meaning you can skip the call to save around 200 gas
 
 Consider removing the check to save 200 gas
 
-# Additional Services by Recon
 
-Recon offers:
-- Ongoing advisory and invariant testing - Ask about Recon Legendary
-- Cloud Fuzzing as a Service - The easiest way to run invariant tests in the cloud - Ask about Recon Pro
-- Security Reviews by Alex The Entreprenerd and the Recon Team
