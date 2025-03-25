@@ -64,6 +64,49 @@ Additionally, even if the check were to fail, no particular damage would be caus
 
 Add a comment to the module and make sure to have less than 10 modules
 
+---
+## Gas Optimization
+
+### [G-01] Gas Optimization: Can skip check to save 200 gas
+
+**Impact**
+
+`performUpkeep` has a check to verify if there's any re-lockable balance
+
+https://github.com/onchainification/aura_locker_v2/blob/07294ae3638909ecd768a6a0f831fa513abe91a0/src/AuraLockerModule.sol#L112-L113
+
+```solidity
+    /// @notice The actual execution of the action determined by the `checkUpkeep` method (AURA locking)
+    function performUpkeep(bytes calldata /* _performData */ ) external override onlyKeeper {
+        if (!_isModuleEnabled()) revert ModuleNotEnabled();
+
+        (, uint256 unlockable,,) = AURA_LOCKER.lockedBalances(address(SAFE));
+        if (unlockable == 0) revert NothingToLock(block.timestamp);
+```
+
+If the check fails, the call will revert.
+
+However, vlAURA already has this check
+
+https://etherscan.io/address/0x3Fa73f1E5d8A792C80F426fc8F84FBF7Ce9bBCAC#code
+```solidity
+    function _processExpiredLocks(
+        address _account,
+        bool _relock,
+        address _rewardAddress,
+        uint256 _checkDelay
+    ) internal updateReward(_account) {
+/// OMITTED
+
+require(length > 0, "no locks"); /// @audit Reverts here
+```
+
+Meaning you can skip the call to save around 200 gas
+
+**Mitigation**
+
+Consider removing the check to save 200 gas
+
 ----
 ## Informational
 
@@ -112,47 +155,5 @@ https://etherscan.io/address/0xC0c293ce456fF0ED870ADd98a0828Dd4d2903DBF#code
 ILockAura public constant AURA_LOCKER = ILockAura(0x3Fa73f1E5d8A792C80F426fc8F84FBF7Ce9bBCAC); // OK
 https://etherscan.io/address/0x3Fa73f1E5d8A792C80F426fc8F84FBF7Ce9bBCAC#code
 
----
-## Gas
-
-### [G-01] GAS: Can skip check to save 200 gas
-
-**Impact**
-
-`performUpkeep` has a check to verify if there's any re-lockable balance
-
-https://github.com/onchainification/aura_locker_v2/blob/07294ae3638909ecd768a6a0f831fa513abe91a0/src/AuraLockerModule.sol#L112-L113
-
-```solidity
-    /// @notice The actual execution of the action determined by the `checkUpkeep` method (AURA locking)
-    function performUpkeep(bytes calldata /* _performData */ ) external override onlyKeeper {
-        if (!_isModuleEnabled()) revert ModuleNotEnabled();
-
-        (, uint256 unlockable,,) = AURA_LOCKER.lockedBalances(address(SAFE));
-        if (unlockable == 0) revert NothingToLock(block.timestamp);
-```
-
-If the check fails, the call will revert.
-
-However, vlAURA already has this check
-
-https://etherscan.io/address/0x3Fa73f1E5d8A792C80F426fc8F84FBF7Ce9bBCAC#code
-```solidity
-    function _processExpiredLocks(
-        address _account,
-        bool _relock,
-        address _rewardAddress,
-        uint256 _checkDelay
-    ) internal updateReward(_account) {
-/// OMITTED
-
-require(length > 0, "no locks"); /// @audit Reverts here
-```
-
-Meaning you can skip the call to save around 200 gas
-
-**Mitigation**
-
-Consider removing the check to save 200 gas
 
 
