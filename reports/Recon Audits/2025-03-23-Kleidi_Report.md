@@ -1,78 +1,14 @@
-![Kleidi Review Header](https://media.publit.io/file/Kleidi-Recon-Review.png)
+**Auditor**
 
-# Recon Security Review
+[Alex The Entrepreneur](https://x.com/gallodasballo?lang=en)
 
-## Introduction
-Alex The Entreprenerd performed a 1 week review of Kleidi
+# Findings
 
-[report repo](https://github.com/GalloDaSballo/kleidi-notes/blob/main/README.md)
+## Low Risk
 
-Repo:
-https://github.com/solidity-labs-io/kleidi
+# [L-01] Suggested Next Steps
 
-Commit Hash:
-`1a06ac16bc99d0b4081281329d03064c3737f5e4`
-
-He additionally performed a complimentary mitigation review of fixes performed during the review, with head: `a5f6eb7e9eb5870f2f45b4f4b93e1b4da5f5cce1`
-
-This review uses [Code4rena Severity Classification](https://docs.code4rena.com/awarding/judging-criteria/severity-categorization)
-
-The Review is done as a best effort service, while a lot of time and attention was dedicated to the security review, it cannot guarantee that no bug is left
-
-As a general rule we always recommend doing one additional security review until no bugs are found, this in conjunction with a Guarded Launch and a Bug Bounty can help further reduce the likelihood that any specific bug was missed
-
-
-## About Recon
-
-Recon offers boutique security reviews, invariant testing development and is pioneering Cloud Fuzzing as a best practice by offering Recon Pro, the most complete tool to run tools such as Echidna, Medusa, Foundry, Kontrol and Halmos in the cloud with just a few clicks
-
-## About Alex
-
-Alex is a well known Security Researcher that has collaborated with multiple contest firms such as:
-- Code4rena - One of the most prolific and respected judges, won the Tapioca contest, at the time the 3rd highest contest pot ever
-- Spearbit - Have done reviews for Tapioca, Threshold USD, Velodrome and more
-- Recon - Centrifuge Invariant Testing Suite, Corn and Badger invariants as well as live monitoring
-
-
-# FINDINGS
-
-## Table of Contents
-
-- **QA**
-  - Q-01 Suggested Next Steps
-  - Q-02 `Timelock` Permissionless `execute` could cause issues and out of order operations when multiple operations are ready
-  - Q-03 `Timelock` unnecessary call of `_setRoleAdmin`
-  - Q-04 `Timelock` encoding of bytes is unambigous while strings may cause issues
-  - Q-05 Refactoring - `Timelock` wildcard and non wildcard checks could be simplified
-  - Q-06 `Timelock`  `isSelfAddressCheck` can be removed
-  - Q-07 `Timelock` require has a typo
-  - Q-08 `Timelock` checks for `1` instead of `DONE_TIMESTAMP`
-  - Q-09 `Timelock` prevents multiple replays, but is subject to cross operation reentrancy
-  - Q-10 `Timelock` `CalldataAdded` will log all `dataHashes` instead of the ones being added
-  - Q-11 `RecoverySpell` Comment only applies to benign spells
-  - Q-12 Once a `RecoverySpell` is deployed, all spells on all chains may be deployed
-  - Q-13 `InstanceDeployer` - Could use constant for Flag Previous Owner
-  - Q-14 `Guard.sol` comment on safe having no funds is technically inaccurate
-  - Q-15 Admin Sidestep - `Guard.sol` DelegateCall is still possible via Modules 
-  - Q-16 `ConfigurablePause._grantGuardian` naming could be changed to `setGuardian`
-  - Q-17 `ConfigurablePause.sol` some indexed parameters are not particularly useful
-  - Q-18 Guard QA Report
-  - Q-19 Different Threshold can result in different hash but same config when using one owner
-  - Q-20 Refactoring - Roles are not used and could be removed
-  - Q-21 RecoverySpell Gas Optimizations
-  - Q-22 `removeCalldataCheckDatahash` could mistakenly remove a wildcard check if the wildcard check is added with an empty `dataHash`
-  - Q-23 `getFunctionSignature` can be refactored to not use assembly
-  - Q-24 Original Hot Signer that becomes Compromised or Malicious can take over all undeployed systems
-  - Q-25 Docs Typos
-  - Q-26 Create 2 Hash Collision
-- **Gas**
-  - G-01 `RecoverySpell` save gas by setting `recoveryInitiated = 0` to signify a Disabled Spell
-  - G-02 `ConfigurablePause.sol` - Save gas by using uint48
-
-
-# Q-01 Suggested Next Steps
-
-## Executive Summary
+**Executive Summary**
 
 The codebase is already very well tested and mature
 
@@ -102,9 +38,9 @@ A few possible things I may have missed:
 
 I have extensively explored these ideas, however someone with a different background or tools may find something I missed
 
-# Q-02 `Timelock` Permissionless `execute` could cause issues and out of order operations when multiple operations are ready
+### [L-02] `Timelock` Permissionless `execute` could cause issues and out of order operations when multiple operations are ready
 
-## Impact
+**Impact**
 
 `execute` can be called by anyone
 
@@ -117,7 +53,7 @@ This could be done for multiple reasons:
 - Create MEV opportunities
 - Cause a misconfiguration at the end of the sequence
 
-## Sonne Example
+**Sonne Example**
 
 An extreme example is what happened with Sonne finance:
 https://rekt.news/sonne-finance-rekt/
@@ -125,16 +61,16 @@ https://medium.com/@SonneFinance/post-mortem-sonne-finance-exploit-12f3daa82b06
 
 They had queued the creation of a Compound Fork Market, the setting of 0% collateral factor, adding collateral and burning them as 3 separate operations, allowing the exploiter to only perform the creation of the market
 
-## Realistic Example
+**Realistic Example**
 In the case of the Timelock, because certain operations such as `removeCalldataCheck` and `removeCalldataCheckDatahash` rely on an index, out of order operations may cause reverts or misconfiguration
 
-## Mitigation
+**Mitigation**
 
 It's important to document the risks of not using batch operations to end users
 
 As long as end users batch their operations, no meaningful risk should be present
 
-# Q-03 `Timelock` unnecessary call of `_setRoleAdmin`
+### [L-03] `Timelock` unnecessary call of `_setRoleAdmin`
 
 The call
 
@@ -151,10 +87,10 @@ Since DEFAULT_ADMIN_ROLE == 0x00
 
 Meaning that it will be admin role by default
 
-# Q-04 `Timelock` encoding of bytes is unambigous while strings may cause issues
+### [L-04] `Timelock` encoding of bytes is unambigous while strings may cause issues
 
 
-## Encoding (UI risk) 
+**Encoding (UI risk)** 
 
 This test fails
 
@@ -188,9 +124,9 @@ While the second one is converting them from hex, which is consistent with encod
 
 It's important that while the UI shows user friendly values, that all values passed to the smart contract are `hex` bytes, to avoid additional layers of encoding
 
-# Q-05 Refactoring - `Timelock` wildcard and non wildcard checks could be simplified
+### [L-05] Refactoring - `Timelock` wildcard and non wildcard checks could be simplified
 
-## Refactoring Analysis
+**Refactoring Analysis**
 
 Fundamentally:
 You either accept all (wildcard)
@@ -218,7 +154,7 @@ Self Address Check
 Data
 
 
-# Q-06 `Timelock`  `isSelfAddressCheck` can be removed
+### [L-06] `Timelock`  `isSelfAddressCheck` can be removed
 
 https://github.com/solidity-labs-io/kleidi/blob/1a06ac16bc99d0b4081281329d03064c3737f5e4/src/Timelock.sol#L1166-L1177
 
@@ -239,7 +175,7 @@ https://github.com/solidity-labs-io/kleidi/blob/1a06ac16bc99d0b4081281329d03064c
 
 The hash is known at time of setup, so there's no advantage in having this code
 
-# Q-07 `Timelock` require has a typo
+### [L-07] `Timelock` require has a typo
 
 https://github.com/solidity-labs-io/kleidi/blob/1a06ac16bc99d0b4081281329d03064c3737f5e4/src/Timelock.sol#L1104-L1105
 
@@ -248,7 +184,7 @@ https://github.com/solidity-labs-io/kleidi/blob/1a06ac16bc99d0b4081281329d03064c
 
 ```
 
-# Q-08 `Timelock` checks for `1` instead of `DONE_TIMESTAMP`
+### [L-08] `Timelock` checks for `1` instead of `DONE_TIMESTAMP`
 
 This should be `DONE_TIMESTAMP`
 
@@ -259,9 +195,9 @@ https://github.com/solidity-labs-io/kleidi/blob/1a06ac16bc99d0b4081281329d03064c
 
 ```
 
-# Q-09 `Timelock` prevents multiple replays, but is subject to cross operation reentrancy
+### [L-09] `Timelock` prevents multiple replays, but is subject to cross operation reentrancy
 
-## Impact
+**Impact**
 
 The code for `execute` is as follows:
 
@@ -294,14 +230,14 @@ Meaning that mid execution of an operation, another operation could be performed
 
 This typically can only happen when the Timelock interacts with untrusted, malicious contracts, so barring an uninteded use this shouldn't cause any major damage
 
-## Mitigation
+**Mitigation**
 
 Consider adding a reentrancyGuard or simply document this risk to end users to ensure they do not re-enter mid execution
 
 
-# Q-10 `Timelock` `CalldataAdded` will log all `dataHashes` instead of the ones being added
+### [L-10] `Timelock` `CalldataAdded` will log all `dataHashes` instead of the ones being added
 
-## Event Data
+**Event Data**
 
 https://github.com/solidity-labs-io/kleidi/blob/1a06ac16bc99d0b4081281329d03064c3737f5e4/src/Timelock.sol#L1198-L1199
 
@@ -310,9 +246,9 @@ https://github.com/solidity-labs-io/kleidi/blob/1a06ac16bc99d0b4081281329d03064c
 
 ```
 
-# Q-11 `RecoverySpell` Comment only applies to benign spells
+### [L-11] `RecoverySpell` Comment only applies to benign spells
 
-## Impact
+**Impact**
 
 
 The comment:
@@ -332,9 +268,9 @@ Only applies to benign spells
 
 Malicious spells can be deployed anywhere by the compromised hot signer
 
-# Q-12 Once a `RecoverySpell` is deployed, all spells on all chains may be deployed
+### [L-12] Once a `RecoverySpell` is deployed, all spells on all chains may be deployed
 
-## Impact
+**Impact**
 
 RecoverySpells are meant to be used in a time of emergency
 
@@ -359,11 +295,11 @@ More specifically it will inform everyone about the parameters that would result
 
 In the scenario in which a recovery was meant to be performed only on Chain A, for all other chains, anyone could deploy the RecoverySpell causing them to have a reduced delay for all those chains
 
-## Mitigation
+**Mitigation**
 
 In your documentation you should clarify that if recovery happens on one chain, it should probably happen on all chains
 
-# Q-13 `InstanceDeployer` - Could use constant for Flag Previous Owner
+### [L-13] `InstanceDeployer` - Could use constant for Flag Previous Owner
 
 Could use CONSTANT instead of `1`
 
@@ -381,7 +317,7 @@ https://github.com/solidity-labs-io/kleidi/blob/1a06ac16bc99d0b4081281329d03064c
             );
 ```
 
-# Q-14 `Guard.sol` comment on safe having no funds is technically inaccurate
+### [L-14] `Guard.sol` comment on safe having no funds is technically inaccurate
 
 https://github.com/solidity-labs-io/kleidi/blob/1a06ac16bc99d0b4081281329d03064c3737f5e4/src/Guard.sol#L29-L30
 
@@ -396,7 +332,7 @@ Some funds could be there and may even be used or active
 
 
 
-# Q-15 Admin Sidestep - `Guard.sol` DelegateCall is still possible via Modules 
+### [L-15] Admin Sidestep - `Guard.sol` DelegateCall is still possible via Modules 
 
 Delegatecall could still be performed by setting up modules
 
@@ -404,13 +340,13 @@ IMO this is fine, however, signers should be warned that adding a module could c
 
 The same can happen via a fallback handler
 
-# Q-16 `ConfigurablePause._grantGuardian` naming could be changed to `setGuardian`
+### [L-16] `ConfigurablePause._grantGuardian` naming could be changed to `setGuardian`
 
 Grant Guardian is setting to address(0) as well, meaning it's also a revoke, `setGuardian` seems to be most appropriate
 
-# Q-17 `ConfigurablePause.sol` some indexed parameters are not particularly useful
+### [L-17] `ConfigurablePause.sol` some indexed parameters are not particularly useful
 
-## Not sure it makes sense to index this
+**Not sure it makes sense to index this**
 
 https://github.com/solidity-labs-io/kleidi/blob/1a06ac16bc99d0b4081281329d03064c3737f5e4/src/ConfigurablePause.sol#L46-L47
 
@@ -433,9 +369,9 @@ https://github.com/solidity-labs-io/kleidi/blob/1a06ac16bc99d0b4081281329d03064c
 
 ```
 
-# Q-18 Guard QA Report
+### [L-18] Guard QA Report
 
-## Analysis
+**Analysis**
 
 Fundamentally enforces that no delegate call can be called from the safe
 
@@ -449,9 +385,9 @@ But the behaviour of the safe is pretty much normal when it comes to executing o
 
 This seems to remove the ability to batch operations because batches are done via delegatecalls
 
-## QA
+**QA**
 
-### Admin sidestep
+**Admin sidestep**
 
 Delegatecall could still be performed by setting up modules
 
@@ -461,7 +397,7 @@ IMO this is fine, however, signers should be warned that adding a module could c
 
 The same can happen via a fallback handler
 
-## Hunch - Takeover via malicious fallback handler?
+**Hunch - Takeover via malicious fallback handler?**
 
 https://github.com/solidity-labs-io/kleidi/blob/1a06ac16bc99d0b4081281329d03064c3737f5e4/src/InstanceDeployer.sol#L155-L156
 
@@ -474,12 +410,12 @@ https://github.com/solidity-labs-io/kleidi/blob/1a06ac16bc99d0b4081281329d03064c
 -> Deploy the guard
 -> Shrekt?
 
-## NITS?
+**NITS?**
 
-### Safe flow for owners, and other configs
+**Safe flow for owners, and other configs**
 
 
-### Technically cannot guarantee this
+**Technically cannot guarantee this**
 
 Some funds could be there and may even be used or active
 
@@ -490,16 +426,16 @@ https://github.com/solidity-labs-io/kleidi/blob/1a06ac16bc99d0b4081281329d03064c
 /// does not hold funds or tokens.
 ```
 
-### Fallback missing
+**Fallback missing**
 
 Likelihood of this being an issue is extremely low
 Also since upgrades are not contemplated this seems fine as is
 
 
 
-## Notes
+**Notes**
 
-### Self Calls via
+**Self Calls via**
 
 https://github.com/safe-global/safe-smart-account/blob/0142ec8a4a05f03167daba9e7231b7e858aabd32/contracts/base/ModuleManager.sol#L154-L163
 
@@ -519,9 +455,9 @@ https://github.com/safe-global/safe-smart-account/blob/0142ec8a4a05f03167daba9e7
 So timelock can still change settings since it's a module
 
 
-# Q-19 Different Threshold can result in different hash but same config when using one owner
+### [L-19] Different Threshold can result in different hash but same config when using one owner
 
-## Impact
+**Impact**
 
 When calling `createSystemInstance`, a Safe with a single owner could be deployed, while passing a threshold that is above 1
 
@@ -557,15 +493,15 @@ https://github.com/solidity-labs-io/kleidi/blob/1a06ac16bc99d0b4081281329d03064c
             }
 ```
 
-## Mitigation
+**Mitigation**
 
 You could enforce that the threshold is met by the number of owners
 
 However there is no particular impact to this finding
 
-# Q-20 Refactoring - Roles are not used and could be removed
+### [L-20] Refactoring - Roles are not used and could be removed
 
-## Impact
+**Impact**
 
 Overall roles are used only for `DEFAULT_ADMIN_ROLE` (self) and for `HOT_SIGNER_ROLE` because of this, you could simply remove the roles logic and leave a way to add and remove `HOT_SIGNERS`
 
@@ -607,7 +543,7 @@ https://github.com/solidity-labs-io/kleidi/blob/1a06ac16bc99d0b4081281329d03064c
     }
 ```
 
-## Mitigation
+**Mitigation**
 
 Delete the functions
 
@@ -615,9 +551,9 @@ Add a function `grantHotSigner` that requires calling self
 
 If you wish to allow the Safe to also be able to grant hotSigners, you could simply add a role check to `grantHotSigner`
 
-# Q-21 RecoverySpell Gas Optimizations
+### [L-21] RecoverySpell Gas Optimizations
 
-## Remove address(0) check, this is already done by OZ.ECDSA
+**Remove address(0) check, this is already done by OZ.ECDSA**
 
 https://github.com/solidity-labs-io/kleidi/blob/1a06ac16bc99d0b4081281329d03064c3737f5e4/src/RecoverySpell.sol#L226-L230
 
@@ -629,7 +565,7 @@ https://github.com/solidity-labs-io/kleidi/blob/1a06ac16bc99d0b4081281329d03064c
             );
 ```
 
-## Ownership check can be done in memory more cheaply
+**Ownership check can be done in memory more cheaply**
 
 The code change is pretty annoying compared to this, but memory should be cheaper
 
@@ -650,9 +586,9 @@ For each signer, find the owner in the array and check that the value was `true`
 This should cost less because the cost of finding the address will tend to be lower for the average user count (less than 10)
 
 
-# Q-22 `removeCalldataCheckDatahash` could mistakenly remove a wildcard check if the wildcard check is added with an empty `dataHash`
+### [L-22] `removeCalldataCheckDatahash` could mistakenly remove a wildcard check if the wildcard check is added with an empty `dataHash`
 
-## Impact
+**Impact**
 
 `_addCalldataCheck` doesn't enforce that a wildcard check has no `dataHashes`
 
@@ -727,7 +663,7 @@ https://github.com/solidity-labs-io/kleidi/blob/1a06ac16bc99d0b4081281329d03064c
     ) external onlyTimelock {
 ```
 
-## POC
+**Proof Of Concept**
 
 You can pass an empty string and the check will pass, please see this test which shows:
 - Setup the check with empty bytes
@@ -786,7 +722,7 @@ forge test --match-test test_show_arbitraryCheck -vv
 
 
 
-## Mitigation
+**Mitigation**
 
 Add a check to enforce that data.length is 0 for wildcard checks
 
@@ -804,9 +740,9 @@ Add a check to enforce that data.length is 0 for wildcard checks
             /// @audit Add `data.length == 0` so you ensure this check is correct
 ```
 
-# Q-23 `getFunctionSignature` can be refactored to not use assembly
+### [L-23] `getFunctionSignature` can be refactored to not use assembly
 
-## Impact
+**Impact**
 
 `getFunctionSignature` uses assembly as follows
 
@@ -830,7 +766,7 @@ https://github.com/solidity-labs-io/kleidi/blob/1a06ac16bc99d0b4081281329d03064c
 But you can simply cast bytes to bytes4 instead
 
 
-## Proof
+**Proof Of Concept**
 
 ```solidity
     function getFunctionSignature(bytes memory toSlice)
@@ -854,9 +790,9 @@ But you can simply cast bytes to bytes4 instead
     }
 ```
 
-# Q-24 Original Hot Signer that becomes Compromised or Malicious can take over all undeployed systems
+### [L-24] Original Hot Signer that becomes Compromised or Malicious can take over all undeployed systems
 
-## Impact
+**Impact**
 
 The known issues specify:
 
@@ -870,7 +806,7 @@ This is correct, however, it's worth highlighting that malicious / compromised h
 
 However, because of the logic used to deploy the system on new networks, the previously removed hot signer would still be able to deploy and compromise the system
 
-## POC
+**Proof Of Concept**
 
 - Setup system as intended on Chain A
 - Do not deploy on Chain B
@@ -880,7 +816,7 @@ However, because of the logic used to deploy the system on new networks, the pre
 
 Meaning that the risk of compromised Hot Signers doesn't end once a Hot Signer is removed from the original chain, but only if they are removed from all chains
 
-## Mitigation
+**Mitigation**
 
 Users should:
 - Deploy all instances they want to secure
@@ -890,9 +826,9 @@ Users should:
 It may also be best to enforce that one of the owners is setting up a deployment on any other chain, however this shares a similar risk that if they are compromised they could still compromised other chains
 
 
-# Q-25 Docs Typos
+### [L-25] Docs Typos
 
-## Merge marks
+**Merge marks**
 
 https://github.com/solidity-labs-io/kleidi/blob/1a06ac16bc99d0b4081281329d03064c3737f5e4/docs/TESTING.md#L53-L59
 
@@ -906,7 +842,7 @@ so that when there is a further sanity check failure by a mutant the spec can be
 =======
 ```
 
-## Pseudocode doesn't exist
+**Pseudocode doesn't exist**
 
 https://github.com/solidity-labs-io/kleidi/blob/1a06ac16bc99d0b4081281329d03064c3737f5e4/docs/CALLDATA_WHITELISTING.md#L34-L45
 
@@ -924,7 +860,7 @@ This means that to supply to any market, the same function is called with differ
 ```
 
 
-## Broken Link
+**Broken Link**
 
 https://github.com/solidity-labs-io/kleidi/blob/1a06ac16bc99d0b4081281329d03064c3737f5e4/README.md#L7
 
@@ -932,14 +868,14 @@ https://github.com/solidity-labs-io/kleidi/blob/1a06ac16bc99d0b4081281329d03064c
 - **Security**: The protocol is designed by the world class Smart Contract engineering team at Solidity Labs. It has had components formally verified, and has been audited twice with no critical or high issues discovered. It is designed to be used with Gnosis Safe multisigs, which are battle-tested and have secured tens of billions of dollars in assets. See our internal audit log [here](docs/security/AUDIT_LOG.md).
 ```
 
-### Mitigation
+**Mitigation**
 Should be /docs/AUDIT_LOG.md
 
 
 
-# Q-26 Create 2 Hash Collision
+### [L-26] Create 2 Hash Collision
 
-## Impact
+**Impact**
 
 Because of the fact that the system uses deterministic addresses, given the fact that keccak (a 32 bytes function) is truncated down to a uint160 (20 bytes), the likelihood that a clash is found is around 2^80
 
@@ -947,17 +883,19 @@ This makes brute-force mining a clash plausible, although extremely expensive
 
 While the risk of mining a collision is possible, this should not be feasible for any specific Safe in the system as the cost of mining a clash is estimated in the order of billions of dollars
 
-## Notes
+**Notes**
 
 It is worth going through these notes to familiarise yourself with these types of findings
 
 https://eips.ethereum.org/EIPS/eip-3607
 https://github.com/sherlock-audit/2024-06-makerdao-endgame-judging/issues/64
 https://github.com/sherlock-audit/2023-07-kyber-swap-judging/issues/90
+---
+## Gas
 
-# G-01 `RecoverySpell` save gas by setting `recoveryInitiated = 0` to signify a Disabled Spell
+### [G-01] `RecoverySpell` save gas by setting `recoveryInitiated = 0` to signify a Disabled Spell
 
-## Gas - Set it to 0 to save gas due to refund
+**Gas - Set it to 0 to save gas due to refund**
 
 https://github.com/solidity-labs-io/kleidi/blob/1a06ac16bc99d0b4081281329d03064c3737f5e4/src/RecoverySpell.sol#L302
 
@@ -966,7 +904,7 @@ https://github.com/solidity-labs-io/kleidi/blob/1a06ac16bc99d0b4081281329d03064c
 ```
 There is no zero timestamp so this is a safe change
 
-# G-02 `ConfigurablePause.sol` - Save gas by using uint48
+### [G-02] `ConfigurablePause.sol` - Save gas by using uint48
 
 https://github.com/solidity-labs-io/kleidi/blob/1a06ac16bc99d0b4081281329d03064c3737f5e4/src/ConfigurablePause.sol#L15-L23
 
@@ -984,9 +922,3 @@ https://github.com/solidity-labs-io/kleidi/blob/1a06ac16bc99d0b4081281329d03064c
 
 u48 is plenty and will allow one slot for all 3 values
 
-# Additional Services by Recon
-
-Recon offers:
-- Ongoing advisory and invariant testing - Ask about Recon Legendary
-- Cloud Fuzzing as a Service - The easiest way to run invariant tests in the cloud - Ask about Recon Pro
-- Security Reviews by Alex The Entreprenerd and the Recon Team
