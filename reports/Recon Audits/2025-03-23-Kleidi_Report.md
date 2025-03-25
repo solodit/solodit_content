@@ -1,6 +1,6 @@
 **Auditor**
 
-[Alex The Entrepreneur](https://x.com/gallodasballo?lang=en)
+[Alex The Entreprenerd](https://x.com/gallodasballo?lang=en)
 
 # Findings
 
