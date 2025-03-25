@@ -1,100 +1,20 @@
-![Apollon Review Header](https://media.publit.io/file/Apollon-Recon-Review.png)
-
-# Recon Security Review
-
-## Introduction
-Alex The Entreprenerd performed a 3 weeks review of Apollon
-
-Repo:
-https://github.com/blkswnStudio/ap
-
-Commit Hash:
-9f2b059df304c543fcd46b02d8d2a0b3fab0b228
-
-He additionally performed a complimentary mitigation review of the fixes
-
-This review uses [Code4rena Severity Classification](https://docs.code4rena.com/awarding/judging-criteria/severity-categorization)
-
-The Review is done as a best effort service, while a lot of time and attention was dedicated to the security review, it cannot guarantee that no bug is left
-
-As a general rule we always recommend doing one additional security review until no bugs are found, this in conjunction with a Guarded Launch and a Bug Bounty can help further reduce the likelihood that any specific bug was missed
 
 
-## About Recon
+**Auditors**
 
-Recon offers boutique security reviews, invariant testing development and is pioneering Cloud Fuzzing as a best practice by offering Recon Pro, the most complete tool to run tools such as Echidna, Medusa, Foundry, Kontrol and Halmos in the cloud with just a few clicks
-
-## About Alex
-
-Alex is a well known Security Researcher that has collaborated with multiple contest firms such as:
-- Code4rena - One of the most prolific and respected judges, won the Tapioca contest, at the time the 3rd highest contest pot ever
-- Spearbit - Have done reviews for Tapioca, Threshold USD, Velodrome and more
-- Recon - Centrifuge Invariant Testing Suite, Corn and Badger invariants as well as live monitoring
-
-# FINDINGS
+[Alex The Entreprenerd](https://x.com/gallodasballo?lang=en)
 
 
-## Table of Contents
 
-- **High Risk**
-  - H-01 `updateSystemSnapshots_excludeCollRemainder` lacks access control
-  - H-02 `claimUnassignedAssets` is increasing debt but not checking for it in `_finaliseTrove`, opening up for self-liquidations
-  - H-03 `BorrowerOperations` Inconsistent IMCR logic could allow risky collaterals to have a higher CollerateralRatio during Recovery Mode
-  - H-04 Lack of min borrow + min fee allows Spam Opening troves to trigger Recovery Mode
-  - H-05 `StakingOperations` Token Transfer is updating the total supply before accruing rewards to users causing loss of rewards
-  - H-06 `StakingOperations.claim` doesn't update reward debt, allowing multiple claims
-  - H-07 Pull Based Oracle opens up to triggering Recovery Mode and liquidating other Troves as a risk free arbitrage
-- **Med Risk**
-  - M-01 `RedemptionOperations` Redemptions should be disabled during Recovery Mode
-  - M-02 `_exchangeRate` value validation looks incorrect
-  - M-03 `RedemptionOperations` allows redemption against stale prices
-  - M-04 `LiquidationOperations.batchLiquidateTroves` redistributes bad debt and collateral after all operations, meaning it will allow skipping bad debt redistribution during liquidations
-  - M-05 Decay Coefficient could round down and have an effective slower decay
-  - M-06 `TroveManager``_calcBorrowingRate` always returns `borrowingFeeFloor`
-  - M-07 Ticking Interest Rate opens up to multi-block MEV - Directly Triggering Recovery Mode on the next block due to interest ticking
-  - M-08 `BorrowerOperations` alters user debt but enforces prices are not stale only for debts that are being actively altered
-  - M-09 Users could opt to never use Pyth and always rely on the fallback feed due to lack of validation on certain functions
-  - M-10 `SwapOperations` `swapFee` is non deterministic and can cause people to lose funds
-  - M-11 `SwapOperations` is performing some swaps without updating the price, resulting in incorrect fees being charged
-  - M-12 Pull Based Oracle may allow for profitable self-liquidations
-  - M-13 Operative Risks tied to changing Risk Based Parameter
-- **QA**
-  - Q-01 `LiquidationsOperations` Comment around `_emitLiquidationSummaryEvent` is incorrect
-  - Q-02 `LiquidationOperations` loop should `break` on last Trove
-  - Q-03 `massUpdatePools` needs to be capped due to OOG reverts
-  - Q-04 `StakingOperation` will drip rewards to no-one if rewards are queued before any deposit
-  - Q-05 `SwapERC20` Hardcoded DOMAIN_SEPARATOR will cause issues and replay on a chain split
-  - Q-06 Riskiest Trove can be made to pay compound interest cheaply
-  - Q-07 Redemptions that redeem close to 100% of the Trove Debt may revert when the hint is inaccurate
-  - Q-08 Liquidation Logic will not work on all troves when the system is underwater
-  - Q-09 Up to (1e18 - 1) loss in interest paid due to rounding down
-  - Q-10 Bad Debt Redistribution can be avoided by removing collaterals
-  - Q-11 Stablecoin interest being lower than jTokens seems inconsistent + Tokens with different volatilities pay the same fee
-  - Q-12 `SwapOperation` First LP pays no fee and can set the price to an incorrect value, causing losses to traders, and higher fees
-  - Q-13 `SwapOperations` Swap Fees may add up to more than 100%
-  - Q-14 `claimUnassigned` may result in a slight difference between debt and coll percentages being claimed due to rounding errors
-  - Q-15 `claimUnassignedAsset` `_percentage` can be more than 1e18
-  - Q-16 Basic Style Guide advice
-  - Q-17 `_getCurrentPythResponse` can benefit by having more validation
-  - Q-18 WIP - Invariants 
-  - Q-19 `RedeptionOperations.checkValidRedemptionHint` check should use `>=`
-  - Q-20 `enableLiquidationAndRedeeming` pauses liquidations which can be problematic
-  - Q-21 `SwapPair.getSwapFee` charges for crossing the middle price
-  - Q-22 Incompatibility with tokens that charge a fee on transfer
-  - Q-23 Analysis - Some thoughts, consideration and advice for next steps
-  - Q-24 `SwapOperations.addLiquidity` is not validating desired and min amounts
-  - Q-25 `SwapOperations` computes the swap fees without accounting for how fees will alter reserves
-  - Q-26 `ERC20.Permit` can be front-runned and should be try/catched
-  - Q-27 `SwapPair` events use `msg.sender` but they should use the user taking on debt
-  - Q-28 `SwapPair` may revert on 0 transfer tokens
-  - Q-29 `SwapPair` is intended to overflow, but is not using `unchecked`
-  - Q-30 Donation on Pairs, in conjunction with lax slippage could be used to take on unintended ratios of debt
-  - Q-31 Incorrect encoding for Permit
+# Findings
+
+## High Risk
 
 
-# H-01 `updateSystemSnapshots_excludeCollRemainder` lacks access control
 
-## Impact
+### [H-01] `updateSystemSnapshots_excludeCollRemainder` lacks access control
+
+**Impact**
 
 The function `updateSystemSnapshots_excludeCollRemainder` doesn't have access control meaning that stakes can be manipulated
 
@@ -110,13 +30,13 @@ I found this by running invariant tests, with the simple check that no call shou
          => [panic: assertion failed]
 ```
 
-## Mitigation
+**Mitigation**
 
 Add a check to ensure that the caller is LiquidationOperations
 
-# H-02 `claimUnassignedAssets` is increasing debt but not checking for it in `_finaliseTrove`, opening up for self-liquidations
+## [H-02] `claimUnassignedAssets` is increasing debt but not checking for it in `_finaliseTrove`, opening up for self-liquidations
 
-## Impact 
+**Impact** 
 
 `claimUnassignedAssets` will increase the amount of debt and collateral to a trove by a certain amount
 
@@ -195,7 +115,7 @@ https://github.com/blkswnStudio/ap/blob/8fab2b32b4f55efd92819bd1d0da9bed4b339e87
       if (_isCollWithdrawal || _isDebtIncrease) _requireICRisAboveIMCR(_vars.newICR, _vars.newIMCR);
 ```
 
-## Mitigation
+**Mitigation**
 
 Change the code to
 
@@ -203,9 +123,9 @@ Change the code to
 _finaliseTrove(false, true, contractsCache, vars, borrower, _upperHint, _lowerHint);
 ```
 
-# H-03 `BorrowerOperations` Inconsistent IMCR logic could allow risky collaterals to have a higher CollerateralRatio during Recovery Mode
+### [H-03] `BorrowerOperations` Inconsistent IMCR logic could allow risky collaterals to have a higher CollerateralRatio during Recovery Mode
 
-## Impact
+**Impact**
 
 `_requireValidAdjustmentInCurrentMode` is a key part of the security checks for adjusting and opening Troves
 
@@ -248,7 +168,7 @@ X > 150%
 
 Meaning that due to not additionally checking for IMCR, some borrowers will have more borrowing power in Recovery Mode
 
-### Mitigation
+**Mitigation**
 
 You can quickly mitigate this by:
 - Enforcing that all CollateralRatios are below CCR
@@ -256,9 +176,9 @@ You can quickly mitigate this by:
 
 It's worth exploring whether certain collaterals could not be added during Recovery Mode as to further reduce risks, I think this would require simulating various prices for specific collaterals
 
-# H-04 Lack of min borrow + min fee allows Spam Opening troves to trigger Recovery Mode
+### [H-04] Lack of min borrow + min fee allows Spam Opening troves to trigger Recovery Mode
 
-## Impact
+**Impact**
 
 This finding chains multiple other observations to borrow for free
 
@@ -272,7 +192,7 @@ When the system is in Recovery Mode, no borrowing fee is paid on opening a posit
 
 This allows to trigger Recovery Mode at will, and liquidate any victim with ICR < TCR
 
-## POC
+**Proof of Concept**
 
 - Setup by opening a myriad of Troves at ICR < TCR
 - Update the price to trigger Recovery Mode
@@ -288,7 +208,7 @@ This could be used for 3 key reasons:
 - Borrow for free
 - Raise the total amount of debt in the system to reduce the net fee on redemptions
 
-## Mitigation
+**Mitigation**
 
 I believe that Oracle price being non-deterministic on each block is a key issue
 
@@ -296,9 +216,9 @@ Additionally the fact that no minimum borrow size is enforced, means that these 
 
 Alternatively, you could always enforce a borrow fee at all times, this would have the downside of making liquidations less profitable and should be further researched
 
-# H-05 `StakingOperations` Token Transfer is updating the total supply before accruing rewards to users causing loss of rewards
+### [H-05] `StakingOperations` Token Transfer is updating the total supply before accruing rewards to users causing loss of rewards
 
-## Impact
+**Impact**
 
 ```solidity
  function updatePool(ISwapPair _pid) public {
@@ -331,7 +251,7 @@ In fixing this be careful not to cause a division by zero (as the initial deposi
 This can only happen on deposits (which dilute rewards), if the same mistake was done on withdrawals, then value could be stolen
 
 
-## Mitigation
+**Mitigation**
 
 Because the code is tightly coupled, I think accruing and then transferring the tokens could be sufficient
 
@@ -339,9 +259,9 @@ Alternatively the scalable fix is to track the previous balance in storage as yo
 
 I think tracking in storage is the best fix long term (allows to re-use the contract separately without bugs)
 
-# H-06 `StakingOperations.claim` doesn't update reward debt, allowing multiple claims
+### [H-06] `StakingOperations.claim` doesn't update reward debt, allowing multiple claims
 
-## Impact
+**Impact**
 
 ```solidity
   function claim(ISwapPair _pid) external override {
@@ -365,7 +285,7 @@ but it is not update on `claim` and `batchClaim`
 
 Due to this, an exploiter can simply call `claim` and `batchClaim` repeatedly and steal all rewards
 
-## Mitigation
+**Mitigation**
 
 Change `_claim` to:
 - Calculate user rewards and cache that value
@@ -375,15 +295,15 @@ Change `_claim` to:
 Also consider implementing the following invariants:
 - `pendingReward` are set to zero after a call to `claim` and `batchClaim`
 
-# H-07 Pull Based Oracle opens up to triggering Recovery Mode and liquidating other Troves as a risk free arbitrage
+### H-07 Pull Based Oracle opens up to triggering Recovery Mode and liquidating other Troves as a risk free arbitrage
 
-## Executive Summary
+**Executive Summary**
 
 Pull Based oracle can be viewed as offering an attacker the ability to chose a combination of price that are not stale
 
 This, combined with the possibility of lowering the TCR down via ones own positions opens up to a risk free arbitrage in which an attacker drags the TCR down to trigger Recovery Mode, and then they liquidate other people troves
 
-## Description
+**Description**
 
 <img width="629" alt="Screenshot 2024-08-08 at 11 26 02" src="https://github.com/user-attachments/assets/6d3e67ef-fa98-43cc-831f-582671ca8aea">
 
@@ -399,7 +319,7 @@ This is a risk free opportunity that could be abused any time the threshold for 
 - `Profit = Gain from Liquidation * Ownership % - Opening Fees - Gas Costs`
 
 
-## POC
+**Proof Of Concept**
 
 - Wait for a price sequence that will result in a decrease of TCR
 - Use the older price (healthier price)
@@ -409,7 +329,7 @@ This is a risk free opportunity that could be abused any time the threshold for 
 - Liquidate other Troves (ideally out of order, to liquidate a higher amount of collateral)
 - Attacker closes their position
 
-## Mitigation
+**Mitigation**
 
 A few ideas for mitigation:
 - Offer a Grace Period in which Recovery Mode liquidations cannot happen, this can be a short delay (e.g. 15 minutes), which should allow victims to react (as long as they have setup monitoring and automations) - This is the safer option with the clear downside of a risk of desynching the state (as Recovery Mode may be engaged, but the timer would require an external call to be triggered)
@@ -420,10 +340,11 @@ A few ideas for mitigation:
 
 Also note that because you have a mixture of Collaterals and Debt Tokens, the opportunity to trigger Recovery Mode is higher than if you only used a single Collateral and Debt Pair
 
+## Medium Risk
 
-# M-01 `RedemptionOperations` Redemptions should be disabled during Recovery Mode
+### [M-01] `RedemptionOperations` Redemptions should be disabled during Recovery Mode
 
-## Impact
+**Impact**
 
 `RedemptionOperations` checks the `TCR < MCR`, but should most likely check for `TCR < CCR`
 
@@ -440,7 +361,7 @@ This is because during Recovery Mode, minting fees are voided, meaning that the 
 Redemptions are generally disabled during RM in favour of liquidations
 
 
-## Mitigation
+**Mitigation**
 
 Investigate if additional arbitrages could be detrimental to your protocol due to reduced minting fees
 
@@ -449,9 +370,9 @@ https://github.com/liquity/dev/blob/e38edf3dd67e5ca7e38b83bcf32d515f896a7d2f/pac
 
 
 
-# M-02 `_exchangeRate` value validation looks incorrect
+### [M-02] `_exchangeRate` value validation looks incorrect
 
-## Impact
+**Impact**
 
 By definition a value for `_exchangeRate` should be within the bounds of `STOCK_SPLIT_PRECISION`
 
@@ -460,15 +381,15 @@ By definition a value for `_exchangeRate` should be within the bounds of `STOCK_
 ```
 
 
-## Mitigation
+**Mitigation**
 
 It's unclear if this is incorrect
 
 Either way I highly recommend simplifying the logic for stock splits to allow the owner to set a scalar multiplier and a divisor, this makes the logic a lot simpler with no additional risks
 
-# M-03 `RedemptionOperations` allows redemption against stale prices
+### [M-03] `RedemptionOperations` allows redemption against stale prices
 
-## Impact
+**Impact**
 
 The code for `_calculateTroveRedemption` doesn't validate that collaterals nor debts prices are not stale
 
@@ -508,13 +429,13 @@ https://github.com/blkswnStudio/ap/blob/8fab2b32b4f55efd92819bd1d0da9bed4b339e87
 
 This opens up to arbitrage opportunities where the pyth price may be higher for a certain collateral, while the fallback oracle price is lower, allowing the caller to receive more collateral than what would be the fair market price
 
-## Mitigation
+**Mitigation**
 
 Rethink oracle price staleness checks to prevent arbitrages
 
-# M-04 `LiquidationOperations.batchLiquidateTroves` redistributes bad debt and collateral after all operations, meaning it will allow skipping bad debt redistribution during liquidations
+### [M-04] `LiquidationOperations.batchLiquidateTroves` redistributes bad debt and collateral after all operations, meaning it will allow skipping bad debt redistribution during liquidations
 
-## Impact
+**Impact**
 
 The code for `batchLiquidateTroves` is as follows:
 
@@ -572,13 +493,13 @@ Meaning that redistributions of Debt and Coll are skipped while doing the batch 
 
 This will result in a higher premium to liquidators than intended, and a higher loss to CollStakers when the redistribution happens
 
-## Mitigation
+**Mitigation**
 
 This is an issue with how the math for liquidation is computed, because it applies only to very specific edge cases, it may be best to let end users know as the fix would require having in-memory accounting of debt redistribution, which will increase complexity
 
-# M-05 Decay Coefficient could round down and have an effective slower decay
+### [M-05] Decay Coefficient could round down and have an effective slower decay
 
-## Impact
+**Impact**
 
 `calcDecayedStableCoinBaseRate` calls `_minutesPassedSinceLastFeeOp` which rounds down by up to 1 minute - 1
 
@@ -610,7 +531,7 @@ https://github.com/blkswnStudio/ap/blob/8fab2b32b4f55efd92819bd1d0da9bed4b339e87
     }
 ```
 
-Will make the decay factor decay slower than intended
+will make the decay factor decay slower than intended
 
 This finding was found in the ETHOS contest by Chaduke:
 https://github.com/code-423n4/2023-02-ethos-findings/issues/33
@@ -619,13 +540,13 @@ https://github.com/code-423n4/2023-02-ethos-findings/issues/33
 
 
 
-# M-06 `TroveManager``_calcBorrowingRate` always returns `borrowingFeeFloor`
+### [M-06] `TroveManager``_calcBorrowingRate` always returns `borrowingFeeFloor`
 
-## Impact
+**Impact**
 
 `_calcBorrowingRate` is using `min(X + Y, X)` meaning it will always return `X` in this case `borrowingFeeFloor`
 
-## Mitigation
+**Mitigation**
 
 Change 
 ```solidity
@@ -642,9 +563,9 @@ To
 ```
 
 
-# M-07 Ticking Interest Rate opens up to multi-block MEV - Directly Triggering Recovery Mode on the next block due to interest ticking
+### [M-07] Ticking Interest Rate opens up to multi-block MEV - Directly Triggering Recovery Mode on the next block due to interest ticking
 
-## Impact
+**Impact**
 
 Because Apollon charges an interest on borrowing, an attack can guarantee triggering Recovery Mode on the next block by simply borrowing up to the threshold
 
@@ -653,7 +574,7 @@ Triggering Recovery mode would then allow liquidating Troves that are below the 
 This puts the attacker at risk as well, however with some setup the attack can be +EV, posing a close to unmitigatable risk to other Trove owners
 
 
-## Mitigation
+**Mitigation**
 
 Recovery Mode liquidations being too easily accessible is a big risk for users leveraging up
 
@@ -670,9 +591,9 @@ In order to avoid this you could opt-into:
 4) Introduce a Delay for Recovery Mode Liquidations like we did in eBTC
 - This doesn't remove the risk but reduces it and makes the attack more expensive
 
-# M-08 `BorrowerOperations` alters user debt but enforces prices are not stale only for debts that are being actively altered
+### [M-08] `BorrowerOperations` alters user debt but enforces prices are not stale only for debts that are being actively altered
 
-## Impact
+**Impact**
 
 A common pattern used in Apollon for price validation looks as follows:
 
@@ -776,18 +697,18 @@ Due to this, multiple possible oracle related exploits are possible such as:
 - Self-liquidation by borrowing and then updating a price
 - Bypassing the restrictions on triggering Recovery mode
 
-## Instances
+*Instances*
 - `addColl`
 - `withdrawColl`
 - `increaseDebt`
 
-## Mitigation
+**Mitigation**
 
 I believe all prices must be validated for staleness, offering the ability of chosing between the Pyth and the Alternative Feed should be viewed as a risky opening for arbitrage, self-liquidations and recovery mode liquidations
 
-# M-09 Users could opt to never use Pyth and always rely on the fallback feed due to lack of validation on certain functions
+### [M-09] Users could opt to never use Pyth and always rely on the fallback feed due to lack of validation on certain functions
 
-## Impact
+**Impact**
 
 The rationale for using Pyth and the Fallback oracle is logical:
 Sometimes Pyth is unavailable
@@ -800,7 +721,7 @@ This may create opportunity for arbitrage for:
 - Redemptions
 - Increasing Debts (as other account debts will not have their prices checked for staleness)
 
-## Mitigation
+**Mitigation**
 
 Overall you should rethink the FSM around how stale vs trusted prices could be used as the current implementation opens up for a lot of arbitrage and edge cases
 
@@ -809,9 +730,9 @@ You should consider changing fees based on the oracle you're using
 An oracle deviation threshold + time to update are inherently +EV to arbitrageurs
 You should consider changing fees based on which oracle is being used, where Pyth could have a lower fee and the fallback would most likely have to charge a higher fee
 
-# M-10 `SwapOperations` `swapFee` is non deterministic and can cause people to lose funds
+### [M-10] `SwapOperations` `swapFee` is non deterministic and can cause people to lose funds
 
-## Impact
+**Impact**
 
 SwapOperations charges a fee that is computed by `SwapPair` as follows:
 
@@ -849,13 +770,13 @@ This means that any transaction that alters the reserves between when a user sig
 
 This creates scenario where, if a minority of users owns the majority of the LP tokens, they can perform donations to front-run swaps, which will cause benign users to pay an additional fee that they didn't intend to pay
 
-## Mitigation
+**Mitigation**
 
 Add an explicit check for the fees that will be paid on a swap as to ensure that's intended or within an acceptable range
 
-# M-11 `SwapOperations` is performing some swaps without updating the price, resulting in incorrect fees being charged
+### [M-11] `SwapOperations` is performing some swaps without updating the price, resulting in incorrect fees being charged
 
-### Impact
+**Impact**
 Operations such as: `swapExactTokensForTokens`, `swapTokensForExactTokens` receive `_priceUpdateData` but update the price only at the `_swap` operation
 
 `_swap` uses `getAmountsOut` and `getAmountsIn` to determine the price at which to charge fees at
@@ -885,19 +806,19 @@ This means that fees on swaps are computed on the stale price rather then the la
 Because oracle prices can be updated via other operations, this also allows swappers to pick the most optimal price at which to pay the lowest fee  
 
 
-### Mitigation
+**Mitigation**
 
 You can ensure the price is updated by:
 - Forcing the update in all external functions
 - Performing the staleness check in `getSwapFee`
 
-# M-12 Pull Based Oracle may allow for profitable self-liquidations
+### [M-12] Pull Based Oracle may allow for profitable self-liquidations
 
-## Executive Summary
+**Executive Summary**
 
 Pull based oracle allow using more than one price within the last 5 minutes, this opens up to a myriad of combinations that may allow for self-liquidations
 
-## Description
+**Description**
 
 The likelihood that a price moves by 10% is fairly low
 
@@ -906,7 +827,7 @@ However, when you start adding more collaterals and debt types, the likelihood t
 Meaning that when considering risk parameters, you shouldn't simply look at a debt or collateral price against USD, but also the ratio and correlation between those assets, as the correlation may open up to higher swings that may cause the protocol to lock-in bad debt
 
 
-## POC
+**Proof Of Concept**
 
 A sample scenario would look as follows:
 - Find coll and asset that have 11% difference in price from current price to new price
@@ -918,7 +839,7 @@ A sample scenario would look as follows:
 
 The likelihood of the profitability is reduced the more deposits are done in the stability pool and the higher opening fees are
 
-## Mitigation
+**Mitigation**
 
 Unfortunately this is a statistical risk, and to mitigate it you'd need to:
 - Research all historical Pyth Prices
@@ -926,16 +847,16 @@ Unfortunately this is a statistical risk, and to mitigate it you'd need to:
 - Add a buffer to account for errors or additional realized volatility
 - Move the MICR to a value that is consistent with this risk
 
-# M-13 Operative Risks tied to changing Risk Based Parameter
+### [M-13] Operative Risks tied to changing Risk Based Parameter
 
-## Executive Summary
+**Executive Summary**
 
 This is a collection of operative risks that come from maintaining and updating Apollon
 
 I highly recommend you go through this list, create your own list, and ensure that at all times these risks are considered
 
 
-### Updating `setCollTokenSupportedCollateralRatio` can cause multiple economic exploits
+**Updating `setCollTokenSupportedCollateralRatio` can cause multiple economic exploits**
 
 ```solidity
   function setCollTokenSupportedCollateralRatio(
@@ -967,7 +888,7 @@ The most important consideration is tied to how exactly a change in Collateral R
 
 Due to the complexity, I'm flagging this as a delicate Operational Security area, however, I will not be able to provide specific advice at this time
 
-### `setAlternativePriceFeed` can cause liquidations, self-liquidations or insolvency and bad debt
+**`setAlternativePriceFeed` can cause liquidations, self-liquidations or insolvency and bad debt**
 
 This change could also cause positions to go from healthy to undercollateralized
 
@@ -975,17 +896,20 @@ The change may also be sandwiched
 
 More importantly, if governance changes can be broadcasted by anyone, the sandwiched will not be mitigable and would be a perfect opportunity for an economic exploit
 
-### Gov token must be configured
+**Gov token must be configured**
 
 Since gov token is used as part of reserve pool, then it must be configured to have some validity as collateral
 
-## Mitigation
+**Mitigation**
 
 Recognize the risks tied to changing these settings and plan accordingly, do consult Security Researchers at that time
 
-# Q-01 `LiquidationsOperations` Comment around `_emitLiquidationSummaryEvent` is incorrect
+## Low Risk
 
-## Impact
+### [L-01] `LiquidationsOperations` Comment around `_emitLiquidationSummaryEvent` is incorrect
+
+**Impact**
+
 `_emitLiquidationSummaryEvent` has the following comment
 https://github.com/blkswnStudio/ap/blob/8fab2b32b4f55efd92819bd1d0da9bed4b339e87/packages/contracts/contracts/LiquidationOperations.sol#L447-L455
 
@@ -1003,13 +927,13 @@ https://github.com/blkswnStudio/ap/blob/8fab2b32b4f55efd92819bd1d0da9bed4b339e87
 
 The comment looks wrong since the array fills in collaterals first and then debts
 
-## Mitigation
+**Mitigation**
 
 Check the comments and fix them
 
-# Q-02 `LiquidationOperations` loop should `break` on last Trove
+### [L-02] `LiquidationOperations` loop should `break` on last Trove
 
-## Impact
+**Impact**
 
 Apollon will not liquidate the last trove in `batchLiquidateTroves` 
 However, the code is using a `continue` which means that the code will loop multiple times while performing no-ops
@@ -1018,7 +942,7 @@ However, the code is using a `continue` which means that the code will loop mult
      if (troveManager.getTroveOwnersCount() <= 1) continue; // don't liquidate if last trove
 ```
 
-## Mitigation
+**Mitigation**
 
 Change the code to
 
@@ -1026,9 +950,9 @@ Change the code to
       if (troveManager.getTroveOwnersCount() <= 1) break; // no more troves to liquidate
 ```
 
-# Q-03 `massUpdatePools` needs to be capped due to OOG reverts
+### [L-03] `massUpdatePools` needs to be capped due to OOG reverts
 
-## Impact
+**Impact**
 
 `massUpdatePools` looks as follows:
 
@@ -1051,13 +975,13 @@ I just did some quick napkin math on the amount of storage slots used, you shoul
 
 That said, anything below 100 pools will have a high margin of safety
 
-## Mitigation
+**Mitigation**
 
 Ensure you do not surpass 100 pools as to avoid consuming too much gas which could cause reverts
 
-# Q-04 `StakingOperation` will drip rewards to no-one if rewards are queued before any deposit
+### [L-04] `StakingOperation` will drip rewards to no-one if rewards are queued before any deposit
 
-## Impact
+**Impact**
 
 I believe they will have modest losses until someone deposits
 
@@ -1080,25 +1004,25 @@ https://github.com/blkswnStudio/ap/blob/8fab2b32b4f55efd92819bd1d0da9bed4b339e87
     }
 ```
 
-## Mitigation
+**Mitigation**
 
 Simply delay the first emission by a few hours or days to ensure someone has staked
 
-# Q-05 `SwapERC20` Hardcoded DOMAIN_SEPARATOR will cause issues and replay on a chain split
+### [L-05] `SwapERC20` Hardcoded DOMAIN_SEPARATOR will cause issues and replay on a chain split
 
-## Impact
+**Impact**
 
-DOMAIN_SEPARATOR being hardcoded will either:
+**DOMAIN_SEPARATOR** being hardcoded will either:
 - Stop working if the chain hardforks with a new ID
 - Will open up for replays if the chain forks
 
-## Mitigation
+**Mitigation**
 
 The code in `DebtToken` already deals with these issues, you can re-use that
 
-# Q-06 Riskiest Trove can be made to pay compound interest cheaply
+### [L-06] Riskiest Trove can be made to pay compound interest cheaply
 
-## Impact
+**Impact**
 
 Apollon charges simple interest on Trove Accrual
 
@@ -1128,13 +1052,13 @@ In general Troves can only be accrued by their owners during state-changing oper
 
 However, the riskiest trove can be made to accrue by redeeming a very small amount of debt (e.g. 1 wei)
 
-## Mitigation
+**Mitigation**
 
 Either document this risk, or enforce a minimum redemption size
 
-# Q-07 Redemptions that redeem close to 100% of the Trove Debt may revert when the hint is inaccurate
+### [L-07] Redemptions that redeem close to 100% of the Trove Debt may revert when the hint is inaccurate
 
-## Impact
+**Impact**
 
 After a redemption, this comparison is performed:
 
@@ -1154,13 +1078,13 @@ Whenever expectedCR or resultingCR are greater than type(uint256).max / 1e18 the
 
 This may be used to grief other people, or can happen naturally due to slight changes in prices, or other redemptions
 
-## Mitigation
+**Mitigation**
 
 It may be best to use a smaller factor such as `100` as to reduce the likelyhood of an overflow
 
-# Q-08 Liquidation Logic will not work on all troves when the system is underwater
+### [L-08] Liquidation Logic will not work on all troves when the system is underwater
 
-## Impact
+**Impact**
 
 `batchLiquidateTroves` allows for out of order liquidations
 
@@ -1175,13 +1099,13 @@ https://github.com/blkswnStudio/ap/blob/8fab2b32b4f55efd92819bd1d0da9bed4b339e87
 
 This is more of a gotcha than a real risk as having all Troves underwater is a failure scenario
 
-## Mitigation
+**Mitigation**
 
 The check could be refactored to ensure that if all Troves are underwater, the vast majority of the debt can still be liquidated
 
-# Q-09 Up to (1e18 - 1) loss in interest paid due to rounding down
+### [L-09] Up to (1e18 - 1) loss in interest paid due to rounding down
 
-## Impact
+**Impact**
 
 `stableInterest` in `_calculatePendingBorrowingInterest` rounds down the amount to be paid due to division before multiplication 
 
@@ -1196,7 +1120,7 @@ https://github.com/blkswnStudio/ap/blob/8fab2b32b4f55efd92819bd1d0da9bed4b339e87
 
 There is no particular risk of overflow and the loss is up to `DECIMAL_PRECISION - 1`
 
-## Mitigation
+**Mitigation**
 
 Change the formula to:
 
@@ -1206,9 +1130,9 @@ Change the formula to:
         SECONDS_PER_YEAR;
 ```
 
-# Q-10 Bad Debt Redistribution can be avoided by removing collaterals
+### [L-10] Bad Debt Redistribution can be avoided by removing collaterals
 
-## Impact
+**Impact**
 
 The logic for `redistributeDebtAndColl` is as follows
 
@@ -1251,9 +1175,9 @@ This means that some users will be able to skip the redistribution by re-organiz
 
 It's worth noting that liquidations present a race condition against this behaviour meaning this can theoretically happen, but in some scenarios, an attacker won't be able to pull it off unless they are performing the liquidations as well
 
-# Q-11 Stablecoin interest being lower than jTokens seems inconsistent + Tokens with different volatilities pay the same fee
+### [L-11] Stablecoin interest being lower than jTokens seems inconsistent + Tokens with different volatilities pay the same fee
 
-## Impact
+**Impact**
 
 Generally speaking jAssets will be more volatile and riskier than a stablecoin that denominates them
 
@@ -1270,13 +1194,13 @@ https://github.com/blkswnStudio/ap/blob/8fab2b32b4f55efd92819bd1d0da9bed4b339e87
 
 It's also worth noting that all assets pay the same interest rate which means that they don't pay based on risk
 
-## Mitigation
+**Mitigation**
 
 Consider whether you should charge different fees for different assets so that the system is compensated for the additional risk it's taking
 
-# Q-12 `SwapOperation` First LP pays no fee and can set the price to an incorrect value, causing losses to traders, and higher fees
+### [L-12] `SwapOperation` First LP pays no fee and can set the price to an incorrect value, causing losses to traders, and higher fees
 
-## Impact
+**Impact**
 
 `addLiquidity` looks as follows
 
@@ -1308,25 +1232,25 @@ When no liquidity was previously added, the ratio for the LP will be taken at fa
 
 This could be used by the first depositor to purposefully imbalance the pool, as a means to take on debts that either allow them to be closer to delta neutral, or as a means to grief other users
 
-## Mitigation
+**Mitigation**
 
 Consider using a ratio that is taken from the oracles
 
-# Q-13 `SwapOperations` Swap Fees may add up to more than 100%
+### [L-13] `SwapOperations` Swap Fees may add up to more than 100%
 
-## Impact
+**Impact**
 
 `swapBaseFee` is capped to 1e18, but it is added to `Pair.getSwapFee` meaning that it may result in a value higher than 100%
 
 
 
-## Mitigation
+**Mitigation**
 
 Cap fees at a smaller value, such as at most 10%
 
-# Q-14 `claimUnassigned` may result in a slight difference between debt and coll percentages being claimed due to rounding errors
+### [L-14] `claimUnassigned` may result in a slight difference between debt and coll percentages being claimed due to rounding errors
 
-## Impact
+**Impact**
 
 Slight difference in debt and coll claimed due to rounding error
 
@@ -1345,7 +1269,7 @@ https://github.com/blkswnStudio/ap/blob/8fab2b32b4f55efd92819bd1d0da9bed4b339e87
       uint toClaim = (unassignedDebt * _percentage) / DECIMAL_PRECISION;
 ```
 
-## Mitigation
+**Mitigation**
 
 You may want to at least require that if collateral is 1, then debt is at least 1 as well
 
@@ -1353,9 +1277,9 @@ You could also add explicit rounding up of debt, and rounding down of collateral
 
 Please keep in mind that this could introduce more bugs so this is a delicate change
 
-# Q-15 `claimUnassignedAsset` `_percentage` can be more than 1e18
+### [L-15] `claimUnassignedAsset` `_percentage` can be more than 1e18
 
-## Impact
+**Impact**
 
 https://github.com/blkswnStudio/ap/blob/8fab2b32b4f55efd92819bd1d0da9bed4b339e87/packages/contracts/contracts/BorrowerOperations.sol#L614-L620
 
@@ -1371,19 +1295,19 @@ https://github.com/blkswnStudio/ap/blob/8fab2b32b4f55efd92819bd1d0da9bed4b339e87
 
 Maybe abused for exploit, I haven't spent a lot of time on this, it's best to cap it to 1e18 to avoid any additional risk
 
-## Mitigation 
+**Mitigation** 
 
 ```solidity
 if (_percentage > DECIMAL_PRECISION) revert Above100Pct();
 ```
 
-# Q-16 Basic Style Guide advice
+### [L-16] Basic Style Guide advice
 
-## Impact
+**Impact**
 
 The impact from the current formatting is that manual review takes longer, and as such will be more expensive and error prone
 
-## Specific Code Smells
+**Specific Code Smells**
 
 - Not using curly braces for `if / else`
 - Using `ii` in favour of mathematical notation `n, l, m` `i, j, k`, `x, y, z`
@@ -1392,7 +1316,7 @@ The impact from the current formatting is that manual review takes longer, and a
 - Subtle changes against Liquity's version
 
 
-## Breaking CEI
+**Breaking CEI**
 
 `openTrove` shows an example of a seemingly innocuous way to break CEI
 
@@ -1457,9 +1381,9 @@ You should refactor not to break CEI as it will:
 - Ensure you cannot introduce exploits tied to ordering of external calls
 - Make future review cheaper as CEI concerns will not take a considerable amount of time for review
 
-# Q-17 `_getCurrentPythResponse` can benefit by having more validation
+### [L-17] `_getCurrentPythResponse` can benefit by having more validation
 
-## Impact
+**Impact**
 
 Pyth works as follows:
 - It returns an integer
@@ -1469,32 +1393,32 @@ Pyth works as follows:
 
 The reason why Pyth includes a confidence interval is due to the impossibility of chosing a single price that is the "correct" price
 
-## Mitigation
+**Mitigation**
 
 Consider implementing additional checks, you could take inspiration from Euler's multi-audited feeds:
 https://github.com/euler-xyz/euler-price-oracle/blob/master/src/adapter/pyth/PythOracle.sol
 
-# Q-18 WIP - Invariants 
+### [L-18] WIP - Invariants 
 
-### Troves should never break the check `_debtTokenUsedAsCollRatio(contractsCache, vars) > MAX_DEBTS_AS_COLLATERAL`
+**Troves should never break the check `_debtTokenUsedAsCollRatio(contractsCache, vars) > MAX_DEBTS_AS_COLLATERAL`**
 
-### There should be n Trove with 0 net debt in the Sorted Trove
+**There should be n Trove with 0 net debt in the Sorted Trove**
 
-### At no time I can perform an operation, then update the oracle, and trigger recover mode
+**At no time I can perform an operation, then update the oracle, and trigger recover mode**
 
-### At no time, I should be able to open a Trove, and liquidate it in the same block
+**At no time, I should be able to open a Trove, and liquidate it in the same block**
 
-### I should not be able to skip Bad Debt Redistributions
+**I should not be able to skip Bad Debt Redistributions**
 
-## Trove Manager
+**Trove Manager**
 
-### Post accrual `getTroveColl` is == pre-accrual `getTroveWithdrawableColls`
+**Post accrual `getTroveColl` is == pre-accrual `getTroveWithdrawableColls`**
 
-## Liquidation Operation
+**Liquidation Operation**
 
-### Liquidations should raise the TCR of the system, unless the liquidation is done on a Trove with Bad Debt
+**Liquidations should raise the TCR of the system, unless the liquidation is done on a Trove with Bad Debt**
 
-### This line should never execute (as the logic above doesn't allow it)
+**This line should never execute (as the logic above doesn't allow it)**
 
 https://github.com/blkswnStudio/ap/blob/8fab2b32b4f55efd92819bd1d0da9bed4b339e87/packages/contracts/contracts/LiquidationOperations.sol#L352-L353
 
@@ -1503,9 +1427,9 @@ https://github.com/blkswnStudio/ap/blob/8fab2b32b4f55efd92819bd1d0da9bed4b339e87
 
 ```
 
-# Q-19 `RedeptionOperations.checkValidRedemptionHint` check should use `>=`
+### [L-19] `RedeptionOperations.checkValidRedemptionHint` check should use `>=`
 
-## Impact
+**Impact**
 
 The check in `checkValidRedemptionHint` for the current hint is as follows:
 
@@ -1528,14 +1452,14 @@ https://github.com/blkswnStudio/ap/blob/8fab2b32b4f55efd92819bd1d0da9bed4b339e87
 
 The check is the opposite of the above, therefore the comparison: `nextTroveCR > nextTroveMCR` should be `nextTroveCR >= nextTroveMCR`
 
-## Mitigation
+**Mitigation**
 
 Change `nextTroveCR > nextTroveMCR` to `nextTroveCR >= nextTroveMCR`
 
 
-# Q-20 `enableLiquidationAndRedeeming` pauses liquidations which can be problematic
+### [L-20] `enableLiquidationAndRedeeming` pauses liquidations which can be problematic
 
-## Impact
+**Impact**
 
 `enableLiquidationAndRedeeming` is pausing both redemptions and liquidations
 
@@ -1543,15 +1467,15 @@ Those 2 operations have a very different purpose, with redemptions helping with 
 
 Due to this, liquidations should never be disabled unless a major bug was discovered
 
-## Mitigation
+**Mitigation**
 
 Separate `enableLiquidationAndRedeeming` to disable redemptions and liquidations separately
 
 
 
-# Q-21 `SwapPair.getSwapFee` charges for crossing the middle price
+### [L-21] `SwapPair.getSwapFee` charges for crossing the middle price
 
-## Impact
+**Impact**
 
 `getSwapFee` computes the fee to be paid as follows:
 
@@ -1580,13 +1504,13 @@ So when crossing the impact is "halved"
 
 When not crossing the middle price, the average between the two dex prices will be very distant from the oracle price, causing the fee to be higher, whereas when crossing the fee would effectively be halved
 
-## Mitigation
+**Mitigation**
 
 I don't believe there's any need for a specific mitigation
 
-# Q-22 Incompatibility with tokens that charge a fee on transfer
+### [L-22] Incompatibility with tokens that charge a fee on transfer
 
-## Impact
+**Impact**
 
 The system stores balances in storage and then updates them
 
@@ -1612,11 +1536,11 @@ https://github.com/blkswnStudio/ap/blob/8fab2b32b4f55efd92819bd1d0da9bed4b339e87
 
 These types of tokens are pretty rare, but this is a very common finding that you should think about
 
-## Mitigation
+**Mitigation**
 
 Imo acknowledge this and make sure not to use these tokens
 
-# Q-23 Analysis - Some thoughts, consideration and advice for next steps
+### [L-23] Analysis - Some thoughts, consideration and advice for next steps
 
 Logically you can chunk the code into 3 components
 
@@ -1628,16 +1552,17 @@ Logically you can chunk the code into 3 components
 
 It may be best to write fuzz and invariant tests on these separately and then you can consider adding a new 
 
-### Generic Gas Advice
+**Generic Gas Advice**
 
-#### Use Immutables
+**Use Immutables**
+
 The codebase relies on caching storage values into memory to reduce SLOADs
 
 You could also deterministically deploy each contract (since contract addresses are derived from address + nonce) and set those up as immutable variables
 
 
 
-### Alex's Review Status
+**Alex's Review Status**
 
 - [x] AlternativePriceFeed
 - [x] BorrowerOperations
@@ -1659,7 +1584,7 @@ You could also deterministically deploy each contract (since contract addresses 
 - [x] TokenManager
 - [X] TroveManager
 
-### Breaking CEI
+**Breaking CEI**
 
 CEI stands for `Check Effects Interactions` which ensures that no state changing operations are done after external calls that the system may rely on
 
@@ -1669,14 +1594,14 @@ In my opinion all CEI concerns should be addressed, unless you can ensure that n
 
 But in general, solving CEI even in those cases is a better choice as it will save time from auditors looking into those concerns and will ensure that the system is safe even if a token with hooks were to be introduced
 
-### Price Staleness
+**Price Staleness**
 
 Relative staleness is imo not a valid idea, all prices must be validated and trove status must be checked against the latest available prices
 
 In lack of that, a Trove could end up generating bad debt due to having it's CR computed with stale prices
 
 
-### Alternative Price Feed
+**Alternative Price Feed**
 
 Fundamentally it hardcodes prices, offers a guarantee for staleness
 
@@ -1693,7 +1618,7 @@ Fundamentally making the assets:
 - Overpriced for liquidations (so liquidations happen faster)
 
 
-### StakingOperations
+**StakingOperations**
 
 This contract is effectively a Masterchef and can be reviewed fairly independently
 
@@ -1701,7 +1626,7 @@ Race conditions around interactions with the pool are pretty delicate
 
 Beside that, the code is separated so this contract can be re-reviewed independently
 
-### SwapPair
+**SwapPair**
 
 Fundamentally there are ways to sidestep the intended `_requireCallerIsOperations` via direct transfer + sync
 
@@ -1712,42 +1637,42 @@ The x * y = k formula is highly capital inefficient in this case but that's not 
 I think the way `_getDexPrice` is calculate is a bit naive as this is not a price but rather the ratio of reserves any purchase will incur an additional price impact that is not accounted there, additionally taking the average of the before and after makes it so that some swaps that push the price out of the oracle price do not pay a sufficiently high fee
 
 
-### SwapOperations
+**SwapOperations**
 
 - Donation to force a ratio
 - Fee math / Path Math
 
-### TokenManager
+**TokenManager**
 
 Fundamentally some small risks tied to token config
 
 The biggest risk is tied to changing risk config params
 
-### CollSurplusPool
+**CollSurplusPool**
 
 The observations around `CollSurplusPool` are:
 - Double loop vs mapping, this is generally a pattern you should avoid
 - Breaking CEI - you should consider CEI a key part of your security posture, breaking CEI should not be underestimated as a "basic mistake"
 
-### StoragePool
+**StoragePool**
 
 The main risks around `storagePool` are tied to a desynchronization between the value that it tracks, and the values being tracked in other contracts, such as `TroveManager`
 
 I believe invariant testing should be added to ensure that these values are synchronized at all times 
 
-### DebtToken
+**DebtToken**
 
 Fundamentally just tracks the debt and is also used as a scaling factor for oracle
 
 I believe that the logic for Stock Splits can be massively simplified by hardcoding the divisor and the dividend, with no particular change in risk profile
 
-### HintHelpers
+**HintHelpers**
 
 The main risk I see is how the SortedTroves uses cached values, but HH is using live values
 
 The discrepancy may be used to trigger Recovery Mode via Redemptions
 
-### SortedTroves
+**SortedTroves**
 
 The main changes are tied to how data is stored as well as the removal of insert / remove, in favour of an update function
 
@@ -1757,7 +1682,7 @@ This seems to be a good candidate for differential fuzzing to compare the two im
 
 To be honest I'm not sure why the implementation was changed as this ultimately behaves very similarly
 
-### Swap Operations
+**Swap Operations**
 
 The main risks are tied to manipulating the debt being taken by users, as well as possible race conditions
 For these operations, oracle staleness is also an important factor
@@ -1766,17 +1691,17 @@ I believe these contracts can be mostly reviewed separately in the future as the
 
 If you can end up separating the debts math from swaps, I think these contracts can be fully separated long term
 
-### StabilityPool
+**StabilityPool**
 
 CEI concerns, code is fairly complex but is pretty much the same logic as in Liquity
 
-### Stability Pool Manager
+**Stability Pool Manager**
 
 Fundamentally tracks accounting, for liquidation, which looks fine
 
 The main aspect that I'm not fully convinced by is the usage of the Reserve Pool, which seems not be taken into account by the LiquidationOperations
 
-### Redemption Operations
+**Redemption Operations**
 
 Round downs seem to be in favour of the protocol which doesn't seem to create a risk
 
@@ -1784,7 +1709,7 @@ Due to the fact that Troves are sorted by cached CRs, some Troves "in the middle
 
 
 
-## Recommended Next Steps
+**Recommended Next Steps**
 
 I recommend spending quite some time into the economic and technical implications that come with:
 - Oracle staleness
@@ -1798,9 +1723,9 @@ I also recommend adding a few invariant tests for system wide invariants that wo
 Some suggested invariants are listed here:
 https://github.com/GalloDaSballo/Apollon-Review/issues/44
 
-# Q-24 `SwapOperations.addLiquidity` is not validating desired and min amounts
+### [L-24] `SwapOperations.addLiquidity` is not validating desired and min amounts
 
-## Impact
+**Impact**
 
 `addLiquidity` bases it's logic on the implicit invariant that `amountDesired` are greater than `minAmounts`
 
@@ -1828,7 +1753,7 @@ https://github.com/blkswnStudio/ap/blob/8fab2b32b4f55efd92819bd1d0da9bed4b339e87
 
 However this check is missing from `addLiquidity`
 
-## Mitigation
+**Mitigation**
 
 Add the following checks
 
@@ -1839,9 +1764,9 @@ Add the following checks
 
 Also see: [Velodrome Router](https://github.com/velodrome-finance/contracts/blob/9e5a5748c3e2bcef7016cc4194ce9758f880153f/contracts/Router.sol#L172-L182)
 
-# Q-25 `SwapOperations` computes the swap fees without accounting for how fees will alter reserves
+### [L-25] `SwapOperations` computes the swap fees without accounting for how fees will alter reserves
 
-## Impact
+**Impact**
 
 At a broadstroke The formula to compute the post-swap reserves used by `getAmountsOut` and `getAmountsIn` is as follows:
 
@@ -1852,7 +1777,7 @@ uint(reserveA) * reserveB) / (reserveB + amtB),
 However, the math is not accounting for fees that will be taken on each swap, meaning that the post-swap reserves will not match this amount
 
 
-## Mitigation
+**Mitigation**
 
 You should technically also account for the updated price post taking fees, as that will be the price that the next person will pay
 
@@ -1860,9 +1785,9 @@ I don't have sufficient time to fully explore this issue and I highly recommend 
 
 
 
-# Q-26 `ERC20.Permit` can be front-runned and should be try/catched
+### [L-26] `ERC20.Permit` can be front-runned and should be try/catched
 
-### Impact
+**Impact**
 
 Permit can be broadcasted by anyone and will revert if using the incorrect nonce
 
@@ -1910,9 +1835,9 @@ IERC20Permit(path[0]).permit(msg.sender, address(this), amountIn, deadline, v, r
 See this article for more info:
 https://www.trust-security.xyz/post/permission-denied
 
-# Q-27 `SwapPair` events use `msg.sender` but they should use the user taking on debt
+### [L-27] `SwapPair` events use `msg.sender` but they should use the user taking on debt
 
-## Impact
+**Impact**
 
 Events in SwapPair are logging `msg.sender` which will always be `swapOperations`
 
@@ -1929,15 +1854,15 @@ https://github.com/blkswnStudio/ap/blob/8fab2b32b4f55efd92819bd1d0da9bed4b339e87
 emit Burn(msg.sender, amount0, amount1, to); /// @audit QA: Mint should change to `to` or to the cdp Owner
 ```
 
-## Mitigation
+**Mitigation**
 
 Either change the log to `to` (the recipient), or add a `initiator` parameter and log that one
 
 Alternatively, move the events in the `SwapOperations`
 
-# Q-28 `SwapPair` may revert on 0 transfer tokens
+### [L-28] `SwapPair` may revert on 0 transfer tokens
 
-## Impact
+**Impact**
 Certain tokens revert on a 0 amount transfer
 
 The code also performs the check to prevent zero transfers in many parts, but in these 2 instances the check was missed
@@ -1962,13 +1887,13 @@ https://github.com/blkswnStudio/ap/blob/8fab2b32b4f55efd92819bd1d0da9bed4b339e87
     _safeTransfer(token1, to, amount1 - burned1);
 ```
 
-## Mitigation
+**Mitigation**
 
 Check that each transfer is done only on non-zero amounts
 
-# Q-29 `SwapPair` is intended to overflow, but is not using `unchecked`
+### [L-29] `SwapPair` is intended to overflow, but is not using `unchecked`
 
-## Overflow logic from UniV2 no longer applies
+**Overflow logic from UniV2 no longer applies**
 
 https://github.com/blkswnStudio/ap/blob/8fab2b32b4f55efd92819bd1d0da9bed4b339e87/packages/contracts/contracts/SwapPair.sol#L84-L93
 
@@ -1993,7 +1918,7 @@ I can crunch the math, but the overflow is extremely unlikely
 See: Velodrome (Which also ignores the overflow):
 https://github.com/velodrome-finance/contracts/blob/9e5a5748c3e2bcef7016cc4194ce9758f880153f/contracts/Pool.sol#L212-L230
 
-## Reserve overflow checks using `uint112` effectively cap any token max total supply 
+**Reserve overflow checks using `uint112` effectively cap any token max total supply**
 
 The maximum amount possible is 2^122 - 1 
 
@@ -2001,7 +1926,7 @@ Which is basically `5.1922969e+15 * 1e18`
 
 This should be sufficient, but it's worth keeping it in mind as you do not want to cross this value as it will break all pool operations for a pair
 
-## Overflow exactly at time 2^32
+**Overflow exactly at time 2^32**
 
 https://github.com/blkswnStudio/ap/blob/8fab2b32b4f55efd92819bd1d0da9bed4b339e87/packages/contracts/contracts/SwapPair.sol#L87-L88
 
@@ -2023,15 +1948,16 @@ Which should be around Sun Feb 07 2106 06:28:16 GMT+0000
     }
 ```
 
-# Q-30 Donation on Pairs, in conjunction with lax slippage could be used to take on unintended ratios of debt
+### [L-30] Donation on Pairs, in conjunction with lax slippage could be used to take on unintended ratios of debt
 
-## Executive Summary
+**Executive Summary**
 
 Pair.synch allows synching without a swap being performed
 
 This is a donation to the Pair reserves, which changes it's price
 
-### Impact
+**Impact**
+
 When providing liquidity the ratio of the two tokens is taken into account
 
 Via donation attacks we can force people to take on incorrect ratios of debt
@@ -2119,13 +2045,13 @@ https://github.com/blkswnStudio/ap/blob/8fab2b32b4f55efd92819bd1d0da9bed4b339e87
 This can be abused to cause losses whenever the slippage checks are not set tight enough
 
 
-### Mitigation
+**Mitigation**
 
 Setting highly accurate slippage settings will prevent this
 
-# Q-31 Incorrect encoding for Permit
+### [L-31] Incorrect encoding for Permit
 
-## Impact
+**Impact**
 
 ```solidity
   function permit(
@@ -2169,7 +2095,7 @@ https://github.com/dmihal/eth-permit/blob/34f3fb59f0e32d8c19933184f5a7121ee125d0
 
 See: https://docs.metamask.io/wallet/reference/eth_signtypeddata_v4/
 
-## Mitigation
+**Mitigation**
 
 
 Change the code to compare the signature against the digest
