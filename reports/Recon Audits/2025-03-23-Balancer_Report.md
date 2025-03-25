@@ -1,50 +1,15 @@
-![Recon Balancer Review Image](https://media.publit.io/file/Audit-Review-3.png)
 
-# Recon Security Review
+**Auditor**
 
-## Introduction
-Alex The Entreprenerd performed a 1 day review of Aura Locker V2 for Balancer DAO
-
-Repo:
-https://github.com/onchainification/aura_locker_v2
-
-Commit Hash:
-`07294ae3638909ecd768a6a0f831fa513abe91a0`
-
-This review uses [Code4rena Severity Classification](https://docs.code4rena.com/awarding/judging-criteria/severity-categorization)
-
-The Review is done as a best effort service, while a lot of time and attention was dedicated to the security review, it cannot guarantee that no bug is left
-
-As a general rule we always recommend doing one additional security review until no bugs are found, this in conjunction with a Guarded Launch and a Bug Bounty can help further reduce the likelihood that any specific bug was missed
-
-## About Recon
-
-Recon offers boutique security reviews, invariant testing development and is pioneering Cloud Fuzzing as a best practice by offering Recon Pro, the most complete tool to run tools such as Echidna, Medusa, Foundry, Kontrol and Halmos in the cloud with just a few clicks
-
-## About Alex
-
-Alex is a well known Security Researcher that has collaborated with multiple contest firms such as:
-- Code4rena - One of the most prolific and respected judges, won the Tapioca contest, at the time the 3rd highest contest pot ever
-- Spearbit - Have done reviews for Tapioca, Threshold USD, Velodrome and more
-- Recon - Centrifuge Invariant Testing Suite, Corn, Badger and Liquity invariants as well as live monitoring
+[Alex The Entreprenerd](https://x.com/gallodasballo?lang=en)
 
 
-# FINDINGS
 
+# Findings
 
-## Table of Contents
+## Low Risk
 
-- **QA**
-  - Q-01 Executive Summary
-  - Q-02 Operative Gotcha - Safe.getModules is limited to the first 10 modules
-- **Info**
-  - I-01 Nitpick: `SAFE` and `BALANCER_MULTISIG` are the same value and are used inconsistently
-  - I-02 Address Checks
-- **Gas**
-  - G-01 GAS: Can skip check to save 200 gas
-
-
-# Q-01 Executive Summary
+### [L-01] Executive Summary
 
 The module allows a registered chainlink upkeep to automatically re-lock aura locks
 
@@ -56,9 +21,9 @@ It's worth noting that in case you want to deprecate the module, for example to 
 
 There is no particular risk tied to adding this module as in the worst case it will consume a bit of `LINK` token to perform the upkeep
 
-# Q-02 Operative Gotcha - Safe.getModules is limited to the first 10 modules
+### [L-02] Operative Gotcha - Safe.getModules is limited to the first 10 modules
 
-## Impact
+**Impact**
 
 `_isModuleEnabled` is written as follows:
 
@@ -95,13 +60,16 @@ However, current there are no other modules set, meaning that the code is safe a
 
 Additionally, even if the check were to fail, no particular damage would be caused to the Safe, at worst the `checkUpkeep` would always return false, making no upkeep run, but causing no DOS to the Safe
 
-## Mitigation
+**Mitigation**
 
 Add a comment to the module and make sure to have less than 10 modules
 
-# I-01 Nitpick: `SAFE` and `BALANCER_MULTISIG` are the same value and are used inconsistently
+----
+## Informational
 
-## Impact
+### [I-01] Nitpick: `SAFE` and `BALANCER_MULTISIG` are the same value and are used inconsistently
+
+**Impact**
 
 The casting of `address(SAFE))` are unnecessary if you use `BALANCER_MULTISIG`
 
@@ -124,13 +92,13 @@ https://github.com/onchainification/aura_locker_v2/blob/07294ae3638909ecd768a6a0
     }
 ```
 
-## Mitigation
+**Mitigation**
 
 You could alternatively change `onlyGovernance` to use `address(SAFE)` and make the code consistent
 
 This has no impact on the bytecode so it's not a big deal
 
-# I-02 Address Checks
+### [I-02] Address Checks
 
 The addresses are correctly set
 
@@ -144,9 +112,12 @@ https://etherscan.io/address/0xC0c293ce456fF0ED870ADd98a0828Dd4d2903DBF#code
 ILockAura public constant AURA_LOCKER = ILockAura(0x3Fa73f1E5d8A792C80F426fc8F84FBF7Ce9bBCAC); // OK
 https://etherscan.io/address/0x3Fa73f1E5d8A792C80F426fc8F84FBF7Ce9bBCAC#code
 
-# G-01 GAS: Can skip check to save 200 gas
+---
+## Gas
 
-## Impact
+### [G-01] GAS: Can skip check to save 200 gas
+
+**Impact**
 
 `performUpkeep` has a check to verify if there's any re-lockable balance
 
@@ -180,7 +151,7 @@ require(length > 0, "no locks"); /// @audit Reverts here
 
 Meaning you can skip the call to save around 200 gas
 
-## Mitigation
+**Mitigation**
 
 Consider removing the check to save 200 gas
 
