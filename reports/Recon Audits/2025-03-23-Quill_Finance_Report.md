@@ -591,11 +591,9 @@ uint128 constant MIN_INTEREST_RATE_CHANGE_PERIOD = 120 seconds; // prevents more
 **Deposit take about 20 Minutes**
 
 
-<img width="734" alt="Screenshot 2024-12-27 at 16 35 09" src="https://github.com/user-attachments/assets/3f90a1e5-5f07-4c4f-81d6-c1499736c13f"/>
 
 
 **Withdrawals take about 2 hours**
-<img width="896" alt="Screenshot 2024-12-27 at 17 12 34" src="https://github.com/user-attachments/assets/41f788ce-b854-4774-94bc-b203a1d47926"/>
 
 
 
@@ -651,8 +649,6 @@ The variable `MIN_POSSIBLE_ANNUAL_INTEREST_RATE` is being used instead of `MIN_A
 
 
 However some parts of the codebase still refer to `MIN_ANNUAL_INTEREST_RATE`
-
-<img width="321" alt="Screenshot 2024-12-20 at 09 13 21" src="https://github.com/user-attachments/assets/578e1ac4-856f-4d28-bbac-ed587edbc765" />
 
 
 **Mitigation**
