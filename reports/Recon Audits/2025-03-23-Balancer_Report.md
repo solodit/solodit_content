@@ -65,7 +65,7 @@ Additionally, even if the check were to fail, no particular damage would be caus
 Add a comment to the module and make sure to have less than 10 modules
 
 ---
-## Gas Optimization
+## Gas Optimizations
 
 ### [G-01] Gas Optimization: Can skip check to save 200 gas
 
