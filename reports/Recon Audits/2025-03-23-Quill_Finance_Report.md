@@ -1316,7 +1316,7 @@ Decide if the Multi / Timelock should only be able to perform it
 Decide which operations should be even faster
 
 
-### Economic Suggested Next Steps
+**Economic Suggested Next Steps**
 
 Due to the introduction of borrow limits, as well as the low liquidity environment currently offered by scroll, no "long lasting" economic decision can be fully done
 
