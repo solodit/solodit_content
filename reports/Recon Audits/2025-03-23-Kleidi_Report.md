@@ -6,7 +6,7 @@
 
 ## Low Risk
 
-# [L-01] Suggested Next Steps
+### [L-01] Suggested Next Steps
 
 **Executive Summary**
 
@@ -891,7 +891,7 @@ https://eips.ethereum.org/EIPS/eip-3607
 https://github.com/sherlock-audit/2024-06-makerdao-endgame-judging/issues/64
 https://github.com/sherlock-audit/2023-07-kyber-swap-judging/issues/90
 ---
-## Gas Optimization
+## Gas Optimizations
 
 ### [G-01] `RecoverySpell` save gas by setting `recoveryInitiated = 0` to signify a Disabled Spell
 
