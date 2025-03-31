@@ -249,7 +249,7 @@ Since `RockoFlashRefinance` has no relevant internal state it can just be re-del
 **Rocko:** Acknowledged; prefer the current setup for lower user gas costs.
 
 \clearpage
-## Gas Optimization
+## Gas Optimizations
 
 
 ### Use `ReentrancyGuardTransient` instead of `ReentrancyGuard` or more gas-efficient `nonReentrant` modifiers
