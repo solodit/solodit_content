@@ -359,7 +359,7 @@ The same issue is also present in `MTokenMessagerV2::sendDataToChain`.
 
 
 \clearpage
-## Gas Optimization
+## Gas Optimizations
 
 
 ### Use `immutable` for storage slots only set once in the constructor of non-upgradeable contracts
