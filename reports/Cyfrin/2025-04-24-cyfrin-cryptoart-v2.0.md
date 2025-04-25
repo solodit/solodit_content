@@ -288,7 +288,7 @@ Fixed in commit [0c0dd8c](https://github.com/cryptoartcom/cryptoart-smart-contra
 **Cyfrin:** Verified.
 
 \clearpage
-## Gas Optimization
+## Gas Optimizations
 
 
 ### Prefer named return parameters, especially for `memory` returns
