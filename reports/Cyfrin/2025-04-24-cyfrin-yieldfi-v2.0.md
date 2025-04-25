@@ -7,7 +7,7 @@
 ---
 
 # Findings
-## Critical Risk
+## High Risk
 
 
 ### Missing source validation in CCIP message handling
@@ -72,9 +72,6 @@ However, Chainlink uses a `uint64` for `dstId`, and their chain IDs (e.g., [Ethe
 **YieldFi:** Fixed in commit [`14fc17a`](https://github.com/YieldFiLabs/contracts/commit/14fc17a46702bf0db0efb199c48e52530221612b)
 
 **Cyfrin:** Verified. `dstId` is now a `uint64` in `Codec.BridgeSendPayload`.
-
-\clearpage
-## High Risk
 
 
 ### Incorrect `owner` passed to `Manager::redeem` in YToken withdrawal flow
@@ -748,7 +745,7 @@ The function is however only called from the bridge contracts. Consider removing
 **Cyfrin:** Verified.
 
 \clearpage
-## Gas Optimization
+## Gas Optimizations
 
 
 ### `BridgeCCIP.isL1` can be immutable
