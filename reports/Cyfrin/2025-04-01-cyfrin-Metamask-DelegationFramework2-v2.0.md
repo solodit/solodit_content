@@ -1135,7 +1135,7 @@ This check makes sense for the ERC20 transfer execution. However, for the first 
 **Cyfrin:** Acknowledged.
 
 \clearpage
-## Gas Optimization
+## Gas Optimizations
 
 
 ### `ERC20PeriodTransferEnforcer` gas optimizations
