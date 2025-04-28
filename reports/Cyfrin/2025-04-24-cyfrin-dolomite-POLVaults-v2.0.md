@@ -544,7 +544,7 @@ _4. MetaVaultRewardTokenFactory_
 **Cyfrin:** Verified.
 
 \clearpage
-## Gas Optimization
+## Gas Optimizations
 
 
 ### `_handleRewards` gas optimisation
