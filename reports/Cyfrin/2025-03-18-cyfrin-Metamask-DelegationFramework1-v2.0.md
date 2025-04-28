@@ -815,7 +815,7 @@ This validation is important because the delegation will only be successfully re
 **Cyfrin:** Acknowledged.
 
 \clearpage
-## Gas Optimization
+## Gas Optimizations
 
 
 ### `WebAuthn::contains()` optimization
