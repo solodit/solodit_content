@@ -112,3 +112,13 @@ Although this function can be called by owner only, this check should be provide
 
 Consider creating an override method mint in BlockBand.sol, which will check that
 _totalSupply + amount does not exceed TOTAL_SUPPLY.
+
+### Unnecessary Ownable inheritance
+
+**Description**
+
+Contract inherits Ownable contract, though there is no any function to use the abilities of the
+Ownable contract.
+
+**Recommendation**:
+Remove Ownable inheritance
