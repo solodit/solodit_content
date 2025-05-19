@@ -6,7 +6,7 @@
 
 ## Medium Risk
 
-###  SafeERC20 should be used.
+### SafeERC20 should be used.
 
 **Description**
 
@@ -25,7 +25,7 @@ use SafeERC20 library.
  
  Only swap tokens would be used, which interface returns true or false
 
- ###  Iteration through storage array.
+### Iteration through storage array.
 
  **Description**
 
@@ -46,7 +46,7 @@ Maximum limit was added
 
 ## Low Risk
 
-###  Users are able to create an unlimited amount of locks.
+### Users are able to create an unlimited amount of locks.
 
  **Description**
 
@@ -67,9 +67,9 @@ locked amount(like several weis for example)).
  
  Maximum limit was added
 
- ## Informational
+## Informational
 
- ###  Variables lack validation.
+### Variables lack validation.
 
   **Description**
 
@@ -105,7 +105,7 @@ external functions decrease gas spendings compared to public functions.
  
  Mark the following functions as external
 
- ###  getUserClaimable() can be simplified.
+### getUserClaimable() can be simplified.
   
    **Description**
 
@@ -116,7 +116,7 @@ calculateUserClaimable() function.
  
  The function can be simplified
 
- ###  Undocumented logic.
+### Undocumented logic.
 
    **Description**
 
