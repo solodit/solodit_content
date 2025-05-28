@@ -42,7 +42,7 @@ Consider removing the `virtual` modifier from both `YToken::_withdraw` and `YTok
 **YieldFi:** Acknowledged.
 
 \clearpage
-## Gas Optimization
+## Gas Optimizations
 
 
 ### Avoid unnecessary computation in `dYToken::mintYToken` when `isNewYToken == false`
