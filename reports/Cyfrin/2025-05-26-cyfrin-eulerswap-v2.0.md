@@ -149,7 +149,7 @@ require(feeOwner_ != address(0), "Zero address");
 **Euler:** Acknowledged.
 
 \clearpage
-## Gas Optimization
+## Gas Optimizations
 
 
 ### Unnecessary extra storage reads when swapping
