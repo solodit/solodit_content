@@ -260,7 +260,7 @@ Fixed in commit [e3b2f74](https://github.com/contractlevel/sbt/commit/e3b2f74239
 **Cyfrin:** Verified.
 
 \clearpage
-## Gas Optimization
+## Gas Optimizations
 
 
 ### Use named returns where this can eliminate local function variables and for `memory` returns
