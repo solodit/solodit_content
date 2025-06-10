@@ -266,7 +266,7 @@ Fixed in [`9d710bf`](https://github.com/stakedotlink/contracts/commit/9d710bf353
 **Cyfrin:** Verified.
 
 \clearpage
-## Gas Optimization
+## Gas Optimizations
 
 
 ### Unchanged state variables can be immutable
