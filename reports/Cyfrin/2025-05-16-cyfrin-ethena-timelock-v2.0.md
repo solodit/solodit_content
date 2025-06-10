@@ -170,7 +170,7 @@ Ideally these functions would revert or at least not emit events if the state di
 **Ethena:** Acknowledged.
 
 \clearpage
-## Gas Optimization
+## Gas Optimizations
 
 
 ### Use `ReentrancyGuardTransient` for more efficient `nonReentrant` modifiers
