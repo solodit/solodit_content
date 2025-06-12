@@ -1063,16 +1063,16 @@ function K(PoolId) internal view virtual override returns (uint48) {
 The values used on each chain can be seen in `.env.example`:
 
 ```env
-# Mainnet
+Mainnet
 AMAMM_K_1=7200
 
-# Arbitrum
+Arbitrum
 AMAMM_K_42161=345600
 
-# Base
+Base
 AMAMM_K_8453=43200
 
-# Unichain
+Unichain
 AMAMM_K_130=86400
 ```
 
