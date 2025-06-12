@@ -11,8 +11,8 @@
 ---
 
 # Findings
-## Critical Risk
 
+## High Risk
 
 ### Pools configured with a malicious hook can bypass the `BunniHub` re-entrancy guard to drain all raw balances and vault reserves of legitimate pools
 
@@ -782,8 +782,6 @@ Logs:
 **Cyfrin:** Acknowledged. This will result in regular losses of potential yield as the deposit to the target ratios will not occur until the surge fee is such that swappers are no longer disincentivized, but it is understood to be accepted that the subsequent swap will trigger the deposit.
 
 \clearpage
-## High Risk
-
 
 ### `FloodPlain` selector extension does not prevent `IFulfiller::sourceConsideration` callback from being called within pre/post hooks
 
