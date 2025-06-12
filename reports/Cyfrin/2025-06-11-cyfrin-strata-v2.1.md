@@ -11,7 +11,8 @@
 ---
 
 # Findings
-## Critical Risk
+
+## High Risk
 
 
 ### An attacker can drain the entire protocol balance of sUSDe during the yield phase due to incorrect redemption accounting logic in `pUSDeVault::_withdraw`
@@ -317,8 +318,6 @@ function _withdraw(address caller, address receiver, address owner, uint256 asse
 **Cyfrin:** Verified. Yield is no longer included within the decremented assets amount and the test now passes with the assertion included.
 
 \clearpage
-## High Risk
-
 
 ### During the yield phase, when using supported vaults, users can't withdraw vault assets they are entitled to
 
