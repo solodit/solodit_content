@@ -31,7 +31,6 @@ The logic does not fall back to ECDSA.recover(), causing legitimate EOA signatur
 
 Fixed.
 
-## Medium Risk
 ### [M-02] Lack of Minimum feeRate check may allow orders to be fullfilled without paying any fees
 
 **Severity**
@@ -62,6 +61,8 @@ require(order.feeRate >= minFeeRate, "Fee rate below minimum allowed");
 
 Acknowledged
 
+
+## Informational
 **[I-01] Missing MarketID Consistency Check in settleMatchedOrders**
 
 **Severity**

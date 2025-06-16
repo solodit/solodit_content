@@ -43,7 +43,6 @@ Next rewards are calculated as twice the normal amount.
 
 Fixed.
 
-## High Risk
 ### [H-01] Incorrect Accounting of currentWithheldETHinInstantWithdrawals
 
 **Severity**
@@ -81,7 +80,6 @@ when actual funds are not available.
 
 Fixed.
 
-## High Risk
 ### [H-02] User Funds Burned With No ETH Returned Due to Missing withdrawalRequests[msg.sender]Assignment After Unstake
 
 **Severity**
@@ -132,7 +130,6 @@ be skipped and forces users to wait longer than necessary to receive rewards.
 
 Fixed.
 
-## Medium Risk
 ### [M-02] _depositEther Does Not Increment Validator Index,Causing All Deposits to Funnel Into First Validator and Fail Once Full
 
 **Severity**
@@ -154,7 +151,6 @@ never actually staked, despite the user receiving yield-bearing tokens.
 
 Fixed.
 
-## Medium Risk
 ### [M-03]  DoS Vulnerability in withdraw() Due to Overcommitment of currentWithheldETH in Concurrent unstake() Calls
 
 **Severity**
