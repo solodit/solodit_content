@@ -395,7 +395,7 @@ The function `_addPrizes` even caches it as `nextPrizeId`, which is a more accur
 **Cyfrin:** Verified. Field renamed to `nextPrizeId` and stack variable in `__addPrizes` renamed to `currentPrizeId`.
 
 \clearpage
-## Gas Optimization
+## Gas Optimizations
 
 
 ### Cache `signer` in `SpinGame::participate`
