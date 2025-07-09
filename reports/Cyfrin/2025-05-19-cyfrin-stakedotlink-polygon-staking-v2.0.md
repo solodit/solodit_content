@@ -817,7 +817,7 @@ function unbond(uint256 _toUnbond) external onlyFundFlowController {
 **Cyfrin:** Resolved.
 
 \clearpage
-## Gas Optimization
+## Gas Optimizations
 
 
 ### Validate total fees in `PolygonStrategy::updateFee` only if the `_feeBasisPoints > 0`
