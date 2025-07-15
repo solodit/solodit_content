@@ -11,7 +11,7 @@
 ---
 
 # Findings
-## Critical Risk
+## High Risk
 
 
 ### `PledgeManager::pledge`, `refundTokens` will revert due to overflow when `pricePerToken * numTokens > type(uint32).max`
@@ -309,10 +309,6 @@ function _removePayoutForwardAddress(
 **Remora:** Fixed in commit [7bd2691](https://github.com/remora-projects/remora-smart-contracts/commit/7bd269128ebeac7f2cae0e30d55ee666e8fa21d7).
 
 **Cyfrin:** Verified.
-
-\clearpage
-## High Risk
-
 
 ### Attacker can make pledge on behalf of users if those users have approved `PledgeManager` to spend their tokens
 
@@ -2367,7 +2363,7 @@ Inherit from `EIP712Upgradeable`, remove all the duplicate code which it provide
 **Cyfrin:** Verified.
 
 \clearpage
-## Gas Optimization
+## Gas Optimizations
 
 
 ### Fail fast without performing unnecessary storage reads
