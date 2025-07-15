@@ -12,7 +12,7 @@ ChainDefenders ([@1337web3](https://x.com/1337web3) & [@PeterSRWeb3](https://x.c
 ---
 
 # Findings
-## Critical Risk
+## High Risk
 
 
 ### Dust limit attack on `forceUpdateNodes` allows DoS of rebalancing and potential vault insolvency
@@ -233,10 +233,6 @@ function calcAndCacheStakes(uint48 epoch, uint96 assetClassId) public returns (u
 Fixed in commit [32b1a6c](https://github.com/suzaku-network/suzaku-core/pull/155/commits/32b1a6c55c1ab436c557114939afb3163cc9ec8f).
 
 **Cyfrin:** Verified.
-
-\clearpage
-## High Risk
-
 
 ### Blacklisted implementation versions are accessible through migrations
 
@@ -5448,7 +5444,7 @@ Fixed in commit [b654dfb](https://github.com/suzaku-network/suzaku-core/commit/b
 **Cyfrin:** Verified.
 
 \clearpage
-## Gas Optimization
+## Gas Optimizations
 
 
 ### Gas optimization for `getVaults` function
