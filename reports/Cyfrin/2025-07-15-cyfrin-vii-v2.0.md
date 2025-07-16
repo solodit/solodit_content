@@ -8,7 +8,7 @@
 ---
 
 # Findings
-## Critical Risk
+## High Risk
 
 
 ### Liquidations can be made to revert by an attacker through various means, causing losses to liquidators and bad debt to accrue in the vault
@@ -443,10 +443,6 @@ contract MathTest is Test {
     }
 }
 ```
-
-\clearpage
-## High Risk
-
 
 ### Fees can be stolen from partially unwrapped `UniswapV4Wrapper` positions
 
