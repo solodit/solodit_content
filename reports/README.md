@@ -2,26 +2,27 @@
 
 ### To add a new audit firm, follow these steps:
 - Create a new subfolder under the "reports" folder, and name it after the audit firm or solo auditor.
-- Include two logo images specifically designed for Solodit.
-    - logo_256_256.png
-        This logo will be used in the search list and the finding detail page.
-        - type: png
-        - size: 256px * 256px
-        - background: transparent
+- Include square logo image specifically designed for Solodit.
+    This logo will be used in the search list and the finding detail page.
+    - file name: logo_256_256.png
+    - type: png
+    - size: 256px * 256px
+    - background: transparent
 
-        - sample: [Cyfrin square logo](./reports/Cyfrin/logo_256_256.png)
+    - sample: [Cyfrin square logo](./reports/Cyfrin/logo_256_256.png)
 
-        ![Cyfrin_square](https://github.com/solodit/solodit_content/assets/129466917/8cfc4396-f309-44df-8a7b-a2bfe7a869b4)
+    ![Cyfrin_square](https://github.com/solodit/solodit_content/assets/129466917/8cfc4396-f309-44df-8a7b-a2bfe7a869b4)
 
 ### To add a report from an existing audit firm, please follow these steps:
 - Properly name the report file (`{Date}-{Protocol}.md`) and place it in the appropriate folder.
 - Add the auditor information at the beginning.
 - `Finding` contents starts with `# Findings`.
 - Vulnerabilities are supposed to be classified in 5 categories as below:
+    - Critical Risk
     - High Risk
     - Medium Risk
     - Low Risk
-    - Gas Optimizations
+    - Gas Optimizations / Gas Optimization
     - Informational
 
 Ensure that the report is correctly formatted. You can refer to the [Cyfrin reports](./reports/Cyfrin) as an example.
