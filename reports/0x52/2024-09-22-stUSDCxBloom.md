@@ -438,7 +438,7 @@ Fixed as recommended in bloom-v2 [PR#15](https://github.com/Blueberryfi/bloom-v2
         matches[index].lCollateral -= uint128(lenderFunds);
     }
 
-Above is the final portion of the matching loop in which filled orders are handled. `lenderFunds == matches[index].lCollateral` indicates the order has been fully matched. In this scenario it is correctly popped. The other case is when the the match is partially filled. We see that lCollateral is decreased but bCollateral is not. The result is that borrower funds can be double filled. This creates a shortfall in funds that can only be remedied by donating the over-allocated funds to the contract.
+Above is the final portion of the matching loop in which filled orders are handled. `lenderFunds == matches[index].lCollateral` indicates the order has been fully matched. In this scenario it is correctly popped. The other case is when the match is partially filled. We see that lCollateral is decreased but bCollateral is not. The result is that borrower funds can be double filled. This creates a shortfall in funds that can only be remedied by donating the over-allocated funds to the contract.
 
 **Lines of Code**
 

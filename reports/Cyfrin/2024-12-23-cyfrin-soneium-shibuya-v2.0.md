@@ -24,7 +24,7 @@ However, the current implementation has two issues:
 Shibuya.sol
 36:         // this is to make sure that the default admin is the owner and remove the default admin role from the deployer
 37:         // so this means that the deployer will not have any role in the contract
-38:         // the the DEFAULT_ADMIN_ROLE will not have any role in the contract
+38:         // the DEFAULT_ADMIN_ROLE will not have any role in the contract
 39:         // and the owner will be performing the role of the admin
 40:         _revokeRole(DEFAULT_ADMIN_ROLE, defaultAdmin);
 ```

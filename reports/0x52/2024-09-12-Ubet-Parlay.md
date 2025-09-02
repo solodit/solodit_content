@@ -63,7 +63,7 @@ Include the market address in event so that non-UBet market data can be filtered
         // Return collateral back to parent once everything is settled with the buyer
         _applyParentReturn(parentOps);
 
-Above we see that inside the `buyFor` function the `conditionalTokens` (ERC1155) are transferred to the buyer prior to the the collateral being returned to the parent pool. This enable reentancy prior to a significant state change to the market funding pool. Although no significant attack vectors were discovered as a result of this reentrancy is it still recommended to resolve this issue it may cause vulnerabilities in future versions.
+Above we see that inside the `buyFor` function the `conditionalTokens` (ERC1155) are transferred to the buyer prior to the collateral being returned to the parent pool. This enable reentancy prior to a significant state change to the market funding pool. Although no significant attack vectors were discovered as a result of this reentrancy is it still recommended to resolve this issue it may cause vulnerabilities in future versions.
 
 **Lines of Code**
 

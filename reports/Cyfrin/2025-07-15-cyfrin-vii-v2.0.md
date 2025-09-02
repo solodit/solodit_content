@@ -1500,7 +1500,7 @@ function test_enableCollateralPoC() public {
 
 ### Underlying liquidity position is not transferred when fully unwrapping through the partial unwrap overload
 
-**Description:** While the `ERC721WrapperBase` partial unwrap overload is intended for use following partial liquidations, it is possible for the sole holder of an ERC-6909 token to use this function to perform a full unwrap by specifying the the total supply of the corresponding `tokenId`:
+**Description:** While the `ERC721WrapperBase` partial unwrap overload is intended for use following partial liquidations, it is possible for the sole holder of an ERC-6909 token to use this function to perform a full unwrap by specifying the total supply of the corresponding `tokenId`:
 
 ```solidity
 function unwrap(address from, uint256 tokenId, address to, uint256 amount, bytes calldata extraData)
@@ -1512,7 +1512,7 @@ function unwrap(address from, uint256 tokenId, address to, uint256 amount, bytes
 }
 ```
 
-The proportional share calculations implemented in the virtual `_unwrap()` will be executed to transfer the underlying principal balance plus LP fees to the sole holder, before burning the the entire ERC-6909 token supply and leaving the empty liquidity position NFT in the wrapper contract.
+The proportional share calculations implemented in the virtual `_unwrap()` will be executed to transfer the underlying principal balance plus LP fees to the sole holder, before burning the entire ERC-6909 token supply and leaving the empty liquidity position NFT in the wrapper contract.
 
 Given that the total supply of ERC-6909 tokens is now reduced to zero following such a call, the position can still be retrieved by performing a full unwrap of said empty position:
 

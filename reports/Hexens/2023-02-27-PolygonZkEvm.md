@@ -397,7 +397,7 @@ isMaxMem * (1 - isMaxMem) = 0;
 ...
 diffMem in Global.BYTE2;
 ```
-This effectively checks that the difference is not a negative number, as well as that the isMaxMem is correctly set, and also it restrains the the difference to be: |maxMemRel - MAXMEM| < 2^16
+This effectively checks that the difference is not a negative number, as well as that the isMaxMem is correctly set, and also it restrains the difference to be: |maxMemRel - MAXMEM| < 2^16
 On the other hand zkEVM ROM has a limit check for the relative memory offset done in the utils.zkasm:saveMem procedure:
 ```
 $ => B                      :MLOAD(lastMemOffset)

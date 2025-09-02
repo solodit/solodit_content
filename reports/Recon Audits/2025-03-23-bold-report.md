@@ -2491,7 +2491,7 @@ https://github.com/liquity/bold/blob/e9cc36dc4a53eed2336113095eea93989cbdac3a/co
     /*
     * Returns the collBalance state variable.
     *
-    * Not necessarily equal to the the contract's raw Coll balance - ether can be forcibly sent to contracts.
+    * Not necessarily equal to the contract's raw Coll balance - ether can be forcibly sent to contracts.
     */
     function getCollBalance() external view override returns (uint256) {
         return collBalance;
