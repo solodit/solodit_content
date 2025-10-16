@@ -37,6 +37,7 @@ If you have an audit report that is not yet listed on Solodit, please feel free 
 
 - [GitHub Discussions](https://github.com/orgs/solodit/discussions)
 - [Telegram Group](https://t.me/+SEZ0HWPBWn80ODI8)
+- [Blog](https://www.cyfrin.io/blog)
 - [Email](mailto:support@solodit.xyz)
 
 ## Stay Updated
