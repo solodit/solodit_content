@@ -4,47 +4,26 @@ on:
   push:
     branches: [ 'main' ]
 
+permissions: {}
+
 jobs:
   deployment:
     runs-on: ubuntu-latest
+    env:
+      SOLODIT_API: https://solodit-backend.cyfrin.dev/api/general
+      SOLODIT_USER: ${{ secrets.SOLODIT_USER }}
+      SOLODIT_PASSWORD: ${{ secrets.SOLODIT_PASSWORD }}
     steps:
-    - name: Refresh tags and categories for the Solodit
-      id: refreshRequest
+    - name: Refresh tags and categories, protocol forks, reports and bug bounties
       run: |
-        curl -v -k -X POST https://solodit-admin.cyfrin.dev/api/general/refresh_tag_category/ \
-        -H "Content-Type: application/x-www-form-urlencoded" \
-        -d "email=${{ secrets.SOLODIT_USER }}" \
-        -d "password=${{ secrets.SOLODIT_PASSWORD }}"
-    - name: Show Response of Refreshing Tags and Categories
-      run: |
-        echo ${{ steps.refreshRequest.outputs.response }}
-    - name: Refresh protocol fork information
-      id: refreshForkInfoRequest
-      run: |
-        curl -v -k -X POST https://solodit-admin.cyfrin.dev/api/general/refresh_forked_protocol/ \
-        -H "Content-Type: application/x-www-form-urlencoded" \
-        -d "email=${{ secrets.SOLODIT_USER }}" \
-        -d "password=${{ secrets.SOLODIT_PASSWORD }}"
-    - name: Show Response of Refreshing Protocol Fork Informations
-      run: |
-        echo ${{ steps.refreshForkInfoRequest.outputs.response }}
-    - name: Import reports
-      id: importReportRequest
-      run: |
-        curl -v -k -X POST https://solodit-admin.cyfrin.dev/api/general/import_reports/ \
-        -H "Content-Type: application/x-www-form-urlencoded" \
-        -d "email=${{ secrets.SOLODIT_USER }}" \
-        -d "password=${{ secrets.SOLODIT_PASSWORD }}"
-    - name: Show Response of Importing Reports
-      run: |
-        echo ${{ steps.importReportRequest.outputs.response }}
-    - name: Refresh bug bounties
-      id: refreshBugBounties
-      run: |
-        curl -v -k -X POST https://solodit-admin.cyfrin.dev/api/general/refresh_bug_bounties/ \
-        -H "Content-Type: application/x-www-form-urlencoded" \
-        -d "email=${{ secrets.SOLODIT_USER }}" \
-        -d "password=${{ secrets.SOLODIT_PASSWORD }}"
-    - name: Show Response of Refreshing Bug bounties
-      run: |
-        echo ${{ steps.refreshBugBounties.outputs.response }}
+        set -euo pipefail
+        for endpoint in refresh_tag_category refresh_forked_protocol import_reports refresh_bug_bounties; do
+          response=$(curl --fail-with-body -sS -X POST "$SOLODIT_API/$endpoint/" \
+            --data-urlencode "email=$SOLODIT_USER" \
+            --data-urlencode "password=$SOLODIT_PASSWORD")
+          echo "$endpoint: $response"
+          if ! grep -q '"result": true' <<< "$response"; then
+            echo "::error::$endpoint failed: $response"
+            exit 1
+          fi
+        done
