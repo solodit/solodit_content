@@ -1,8 +1,8 @@
 **Auditors**
 
-[JecikPo](https://x.com/jecikpo)
+JecikPo
 
-[Shaflow01](https://x.com/shaflow01)
+Shaflow01
 
 **Source:** [CODESPECT audit report](https://github.com/CODESPECT-security/audit-reports/blob/main/015_CODESPECT_TOKENTABLE_ECDSA_DISTRIBUTOR.pdf)
 

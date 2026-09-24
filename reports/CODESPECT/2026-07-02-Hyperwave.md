@@ -1,8 +1,8 @@
 **Auditors**
 
-[cholakovvv](https://github.com/cholakovvv)
+cholakovvv
 
-[0xSynthrax](https://x.com/0xSynthrax)
+0xSynthrax
 
 **Source:** [CODESPECT audit report](https://github.com/CODESPECT-security/audit-reports/blob/main/068_Hyperwave_Sub-Account_Strategy.pdf)
 

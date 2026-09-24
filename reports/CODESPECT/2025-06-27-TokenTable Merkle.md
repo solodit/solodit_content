@@ -1,6 +1,6 @@
 **Auditors**
 
-[Kalogerone](https://x.com/kalogerone)
+Kalogerone
 
 **Source:** [CODESPECT audit report](https://github.com/CODESPECT-security/audit-reports/blob/main/025_CODESPECT_TOKENTABLE_MERKLE_WITH_FEES.pdf)
 

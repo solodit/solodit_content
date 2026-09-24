@@ -1,8 +1,8 @@
 **Auditors**
 
-[JecikPo](https://x.com/jecikpo)
+JecikPo
 
-[Shaflow01](https://x.com/shaflow01)
+Shaflow01
 
 **Source:** [CODESPECT audit report](https://github.com/CODESPECT-security/audit-reports/blob/main/019_CODESPECT_TOKENTABLE_SOLANA_EDDSA.pdf)
 

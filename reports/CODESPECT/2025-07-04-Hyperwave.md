@@ -1,12 +1,12 @@
 **Auditors**
 
-[Talfao](https://x.com/talfao1)
+Talfao
 
-[JecikPo](https://x.com/jecikpo)
+JecikPo
 
-[0xMrjory](https://x.com/0xMrjory)
+0xMrjory
 
-[Shaflow01](https://x.com/shaflow01)
+Shaflow01
 
 **Source:** [CODESPECT audit report](https://github.com/CODESPECT-security/audit-reports/blob/main/024_CODESPECT_HYPERWAVE_SOLVER_OFF_CHAIN_BOT.pdf)
 

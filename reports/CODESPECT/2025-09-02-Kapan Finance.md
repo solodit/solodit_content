@@ -1,8 +1,8 @@
 **Auditors**
 
-[Kalogerone](https://x.com/kalogerone)
+Kalogerone
 
-[Shaflow01](https://x.com/shaflow01)
+Shaflow01
 
 **Source:** [CODESPECT audit report](https://github.com/CODESPECT-security/audit-reports/blob/main/022_CODESPECT_KAPAN_FINANCE.pdf)
 

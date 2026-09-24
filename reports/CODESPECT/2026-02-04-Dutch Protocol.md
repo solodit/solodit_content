@@ -1,10 +1,10 @@
 **Auditors**
 
-[Shaflow01](https://x.com/shaflow01)
+Shaflow01
 
-[0xSynthrax](https://x.com/0xSynthrax)
+0xSynthrax
 
-[0xbountyhunt3r](https://github.com/0xbountyhunt3r)
+0xbountyhunt3r
 
 **Source:** [CODESPECT audit report](https://github.com/CODESPECT-security/audit-reports/blob/main/049_CODESPECT_DUTCH.pdf)
 
