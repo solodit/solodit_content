@@ -1,6 +1,8 @@
 **Auditors**
 
-[Talfao](https://x.com/talfao1), [JecikPo](https://x.com/jecikpo)
+[Talfao](https://x.com/talfao1)
+
+[JecikPo](https://x.com/jecikpo)
 
 **Source:** [CODESPECT audit report](https://github.com/CODESPECT-security/audit-reports/blob/main/028_CODESPECT_HYPERWAVE_COREWRITER.pdf)
 

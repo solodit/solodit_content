@@ -1,6 +1,10 @@
 **Auditors**
 
-[jecikPo](https://x.com/JecikPo), [namx05](https://x.com/namx05), [0xAdityaRaj](https://x.com/0xAdityaRaj)
+[JecikPo](https://x.com/jecikpo)
+
+[namx05](https://x.com/namx05)
+
+[0xAdityaRaj](https://x.com/0xAdityaRaj)
 
 **Source:** [CODESPECT audit report](https://github.com/CODESPECT-security/audit-reports/blob/main/032_CODESPECT_BETTERBANK.pdf)
 

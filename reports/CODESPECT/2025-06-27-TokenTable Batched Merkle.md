@@ -1,6 +1,8 @@
 **Auditors**
 
-[0xluk3](https://x.com/0xluk3), [Bloqarl](https://x.com/TheBlockChainer)
+[0xluk3](https://x.com/0xluk3)
+
+[Bloqarl](https://x.com/TheBlockChainer)
 
 **Source:** [CODESPECT audit report](https://github.com/CODESPECT-security/audit-reports/blob/main/030_CODESPECT_TOKENTABLE_BATCHED_MERKLE.pdf)
 

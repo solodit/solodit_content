@@ -1,6 +1,8 @@
 **Auditors**
 
-[shaflow01](https://x.com/shaflow01), [0xluk3](https://x.com/0xluk3)
+[Shaflow01](https://x.com/shaflow01)
+
+[0xluk3](https://x.com/0xluk3)
 
 **Source:** [CODESPECT audit report](https://github.com/CODESPECT-security/audit-reports/blob/main/029_CODESPECT_TOKENTABLE_SUI.pdf)
 

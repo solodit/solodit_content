@@ -1,6 +1,8 @@
 **Auditors**
 
-[JecikPo](https://x.com/jecikpo) and [shaflow01](https://x.com/shaflow01)
+[JecikPo](https://x.com/jecikpo)
+
+[Shaflow01](https://x.com/shaflow01)
 
 **Source:** [CODESPECT audit report](https://github.com/CODESPECT-security/audit-reports/blob/main/009_CODESPECT_TOKENTABLE_SOLANA_UNLOCKER_V2.pdf)
 

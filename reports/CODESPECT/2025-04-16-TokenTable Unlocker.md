@@ -2,7 +2,7 @@
 
 [JecikPo](https://x.com/jecikpo)
 
-[shaflow01](https://x.com/shaflow01)
+[Shaflow01](https://x.com/shaflow01)
 
 **Source:** [CODESPECT audit report](https://github.com/CODESPECT-security/audit-reports/blob/main/011_CODESPECT_TOKENTABLE_SOLANA_UNLOCKER_V2_FOLLOW_UP.pdf)
 

@@ -1,6 +1,8 @@
 **Auditors**
 
-[JecikPo](https://x.com/jecikpo), [shaflow01](https://x.com/shaflow01)
+[JecikPo](https://x.com/jecikpo)
+
+[Shaflow01](https://x.com/shaflow01)
 
 **Source:** [CODESPECT audit report](https://github.com/CODESPECT-security/audit-reports/blob/main/011_CODESPECT_TOKENTABLE_SOLANA_MERKLE_AIRDROP.pdf)
 

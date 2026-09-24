@@ -1,6 +1,8 @@
 **Auditors**
 
-[JecikPo](https://x.com/jecikpo), [Bloqarl](https://x.com/TheBlockChainer)
+[JecikPo](https://x.com/jecikpo)
+
+[Bloqarl](https://x.com/TheBlockChainer)
 
 **Source:** [CODESPECT audit report](https://github.com/CODESPECT-security/audit-reports/blob/main/016_CODESPECT_TOKENTABLE_MERKLE_DISTRIBUTOR.pdf)
 

@@ -1,6 +1,8 @@
 **Auditors**
 
-[Talfao](https://x.com/talfao1), [Kalogerone](https://x.com/kalogerone)
+[Talfao](https://x.com/talfao1)
+
+[Kalogerone](https://x.com/kalogerone)
 
 **Source:** [CODESPECT audit report](https://github.com/CODESPECT-security/audit-reports/blob/main/012_CODESPECT_TOKENTABLE_FRACTIONALIZER_AND_SELLNOW.pdf)
 

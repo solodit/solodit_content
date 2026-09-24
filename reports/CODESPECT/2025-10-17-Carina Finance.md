@@ -1,6 +1,8 @@
 **Auditors**
 
-[Talfao](https://x.com/talfao1), [suspiciousbandicoot](https://github.com/suspiciousbandicoot)
+[Talfao](https://x.com/talfao1)
+
+[suspiciousbandicoot](https://github.com/suspiciousbandicoot)
 
 **Source:** [CODESPECT audit report](https://github.com/CODESPECT-security/audit-reports/blob/main/038_CODESPECT_CARINA.pdf)
 
