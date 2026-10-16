@@ -9,6 +9,8 @@
     - size: 256px * 256px
     - background: transparent
 
+    - sample: [Pashov Audit Group square logo](./Pashov%20Audit%20Group/logo_256_256.png)
+
 ### To add a report from an existing audit firm, please follow these steps:
 - Properly name the report file (`{Date}-{Protocol}.md`) and place it in the appropriate folder.
 - Add the auditor information at the beginning.
@@ -21,14 +23,14 @@
     - Gas Optimizations / Gas Optimization
     - Informational
 
-Ensure that the report is correctly formatted.
+Ensure that the report is correctly formatted. You can refer to the [Pashov Audit Group reports](./Pashov%20Audit%20Group) as an example.
 
 ```
 **Auditors**
 
-[Giovanni Di Siena](https://twitter.com/giovannidisiena)
+[Auditor Name 1](https://twitter.com/auditor1)
 
-[Hans](https://twitter.com/hansfriese)
+[Auditor Name 2](https://twitter.com/auditor2)
 
 # Findings
 
