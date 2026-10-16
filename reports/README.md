@@ -9,9 +9,7 @@
     - size: 256px * 256px
     - background: transparent
 
-    - sample: [Cyfrin square logo](./reports/Cyfrin/logo_256_256.png)
-
-    ![Cyfrin_square](https://github.com/solodit/solodit_content/assets/129466917/8cfc4396-f309-44df-8a7b-a2bfe7a869b4)
+    - sample: [Pashov Audit Group square logo](./Pashov%20Audit%20Group/logo_256_256.png)
 
 ### To add a report from an existing audit firm, please follow these steps:
 - Properly name the report file (`{Date}-{Protocol}.md`) and place it in the appropriate folder.
@@ -25,14 +23,14 @@
     - Gas Optimizations / Gas Optimization
     - Informational
 
-Ensure that the report is correctly formatted. You can refer to the [Cyfrin reports](./reports/Cyfrin) as an example.
+Ensure that the report is correctly formatted. You can refer to the [Pashov Audit Group reports](./Pashov%20Audit%20Group) as an example.
 
 ```
 **Auditors**
 
-[Giovanni Di Siena](https://twitter.com/giovannidisiena)
+[Auditor Name 1](https://twitter.com/auditor1)
 
-[Hans](https://twitter.com/hansfriese)
+[Auditor Name 2](https://twitter.com/auditor2)
 
 # Findings
 

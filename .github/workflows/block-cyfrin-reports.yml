@@ -1,0 +1,26 @@
+name: Block Cyfrin reports
+
+on:
+  pull_request:
+  push:
+    branches: ['main']
+
+permissions: {}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Fail if a Cyfrin reports folder exists
+        run: |
+          set -euo pipefail
+          matches=$(find reports -maxdepth 1 -iname '*cyfrin*')
+          if [ -n "$matches" ]; then
+            echo "::error::Cyfrin reports are not accepted in this repository: $matches"
+            exit 1
+          fi
