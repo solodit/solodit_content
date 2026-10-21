@@ -1,6 +1,8 @@
 **Auditors**
 
-[talfao](https://x.com/talfao1), [suspiciousbandicoot](https://github.com/suspiciousbandicoot)
+Talfao
+
+suspiciousbandicoot
 
 **Source:** [CODESPECT audit report](https://github.com/CODESPECT-security/audit-reports/blob/main/041_CODESPECT_AlphaHYPE.pdf)
 
